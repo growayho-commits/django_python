@@ -1,0 +1,4567 @@
+=================================================================
+   TARGET PATH: . (Proper Tree View & Details)
+=================================================================
+
+【 1. TREE VIEW STRUCTURE 】
+----------------------------------------
+./
+├── .env.example
+├── .gitignore
+├── README.md
+├── apps
+│   ├── __init__.py
+│   ├── catalogs
+│   │   ├── __init__.py
+│   │   ├── attributes
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── attribute_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── attribute_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── attribute_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── attributes
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── bundles_kits
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── bundles_kits_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── bundles_kits_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── bundles_kits_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── bundles_kits_serializer.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── bundles_kits_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── bundles_kits
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── bundles_kits_views.py
+│   │   ├── catalog_medias
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── catalog_media_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── catalog_media_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── catalog_media_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── catalog_media_serializer.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── catalog_media_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── catalog_medias
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── catalog_media_views.py
+│   │   ├── catalog_statuses
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── catalog_status_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── catalog_status_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── catalog_status_selectors.py
+│   │   │   │   └── core_catalog_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── catalog_status_serializer.py
+│   │   │   │   └── core_catalog_serializer.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── catalog_status_service.py
+│   │   │   │   └── core_catalog_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── catalog_statuses
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── catalog_status_views.py
+│   │   ├── categories
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── category_profile.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── categories
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── core_catalogs
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── core_catalog_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── core_catalog_profile.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── core_catalog_serializer.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── core_catalogs
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── inventories
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── inventory_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── inventory_profile.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── inventory_serializer.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── inventories
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── inventory_views.py
+│   │   ├── pricing_tiers
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── pricing_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── pricing_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── pricing_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── pricing_serializer.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── pricing_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── pricing_tiers
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── pricing_views.py
+│   │   ├── reviews_ratings
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── reviews_ratings_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── reviews_ratings_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── reviews_ratings_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── reviews_ratings_serializer.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── reviews_ratings_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── reviews_ratings
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── reviews_ratings_views.py
+│   │   ├── search_filters
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── search_filters_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── search_filters_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── search_filters_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── search_filters_serializer.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── search_filters_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── search_filters
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── search_filters_views.py
+│   │   ├── specifications
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── specifications_dtos.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── specifications_profile.py
+│   │   │   ├── selectors
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── specifications_selectors.py
+│   │   │   ├── serializers
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── specifications_serializer.py
+│   │   │   ├── services
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── specifications_service.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── specifications
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       ├── __init__.py
+│   │   │       └── specifications_views.py
+│   │   ├── urls.py
+│   │   ├── variants
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── variant_profile.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── variants
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   └── wishlists
+│   │       ├── __init__.py
+│   │       ├── admin.py
+│   │       ├── apps.py
+│   │       ├── choices.py
+│   │       ├── conf.py
+│   │       ├── constants.py
+│   │       ├── dtos
+│   │       │   ├── __init__.py
+│   │       │   └── wishlists_dtos.py
+│   │       ├── forms
+│   │       │   └── __init__.py
+│   │       ├── managers
+│   │       │   └── __init__.py
+│   │       ├── migrations
+│   │       │   ├── 0001_initial.py
+│   │       │   └── __init__.py
+│   │       ├── models
+│   │       │   ├── __init__.py
+│   │       │   └── wishlists_profile.py
+│   │       ├── selectors
+│   │       │   ├── __init__.py
+│   │       │   └── wishlists_selectors.py
+│   │       ├── serializers
+│   │       │   ├── __init__.py
+│   │       │   └── wishlists_serializer.py
+│   │       ├── services
+│   │       │   ├── __init__.py
+│   │       │   └── wishlists_service.py
+│   │       ├── signals
+│   │       │   └── __init__.py
+│   │       ├── templates
+│   │       │   └── wishlists
+│   │       ├── tests
+│   │       │   └── __init__.py
+│   │       ├── urls.py
+│   │       ├── utils
+│   │       │   └── __init__.py
+│   │       └── views
+│   │           ├── __init__.py
+│   │           └── wishlists_views.py
+│   ├── customer_supports
+│   │   ├── __init__.py
+│   │   ├── faqs
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── faqs
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── helpdesk_tickets
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── helpdesk_tickets
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── live_chats
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── live_chats
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   └── return_refunds
+│   │       ├── __init__.py
+│   │       ├── admin.py
+│   │       ├── apps.py
+│   │       ├── choices.py
+│   │       ├── conf.py
+│   │       ├── constants.py
+│   │       ├── dtos
+│   │       │   └── __init__.py
+│   │       ├── forms
+│   │       │   └── __init__.py
+│   │       ├── managers
+│   │       │   └── __init__.py
+│   │       ├── migrations
+│   │       │   └── __init__.py
+│   │       ├── models
+│   │       │   └── __init__.py
+│   │       ├── selectors
+│   │       │   └── __init__.py
+│   │       ├── serializers
+│   │       │   └── __init__.py
+│   │       ├── services
+│   │       │   └── __init__.py
+│   │       ├── signals
+│   │       │   └── __init__.py
+│   │       ├── templates
+│   │       │   └── return_refunds
+│   │       ├── tests
+│   │       │   └── __init__.py
+│   │       ├── urls.py
+│   │       ├── utils
+│   │       │   └── __init__.py
+│   │       └── views
+│   │           └── __init__.py
+│   ├── finances
+│   │   ├── __init__.py
+│   │   ├── bank_accounts
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── bank_accounts
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── commissions
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── commissions
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── payment_gateways
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── payment_gateways
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── payouts
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── payouts
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   └── taxes
+│   │       ├── __init__.py
+│   │       ├── admin.py
+│   │       ├── apps.py
+│   │       ├── choices.py
+│   │       ├── conf.py
+│   │       ├── constants.py
+│   │       ├── dtos
+│   │       │   └── __init__.py
+│   │       ├── forms
+│   │       │   └── __init__.py
+│   │       ├── managers
+│   │       │   └── __init__.py
+│   │       ├── migrations
+│   │       │   └── __init__.py
+│   │       ├── models
+│   │       │   └── __init__.py
+│   │       ├── selectors
+│   │       │   └── __init__.py
+│   │       ├── serializers
+│   │       │   └── __init__.py
+│   │       ├── services
+│   │       │   └── __init__.py
+│   │       ├── signals
+│   │       │   └── __init__.py
+│   │       ├── templates
+│   │       │   └── taxes
+│   │       ├── tests
+│   │       │   └── __init__.py
+│   │       ├── urls.py
+│   │       ├── utils
+│   │       │   └── __init__.py
+│   │       └── views
+│   │           └── __init__.py
+│   ├── logistics
+│   │   ├── __init__.py
+│   │   ├── logistics_partners
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── logistics_partners
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── returns
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── returns
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── shipments
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── shipments
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   └── warehouse_transfers
+│   │       ├── __init__.py
+│   │       ├── admin.py
+│   │       ├── apps.py
+│   │       ├── choices.py
+│   │       ├── conf.py
+│   │       ├── constants.py
+│   │       ├── dtos
+│   │       │   └── __init__.py
+│   │       ├── forms
+│   │       │   └── __init__.py
+│   │       ├── managers
+│   │       │   └── __init__.py
+│   │       ├── migrations
+│   │       │   └── __init__.py
+│   │       ├── models
+│   │       │   └── __init__.py
+│   │       ├── selectors
+│   │       │   └── __init__.py
+│   │       ├── serializers
+│   │       │   └── __init__.py
+│   │       ├── services
+│   │       │   └── __init__.py
+│   │       ├── signals
+│   │       │   └── __init__.py
+│   │       ├── templates
+│   │       │   └── warehouse_transfers
+│   │       ├── tests
+│   │       │   └── __init__.py
+│   │       ├── urls.py
+│   │       ├── utils
+│   │       │   └── __init__.py
+│   │       └── views
+│   │           └── __init__.py
+│   ├── marketing_leads
+│   │   ├── __init__.py
+│   │   ├── ads_campaigns
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── ads_campaigns
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── carts
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── carts
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── checkout_flows
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── checkout_flows
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── coupons_discounts
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── coupons_discounts
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── customer_leads
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── customer_leads
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── orders
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── orders
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── push_notifications
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── push_notifications
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   └── wishlists
+│   │       ├── __init__.py
+│   │       ├── admin.py
+│   │       ├── apps.py
+│   │       ├── choices.py
+│   │       ├── conf.py
+│   │       ├── constants.py
+│   │       ├── dtos
+│   │       │   └── __init__.py
+│   │       ├── forms
+│   │       │   └── __init__.py
+│   │       ├── managers
+│   │       │   └── __init__.py
+│   │       ├── migrations
+│   │       │   └── __init__.py
+│   │       ├── models
+│   │       │   └── __init__.py
+│   │       ├── selectors
+│   │       │   └── __init__.py
+│   │       ├── serializers
+│   │       │   └── __init__.py
+│   │       ├── services
+│   │       │   └── __init__.py
+│   │       ├── signals
+│   │       │   └── __init__.py
+│   │       ├── templates
+│   │       │   └── wishlists
+│   │       ├── tests
+│   │       │   └── __init__.py
+│   │       ├── urls.py
+│   │       ├── utils
+│   │       │   └── __init__.py
+│   │       └── views
+│   │           └── __init__.py
+│   ├── systems
+│   │   ├── __init__.py
+│   │   ├── analytics
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── analytics
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   ├── audits
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── choices.py
+│   │   │   ├── conf.py
+│   │   │   ├── constants.py
+│   │   │   ├── dtos
+│   │   │   │   └── __init__.py
+│   │   │   ├── forms
+│   │   │   │   └── __init__.py
+│   │   │   ├── managers
+│   │   │   │   └── __init__.py
+│   │   │   ├── migrations
+│   │   │   │   └── __init__.py
+│   │   │   ├── models
+│   │   │   │   └── __init__.py
+│   │   │   ├── selectors
+│   │   │   │   └── __init__.py
+│   │   │   ├── serializers
+│   │   │   │   └── __init__.py
+│   │   │   ├── services
+│   │   │   │   └── __init__.py
+│   │   │   ├── signals
+│   │   │   │   └── __init__.py
+│   │   │   ├── templates
+│   │   │   │   └── audits
+│   │   │   ├── tests
+│   │   │   │   └── __init__.py
+│   │   │   ├── urls.py
+│   │   │   ├── utils
+│   │   │   │   └── __init__.py
+│   │   │   └── views
+│   │   │       └── __init__.py
+│   │   └── integrations
+│   │       ├── __init__.py
+│   │       ├── admin.py
+│   │       ├── apps.py
+│   │       ├── choices.py
+│   │       ├── conf.py
+│   │       ├── constants.py
+│   │       ├── dtos
+│   │       │   └── __init__.py
+│   │       ├── forms
+│   │       │   └── __init__.py
+│   │       ├── managers
+│   │       │   └── __init__.py
+│   │       ├── migrations
+│   │       │   └── __init__.py
+│   │       ├── models
+│   │       │   └── __init__.py
+│   │       ├── selectors
+│   │       │   └── __init__.py
+│   │       ├── serializers
+│   │       │   └── __init__.py
+│   │       ├── services
+│   │       │   └── __init__.py
+│   │       ├── signals
+│   │       │   └── __init__.py
+│   │       ├── templates
+│   │       │   └── integrations
+│   │       ├── tests
+│   │       │   └── __init__.py
+│   │       ├── urls.py
+│   │       ├── utils
+│   │       │   └── __init__.py
+│   │       └── views
+│   │           └── __init__.py
+│   └── users
+│       ├── __init__.py
+│       ├── core_users
+│       │   ├── __init__.py
+│       │   ├── admin.py
+│       │   ├── apps.py
+│       │   ├── choices.py
+│       │   ├── conf.py
+│       │   ├── constants.py
+│       │   ├── dtos
+│       │   │   ├── __init__.py
+│       │   │   └── core_users_dtos.py
+│       │   ├── forms
+│       │   │   ├── __init__.py
+│       │   │   └── core_users_forms.py
+│       │   ├── managers
+│       │   │   ├── __init__.py
+│       │   │   └── core_users_managers.py
+│       │   ├── migrations
+│       │   │   ├── 0001_initial.py
+│       │   │   └── __init__.py
+│       │   ├── models
+│       │   │   ├── __init__.py
+│       │   │   ├── address_model.py
+│       │   │   ├── profile_model.py
+│       │   │   ├── user_model.py
+│       │   │   └── workflow_model.py
+│       │   ├── selectors
+│       │   │   ├── __init__.py
+│       │   │   ├── core_users_selectors.py
+│       │   │   └── user_selectors.py
+│       │   ├── serializers
+│       │   │   ├── __init__.py
+│       │   │   └── core_users_serializer.py
+│       │   ├── services
+│       │   │   ├── __init__.py
+│       │   │   ├── address_service.py
+│       │   │   ├── auth_service.py
+│       │   │   └── workflow_service.py
+│       │   ├── signals
+│       │   │   ├── __init__.py
+│       │   │   └── core_users_signals.py
+│       │   ├── templates
+│       │   │   └── core_users
+│       │   │       └── signup.html
+│       │   ├── tests
+│       │   │   ├── __init__.py
+│       │   │   ├── test_models.py
+│       │   │   ├── test_selectors.py
+│       │   │   └── test_services.py
+│       │   ├── tests.py
+│       │   ├── urls.py
+│       │   ├── utils
+│       │   │   ├── __init__.py
+│       │   │   └── core_users_utils.py
+│       │   └── views
+│       │       ├── __init__.py
+│       │       └── core_users_views.py
+│       ├── executives
+│       │   ├── __init__.py
+│       │   ├── admin.py
+│       │   ├── apps.py
+│       │   ├── choices.py
+│       │   ├── conf.py
+│       │   ├── constants.py
+│       │   ├── dtos
+│       │   │   └── __init__.py
+│       │   ├── forms
+│       │   │   └── __init__.py
+│       │   ├── managers
+│       │   │   └── __init__.py
+│       │   ├── migrations
+│       │   │   └── __init__.py
+│       │   ├── models
+│       │   │   └── __init__.py
+│       │   ├── selectors
+│       │   │   └── __init__.py
+│       │   ├── serializers
+│       │   │   └── __init__.py
+│       │   ├── services
+│       │   │   └── __init__.py
+│       │   ├── signals
+│       │   │   └── __init__.py
+│       │   ├── templates
+│       │   │   └── executives
+│       │   ├── tests
+│       │   │   └── __init__.py
+│       │   ├── urls.py
+│       │   ├── utils
+│       │   │   └── __init__.py
+│       │   └── views
+│       │       └── __init__.py
+│       ├── members
+│       │   ├── __init__.py
+│       │   ├── admin.py
+│       │   ├── apps.py
+│       │   ├── choices.py
+│       │   ├── conf.py
+│       │   ├── constants.py
+│       │   ├── dtos
+│       │   │   └── __init__.py
+│       │   ├── forms
+│       │   │   └── __init__.py
+│       │   ├── managers
+│       │   │   └── __init__.py
+│       │   ├── migrations
+│       │   │   └── __init__.py
+│       │   ├── models
+│       │   │   └── __init__.py
+│       │   ├── selectors
+│       │   │   └── __init__.py
+│       │   ├── serializers
+│       │   │   └── __init__.py
+│       │   ├── services
+│       │   │   └── __init__.py
+│       │   ├── signals
+│       │   │   └── __init__.py
+│       │   ├── templates
+│       │   │   └── members
+│       │   ├── tests
+│       │   │   └── __init__.py
+│       │   ├── urls.py
+│       │   ├── utils
+│       │   │   └── __init__.py
+│       │   └── views
+│       │       └── __init__.py
+│       ├── merchant
+│       │   ├── __init__.py
+│       │   ├── admin.py
+│       │   ├── apps.py
+│       │   ├── choices.py
+│       │   ├── conf.py
+│       │   ├── constants.py
+│       │   ├── dtos
+│       │   │   └── __init__.py
+│       │   ├── forms
+│       │   │   └── __init__.py
+│       │   ├── managers
+│       │   │   └── __init__.py
+│       │   ├── migrations
+│       │   │   └── __init__.py
+│       │   ├── models
+│       │   │   └── __init__.py
+│       │   ├── selectors
+│       │   │   └── __init__.py
+│       │   ├── serializers
+│       │   │   └── __init__.py
+│       │   ├── services
+│       │   │   └── __init__.py
+│       │   ├── signals
+│       │   │   └── __init__.py
+│       │   ├── templates
+│       │   │   └── merchant
+│       │   ├── tests
+│       │   │   └── __init__.py
+│       │   ├── urls.py
+│       │   ├── utils
+│       │   │   └── __init__.py
+│       │   └── views
+│       │       └── __init__.py
+│       ├── sellers
+│       │   ├── __init__.py
+│       │   ├── admin.py
+│       │   ├── apps.py
+│       │   ├── choices.py
+│       │   ├── conf.py
+│       │   ├── constants.py
+│       │   ├── dtos
+│       │   │   └── __init__.py
+│       │   ├── forms
+│       │   │   └── __init__.py
+│       │   ├── managers
+│       │   │   └── __init__.py
+│       │   ├── migrations
+│       │   │   └── __init__.py
+│       │   ├── models
+│       │   │   └── __init__.py
+│       │   ├── selectors
+│       │   │   └── __init__.py
+│       │   ├── serializers
+│       │   │   └── __init__.py
+│       │   ├── services
+│       │   │   └── __init__.py
+│       │   ├── signals
+│       │   │   └── __init__.py
+│       │   ├── templates
+│       │   │   └── sellers
+│       │   ├── tests
+│       │   │   └── __init__.py
+│       │   ├── urls.py
+│       │   ├── utils
+│       │   │   └── __init__.py
+│       │   └── views
+│       │       └── __init__.py
+│       └── superusers
+│           ├── __init__.py
+│           ├── admin.py
+│           ├── apps.py
+│           ├── choices.py
+│           ├── conf.py
+│           ├── constants.py
+│           ├── dtos
+│           │   └── __init__.py
+│           ├── forms
+│           │   └── __init__.py
+│           ├── managers
+│           │   └── __init__.py
+│           ├── migrations
+│           │   └── __init__.py
+│           ├── models
+│           │   └── __init__.py
+│           ├── selectors
+│           │   └── __init__.py
+│           ├── serializers
+│           │   └── __init__.py
+│           ├── services
+│           │   └── __init__.py
+│           ├── signals
+│           │   └── __init__.py
+│           ├── templates
+│           │   └── superusers
+│           ├── tests
+│           │   └── __init__.py
+│           ├── urls.py
+│           ├── utils
+│           │   └── __init__.py
+│           └── views
+│               └── __init__.py
+├── apps_catalogs_tree.txt
+├── core
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── urls.py
+│   └── wsgi.py
+├── locale
+├── manage.py
+├── master_apps_tree.txt
+├── master_architecture_tree.txt
+├── requirements.txt
+├── settings
+│   ├── __init__.py
+│   ├── base.py
+│   ├── local.py
+│   ├── production.py
+│   └── testing.py
+├── static
+└── tree_views
+    └── catalogs_tree.txt
+
+=================================================================
+
+【 2. DETAILED FILE DESCRIPTIONS 】
+----------------------------------------
+📄 File: ./.env.example
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./.gitignore
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./README.md
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./apps_catalogs_tree.txt
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./manage.py
+      ↳ [Functions]: main
+      ↳ [Total Lines]: 14 வரிகள்
+
+📄 File: ./master_apps_tree.txt
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./master_architecture_tree.txt
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./requirements.txt
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./tree_views/catalogs_tree.txt
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./apps/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/audits/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/integrations/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/systems/analytics/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/urls.py
+      ↳ [Total Lines]: 19 வரிகள்
+
+📄 File: ./apps/catalogs/categories/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/urls.py
+      ↳ [Total Lines]: 3 வரிகள்
+
+📄 File: ./apps/catalogs/categories/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/serializers/category_profile.py
+      ↳ [Classes]: CategoryProfile, Meta
+      ↳ [Total Lines]: 38 வரிகள்
+
+📄 File: ./apps/catalogs/categories/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/categories/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/views/specifications_views.py
+      ↳ [Classes]: SpecificationsSaveAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 15 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/services/specifications_service.py
+      ↳ [Classes]: SpecificationsApplicationService
+      ↳ [Functions]: save_specifications
+      ↳ [Total Lines]: 11 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/dtos/specifications_dtos.py
+      ↳ [Classes]: SpecificationsCreateDTO
+      ↳ [Total Lines]: 12 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/models/specifications_profile.py
+      ↳ [Classes]: SpecificationsProfile, Meta
+      ↳ [Functions]: save_specifications
+      ↳ [Total Lines]: 31 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/serializers/specifications_serializer.py
+      ↳ [Classes]: SpecificationsProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/selectors/specifications_selectors.py
+      ↳ [Classes]: SpecificationsSelector
+      ↳ [Functions]: get_specifications_by_catalog
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 52 வரிகள்
+
+📄 File: ./apps/catalogs/specifications/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/urls.py
+      ↳ [Total Lines]: 8 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/views/pricing_views.py
+      ↳ [Classes]: PricingCreateOrUpdateAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 18 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/services/pricing_service.py
+      ↳ [Classes]: PricingApplicationService
+      ↳ [Functions]: create_or_update_pricing
+      ↳ [Total Lines]: 24 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/dtos/pricing_dtos.py
+      ↳ [Classes]: PricingProfileCreateDTO
+      ↳ [Total Lines]: 14 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/models/pricing_profile.py
+      ↳ [Classes]: PricingProfile, Meta
+      ↳ [Functions]: create_pricing
+      ↳ [Total Lines]: 38 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/serializers/pricing_serializer.py
+      ↳ [Classes]: PricingProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/selectors/pricing_selectors.py
+      ↳ [Classes]: PricingSelector, InventorySelector, CategorySelector
+      ↳ [Functions]: get_pricing_by_catalog, get_wholesale_price_for_quantity, get_inventory_by_catalog, check_stock_availability, get_root_categories, get_subcategories, get_category_by_slug
+      ↳ [Total Lines]: 76 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 51 வரிகள்
+
+📄 File: ./apps/catalogs/pricing_tiers/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/views/catalog_status_views.py
+      ↳ [Classes]: CatalogStatusUpdateAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 18 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/services/catalog_status_service.py
+      ↳ [Classes]: CatalogStatusApplicationService
+      ↳ [Functions]: update_catalog_status
+      ↳ [Total Lines]: 11 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/services/core_catalog_service.py
+      ↳ [Classes]: CoreCatalogService
+      ↳ [Functions]: create_catalog, update_catalog
+      ↳ [Total Lines]: 31 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/dtos/catalog_status_dtos.py
+      ↳ [Classes]: CatalogStatusUpdateDTO
+      ↳ [Total Lines]: 9 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/models/catalog_status_profile.py
+      ↳ [Classes]: CatalogStatusProfile, Meta
+      ↳ [Functions]: update_state
+      ↳ [Total Lines]: 28 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/serializers/catalog_status_serializer.py
+      ↳ [Classes]: CatalogStatusProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/serializers/core_catalog_serializer.py
+      ↳ [Classes]: CoreCatalogSerializer, Meta
+      ↳ [Total Lines]: 15 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/selectors/catalog_status_selectors.py
+      ↳ [Classes]: CatalogStatusSelector
+      ↳ [Functions]: get_status_by_catalog
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/selectors/core_catalog_selectors.py
+      ↳ [Classes]: CoreCatalogSelector
+      ↳ [Functions]: get_catalog_by_id, get_active_catalogs_by_category, filter_catalogs_by_search_query
+      ↳ [Total Lines]: 24 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 49 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_statuses/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/views/reviews_ratings_views.py
+      ↳ [Classes]: ReviewCreateAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 18 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/services/reviews_ratings_service.py
+      ↳ [Classes]: ReviewsRatingsApplicationService
+      ↳ [Functions]: post_review
+      ↳ [Total Lines]: 11 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/dtos/reviews_ratings_dtos.py
+      ↳ [Classes]: ReviewCreateDTO
+      ↳ [Total Lines]: 10 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/models/reviews_ratings_profile.py
+      ↳ [Classes]: ReviewsRatingsProfile, Meta
+      ↳ [Functions]: create_review
+      ↳ [Total Lines]: 26 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/serializers/reviews_ratings_serializer.py
+      ↳ [Classes]: ReviewsRatingsProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/selectors/reviews_ratings_selectors.py
+      ↳ [Classes]: ReviewsRatingsSelector
+      ↳ [Functions]: get_reviews_by_catalog
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 47 வரிகள்
+
+📄 File: ./apps/catalogs/reviews_ratings/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/views/bundles_kits_views.py
+      ↳ [Classes]: BundleKitAddAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 18 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/services/bundles_kits_service.py
+      ↳ [Classes]: BundlesKitsApplicationService
+      ↳ [Functions]: add_item_to_bundle
+      ↳ [Total Lines]: 12 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/dtos/bundles_kits_dtos.py
+      ↳ [Classes]: BundleKitCreateDTO
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/models/bundles_kits_profile.py
+      ↳ [Classes]: BundlesKitsProfile, Meta
+      ↳ [Functions]: add_to_bundle
+      ↳ [Total Lines]: 22 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/serializers/bundles_kits_serializer.py
+      ↳ [Classes]: BundlesKitsProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/selectors/bundles_kits_selectors.py
+      ↳ [Classes]: BundlesKitsSelector
+      ↳ [Functions]: get_bundle_items
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 51 வரிகள்
+
+📄 File: ./apps/catalogs/bundles_kits/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/views/catalog_media_views.py
+      ↳ [Classes]: CatalogMediaSaveAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 18 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/services/catalog_media_service.py
+      ↳ [Classes]: CatalogMediaApplicationService
+      ↳ [Functions]: save_media_suite
+      ↳ [Total Lines]: 11 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/dtos/catalog_media_dtos.py
+      ↳ [Classes]: CatalogMediaCreateDTO
+      ↳ [Total Lines]: 13 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/models/catalog_media_profile.py
+      ↳ [Classes]: CatalogMediaProfile, Meta
+      ↳ [Functions]: create_or_update_media
+      ↳ [Total Lines]: 35 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/serializers/catalog_media_serializer.py
+      ↳ [Classes]: CatalogMediaProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/selectors/catalog_media_selectors.py
+      ↳ [Classes]: CatalogMediaSelector
+      ↳ [Functions]: get_media_by_catalog
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 59 வரிகள்
+
+📄 File: ./apps/catalogs/catalog_medias/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/views/search_filters_views.py
+      ↳ [Classes]: SearchFiltersSaveAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 15 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/services/search_filters_service.py
+      ↳ [Classes]: SearchFiltersApplicationService
+      ↳ [Functions]: save_search_filters
+      ↳ [Total Lines]: 11 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/dtos/search_filters_dtos.py
+      ↳ [Classes]: SearchFiltersCreateDTO
+      ↳ [Total Lines]: 9 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/models/search_filters_profile.py
+      ↳ [Classes]: SearchFiltersProfile, Meta
+      ↳ [Functions]: save_filters
+      ↳ [Total Lines]: 24 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/serializers/search_filters_serializer.py
+      ↳ [Classes]: SearchFiltersProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/selectors/search_filters_selectors.py
+      ↳ [Classes]: SearchFiltersSelector
+      ↳ [Functions]: get_filters_by_catalog
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 45 வரிகள்
+
+📄 File: ./apps/catalogs/search_filters/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/urls.py
+      ↳ [Total Lines]: 3 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/services/attribute_service.py
+      ↳ [Classes]: AttributeService, VariantService, CatalogMediaService, PricingService, InventoryService, SpecificationsService, BundlesKitsService, SearchFiltersService, WishlistService, ReviewsRatingsService, CatalogStatusService, CategoryService, CoreCatalogService
+      ↳ [Functions]: create_attribute, update_attribute, create_variant, update_variant, save_media_suite, save_pricing_profile, update_stock, save_specifications, add_catalog_to_bundle, save_search_filters, add_to_wishlist, remove_from_wishlist, create_review, update_lifecycle_state, create_category, create_core_catalog, update_core_catalog
+      ↳ [Total Lines]: 253 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/models/attribute_profile.py
+      ↳ [Classes]: AttributeProfile, Meta
+      ↳ [Total Lines]: 27 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/selectors/attribute_selectors.py
+      ↳ [Classes]: AttributeSelector, VariantSelector, CatalogMediaSelector, PricingSelector, InventorySelector
+      ↳ [Functions]: get_attributes_by_catalog, get_attribute_by_id, get_variants_by_catalog, get_variant_by_sku, get_media_by_catalog, get_pricing_by_catalog, get_inventory_by_catalog
+      ↳ [Total Lines]: 82 வரிகள்
+
+📄 File: ./apps/catalogs/attributes/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/dtos/core_catalog_dtos.py
+      ↳ [Classes]: CoreCatalogCreateDTO, CatalogType, CoreCatalog, Meta, CoreCatalogApplicationService
+      ↳ [Functions]: create_new_catalog, register_new_catalog
+      ↳ [Total Lines]: 123 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/models/core_catalog_profile.py
+      ↳ [Classes]: CoreCatalog, Meta
+      ↳ [Functions]: create_catalog
+      ↳ [Total Lines]: 44 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/serializers/core_catalog_serializer.py
+      ↳ [Classes]: CoreCatalogSerializer, Meta, CoreCatalogCreateAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 57 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 40 வரிகள்
+
+📄 File: ./apps/catalogs/core_catalogs/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/urls.py
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/views/wishlists_views.py
+      ↳ [Classes]: WishlistToggleAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 15 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/services/wishlists_service.py
+      ↳ [Classes]: WishlistApplicationService
+      ↳ [Functions]: add_to_wishlist, remove_from_wishlist
+      ↳ [Total Lines]: 18 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/dtos/wishlists_dtos.py
+      ↳ [Classes]: WishlistActionDTO
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/models/wishlists_profile.py
+      ↳ [Classes]: WishlistProfile, Meta
+      ↳ [Total Lines]: 12 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/serializers/wishlists_serializer.py
+      ↳ [Classes]: WishlistProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/selectors/wishlists_selectors.py
+      ↳ [Classes]: WishlistSelector
+      ↳ [Functions]: get_user_wishlist
+      ↳ [Total Lines]: 6 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 45 வரிகள்
+
+📄 File: ./apps/catalogs/wishlists/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/urls.py
+      ↳ [Total Lines]: 3 வரிகள்
+
+📄 File: ./apps/catalogs/variants/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/models/variant_profile.py
+      ↳ [Classes]: VariantProfile, Meta
+      ↳ [Total Lines]: 30 வரிகள்
+
+📄 File: ./apps/catalogs/variants/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/variants/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/urls.py
+      ↳ [Total Lines]: 8 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/views/inventory_views.py
+      ↳ [Classes]: InventorySyncAPIView
+      ↳ [Functions]: post
+      ↳ [Total Lines]: 25 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/dtos/inventory_dtos.py
+      ↳ [Classes]: InventoryUpdateDTO
+      ↳ [Total Lines]: 8 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/models/inventory_profile.py
+      ↳ [Classes]: InventoryProfile, Meta
+      ↳ [Functions]: update_stock
+      ↳ [Total Lines]: 31 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/serializers/inventory_serializer.py
+      ↳ [Classes]: InventoryProfileSerializer, Meta
+      ↳ [Total Lines]: 7 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 49 வரிகள்
+
+📄 File: ./apps/catalogs/inventories/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/taxes/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payment_gateways/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/commissions/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/payouts/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/finances/bank_accounts/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/live_chats/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/return_refunds/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/faqs/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/customer_supports/helpdesk_tickets/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/shipments/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/logistics_partners/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/returns/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/logistics/warehouse_transfers/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/checkout_flows/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/ads_campaigns/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/carts/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/push_notifications/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/orders/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/customer_leads/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/coupons_discounts/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/apps.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/marketing_leads/wishlists/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/apps.py
+      ↳ [Classes]: ExecutivesConfig
+      ↳ [Total Lines]: 5 வரிகள்
+
+📄 File: ./apps/users/executives/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/executives/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/apps.py
+      ↳ [Classes]: MembersConfig
+      ↳ [Total Lines]: 5 வரிகள்
+
+📄 File: ./apps/users/members/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/members/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/apps.py
+      ↳ [Classes]: MerchantConfig
+      ↳ [Total Lines]: 5 வரிகள்
+
+📄 File: ./apps/users/merchant/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/merchant/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/apps.py
+      ↳ [Classes]: SuperusersConfig
+      ↳ [Total Lines]: 5 வரிகள்
+
+📄 File: ./apps/users/superusers/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/superusers/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/admin.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/apps.py
+      ↳ [Classes]: SellersConfig
+      ↳ [Total Lines]: 5 வரிகள்
+
+📄 File: ./apps/users/sellers/choices.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/constants.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/urls.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/views/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/models/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/sellers/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/__init__.py
+      ↳ [Total Lines]: 2 வரிகள்
+
+📄 File: ./apps/users/core_users/admin.py
+      ↳ [Total Lines]: 3 வரிகள்
+
+📄 File: ./apps/users/core_users/apps.py
+      ↳ [Classes]: CoreUsersConfig
+      ↳ [Total Lines]: 5 வரிகள்
+
+📄 File: ./apps/users/core_users/choices.py
+      ↳ [Classes]: UserRole, ApprovalStatus
+      ↳ [Total Lines]: 15 வரிகள்
+
+📄 File: ./apps/users/core_users/conf.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/constants.py
+      ↳ [Total Lines]: 3 வரிகள்
+
+📄 File: ./apps/users/core_users/tests.py
+      ↳ [Total Lines]: 3 வரிகள்
+
+📄 File: ./apps/users/core_users/urls.py
+      ↳ [Total Lines]: 16 வரிகள்
+
+📄 File: ./apps/users/core_users/utils/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/utils/core_users_utils.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/views/__init__.py
+      ↳ [Total Lines]: 1 வரிகள்
+
+📄 File: ./apps/users/core_users/views/core_users_views.py
+      ↳ [Classes]: SignUpAPIView, SignInAPIView, SignOutAPIView, UserDetailAPIView, AuthPageView
+      ↳ [Functions]: post, post, post, get, get
+      ↳ [Total Lines]: 82 வரிகள்
+
+📄 File: ./apps/users/core_users/signals/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/signals/core_users_signals.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/forms/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/forms/core_users_forms.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/templates/core_users/signup.html
+      ↳ இதர கோப்பு அல்லது டெம்ப்ளேட்
+
+📄 File: ./apps/users/core_users/services/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/services/address_service.py
+      ↳ [Classes]: AuthService
+      ↳ [Functions]: register_user
+      ↳ [Total Lines]: 60 வரிகள்
+
+📄 File: ./apps/users/core_users/services/auth_service.py
+      ↳ [Classes]: AuthService
+      ↳ [Functions]: register_user, update_user_profile
+      ↳ [Total Lines]: 38 வரிகள்
+
+📄 File: ./apps/users/core_users/services/workflow_service.py
+      ↳ [Classes]: WorkflowService
+      ↳ [Functions]: initiate_workflow, update_workflow_status
+      ↳ [Total Lines]: 19 வரிகள்
+
+📄 File: ./apps/users/core_users/tests/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/tests/test_models.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/tests/test_selectors.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/tests/test_services.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/dtos/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/dtos/core_users_dtos.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/managers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/managers/core_users_managers.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/models/__init__.py
+      ↳ [Total Lines]: 3 வரிகள்
+
+📄 File: ./apps/users/core_users/models/address_model.py
+      ↳ [Classes]: UserAddress
+      ↳ [Total Lines]: 19 வரிகள்
+
+📄 File: ./apps/users/core_users/models/profile_model.py
+      ↳ [Classes]: UserProfile
+      ↳ [Total Lines]: 51 வரிகள்
+
+📄 File: ./apps/users/core_users/models/user_model.py
+      ↳ [Classes]: CustomUserManager, CustomUser
+      ↳ [Functions]: create_user, create_superuser
+      ↳ [Total Lines]: 36 வரிகள்
+
+📄 File: ./apps/users/core_users/models/workflow_model.py
+      ↳ [Classes]: ApprovalWorkflow
+      ↳ [Total Lines]: 14 வரிகள்
+
+📄 File: ./apps/users/core_users/serializers/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/serializers/core_users_serializer.py
+      ↳ [Classes]: UserProfileSerializer, Meta, UserRegistrationSerializer, Meta
+      ↳ [Functions]: create
+      ↳ [Total Lines]: 28 வரிகள்
+
+📄 File: ./apps/users/core_users/selectors/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./apps/users/core_users/selectors/core_users_selectors.py
+      ↳ [Classes]: UserSelector
+      ↳ [Functions]: get_user_by_id, get_user_by_email, get_user_profile, list_active_users
+      ↳ [Total Lines]: 28 வரிகள்
+
+📄 File: ./apps/users/core_users/selectors/user_selectors.py
+      ↳ [Classes]: UserSelector
+      ↳ [Functions]: get_by_id
+      ↳ [Total Lines]: 11 வரிகள்
+
+📄 File: ./apps/users/core_users/migrations/0001_initial.py
+      ↳ [Classes]: Migration
+      ↳ [Total Lines]: 243 வரிகள்
+
+📄 File: ./apps/users/core_users/migrations/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./core/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./core/asgi.py
+      ↳ [Total Lines]: 16 வரிகள்
+
+📄 File: ./core/urls.py
+      ↳ [Total Lines]: 32 வரிகள்
+
+📄 File: ./core/wsgi.py
+      ↳ [Total Lines]: 16 வரிகள்
+
+📄 File: ./settings/__init__.py
+      ↳ [Total Lines]: 0 வரிகள்
+
+📄 File: ./settings/base.py
+      ↳ [Total Lines]: 105 வரிகள்
+
+📄 File: ./settings/local.py
+      ↳ [Total Lines]: 30 வரிகள்
+
+📄 File: ./settings/production.py
+      ↳ [Total Lines]: 11 வரிகள்
+
+📄 File: ./settings/testing.py
+      ↳ [Total Lines]: 0 வரிகள்
+

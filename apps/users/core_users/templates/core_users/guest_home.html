@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groway Solutions - Service Portal</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f7f6; color: #333; }
+        header { background: #002244; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 22px; letter-spacing: 0.5px; }
+        nav.sub-nav { background: #003366; padding: 10px 30px; display: flex; gap: 20px; overflow-x: auto; }
+        nav.sub-nav a { color: #e2e8f0; text-decoration: none; font-size: 14px; white-space: nowrap; padding: 5px 10px; border-radius: 4px; transition: 0.3s; }
+        nav.sub-nav a:hover { background: #004080; color: #fff; }
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .section-title { margin-bottom: 20px; font-size: 20px; color: #002244; border-bottom: 2px solid #002244; padding-bottom: 8px; }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .category-card { background: white; padding: 20px; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid #003366; }
+        .category-card h3 { font-size: 16px; margin-bottom: 8px; color: #002244; }
+        .category-card p { font-size: 13px; color: #666; margin-bottom: 10px; }
+        .sub-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+        .sub-tag { background: #edf2f7; font-size: 11px; padding: 3px 8px; border-radius: 3px; color: #4a5568; }
+        .form-section { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 14px; font-weight: 600; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; font-size: 14px; }
+        button.submit-btn { background: #002244; color: white; border: none; padding: 12px 20px; width: 100%; font-size: 15px; border-radius: 4px; cursor: pointer; transition: 0.3s; }
+        button.submit-btn:hover { background: #003366; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GROWAY SOLUTIONS</h1>
+        <div style="font-size: 13px; color: #a0aec0;">Guest Portal</div>
+    </header>
+    <nav class="sub-nav">
+        <a href="#">முகப்பு (Home)</a>
+        <a href="#categories">சேவைக் கேட்டகிரிகள் (Categories)</a>
+        <a href="#inquiry">விசாரணை (Inquiry)</a>
+        <a href="/admin/">அட்மின் லாகின் (Admin)</a>
+    </nav>
+    <div class="container">
+        <div id="categories">
+            <h2 class="section-title">கிடைக்கக்கூடிய சேவைகள் & கேட்டகிரிகள்</h2>
+            <div class="category-grid">
+                {% for cat in parent_categories %}
+                    <div class="category-card">
+                        <h3>{{ cat.name }}</h3>
+                        <p><strong>Google Business:</strong> {{ cat.google_business_category|default:"N/A" }}</p>
+                        <p><strong>SAC Code:</strong> {{ cat.sac_code|default:"N/A" }}</p>
+                        <div class="sub-tags">
+                            {% for sub in all_categories %}
+                                {% if sub.parent_id == cat.id %}
+                                    <span class="sub-tag">{{ sub.name }}</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>தற்போது சேவைகள் எதுவும் பதிவு செய்யப்படவில்லை.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="inquiry" class="form-section">
+            <h2 class="section-title" style="text-align: center; border: none;">எங்களைத் தொடர்பு கொள்ள</h2>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>உங்கள் பெயர்</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    <label>மின்னஞ்சல் முகவரி</label>
+                    {{ form.email }}
+                </div>
+                <div class="form-group">
+                    <label>தொலைபேசி எண்</label>
+                    {{ form.phone }}
+                </div>
+                <div class="form-group">
+                    <label>செய்தி / தேவைகள்</label>
+                    {{ form.message }}
+                </div>
+                <button type="submit" class="submit-btn">விசாரணையைச் சமர்ப்பிக்கவும்</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

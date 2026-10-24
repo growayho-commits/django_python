@@ -1,0 +1,446 @@
+apps/catalogs
+├── __init__.py
+├── attributes
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── attributes
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── bundles_kits
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── bundles_kits
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── catalog_medias
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── catalog_medias
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── catalog_statuses
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── catalog_statuses
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── categories
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── categories
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── core_catalogs
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── core_catalogs
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── inventories
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── inventories
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── pricing_tiers
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── pricing_tiers
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── reviews_ratings
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── reviews_ratings
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── search_filters
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── search_filters
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── specifications
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── specifications
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+├── variants
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── choices.py
+│   ├── conf.py
+│   ├── constants.py
+│   ├── dtos
+│   │   └── __init__.py
+│   ├── forms
+│   │   └── __init__.py
+│   ├── managers
+│   │   └── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models
+│   │   └── __init__.py
+│   ├── selectors
+│   │   └── __init__.py
+│   ├── serializers
+│   │   └── __init__.py
+│   ├── services
+│   │   └── __init__.py
+│   ├── signals
+│   │   └── __init__.py
+│   ├── templates
+│   │   └── variants
+│   ├── tests
+│   │   └── __init__.py
+│   ├── urls.py
+│   ├── utils
+│   │   └── __init__.py
+│   └── views
+│       └── __init__.py
+└── wishlists
+    ├── __init__.py
+    ├── admin.py
+    ├── apps.py
+    ├── choices.py
+    ├── conf.py
+    ├── constants.py
+    ├── dtos
+    │   └── __init__.py
+    ├── forms
+    │   └── __init__.py
+    ├── managers
+    │   └── __init__.py
+    ├── migrations
+    │   └── __init__.py
+    ├── models
+    │   └── __init__.py
+    ├── selectors
+    │   └── __init__.py
+    ├── serializers
+    │   └── __init__.py
+    ├── services
+    │   └── __init__.py
+    ├── signals
+    │   └── __init__.py
+    ├── templates
+    │   └── wishlists
+    ├── tests
+    │   └── __init__.py
+    ├── urls.py
+    ├── utils
+    │   └── __init__.py
+    └── views
+        └── __init__.py
+
+196 directories, 248 files
