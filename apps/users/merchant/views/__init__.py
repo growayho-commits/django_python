@@ -1,0 +1,1 @@
+from .merchant_views import MerchantProfileCreateOrUpdateView

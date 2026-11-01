@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYBRID MARKETPLACE - Welcome</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <a href="{% url 'guest_home' %}" class="text-xl sm:text-2xl font-black tracking-wider text-indigo-600">
+                    HYBRID MARKETPLACE
+                </a>
+            </div>
+            <div class="space-x-3">
+                <a href="{% url 'login' %}" class="text-slate-600 hover:text-indigo-600 font-medium px-3 py-2 text-sm sm:text-base transition">Login</a>
+                <a href="{% url 'registration' %}" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm sm:text-base font-semibold shadow-md hover:bg-indigo-700 transition">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Main Section -->
+    <main class="flex-grow">
+        <!-- Hero Banner -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 text-center">
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Welcome to <span class="text-indigo-600">HYBRID MARKETPLACE</span>
+            </h1>
+            <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-10">
+                Explore a vast range of services, premium products, categories, and custom solutions all under one unified ecosystem.
+            </p>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b pb-3">Explore Service Categories</h2>
+            
+            {% if parent_categories %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
+                    {% for category in parent_categories %}
+                        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+                            <h3 class="text-lg font-semibold text-indigo-600 mb-2">{{ category.name }}</h3>
+                            <p class="text-slate-500 text-sm">Explore professional listings and reliable services in this category.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-slate-500 mb-12">No main categories available at the moment.</p>
+            {% endif %}
+        </section>
+
+        <!-- Inquiry Form Section -->
+        <section class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-white border border-slate-200 rounded-3xl shadow-sm mb-16">
+            <h2 class="text-2xl font-bold text-slate-900 text-center mb-2">Send Us an Inquiry</h2>
+            <p class="text-slate-500 text-center text-sm mb-6">Have questions or looking for specific services? Drop us a message below.</p>
+            
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-indigo-700 transition">
+                    Submit Inquiry
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-sm">
+        &copy; 2026 HYBRID MARKETPLACE. All rights reserved.
+    </footer>
+
+</body>
+</html>

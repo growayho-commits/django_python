@@ -1,0 +1,1 @@
+from .integration_views import IntegrationProfileViewSet

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration | HYBRID MARKETPLACE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+            --bg-dark: #0A0D14;
+            --card-bg: rgba(20, 24, 36, 0.85);
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: #E2E8F0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.15), transparent 60%);
+        }
+        .royalty-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.1);
+            backdrop-filter: blur(12px);
+        }
+        .royalty-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .royalty-title {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+        .royalty-subtitle {
+            font-size: 13px;
+            color: #94A3B8;
+            margin-top: 6px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .royalty-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(10, 13, 20, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 8px;
+            color: #FFF;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        .royalty-input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        .royalty-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--gold-gradient);
+            border: none;
+            border-radius: 8px;
+            color: #0A0D14;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .royalty-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+        .royalty-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #94A3B8;
+        }
+        .royalty-footer a {
+            color: var(--gold-primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="royalty-card">
+        <div class="royalty-header">
+            <h1 class="royalty-title">HYBRID MARKETPLACE</h1>
+            <div class="royalty-subtitle">Create Your Portal Account</div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">{{ form.email }}</div>
+            <div class="form-group">{{ form.mobile_number }}</div>
+            <div class="form-group">{{ form.assigned_merchant }}</div>
+            <div class="form-group">{{ form.password }}</div>
+            <div class="form-group">{{ form.confirm_password }}</div>
+            <button type="submit" class="royalty-btn">Register Account</button>
+        </form>
+        <div class="royalty-footer">
+            Already have an account? <a href="{% url 'login' %}">Login Here</a>
+        </div>
+    </div>
+</body>
+</html>

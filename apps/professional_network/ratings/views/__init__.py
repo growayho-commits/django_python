@@ -1,0 +1,1 @@
+from .rating_views import create_rating_view

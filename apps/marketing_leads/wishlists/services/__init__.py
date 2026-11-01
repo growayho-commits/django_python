@@ -1,0 +1,1 @@
+from .wishlists_service import WishlistService

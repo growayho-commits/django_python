@@ -1,0 +1,1 @@
+from .coupon_profile import CouponDiscountProfile

@@ -1,0 +1,1 @@
+from .gateway_profile import PaymentGatewayConfig

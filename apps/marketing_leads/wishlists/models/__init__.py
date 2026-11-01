@@ -1,0 +1,1 @@
+from .wishlists_profile import WishlistProfile

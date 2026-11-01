@@ -1,0 +1,1 @@
+from .search_log import SearchLog

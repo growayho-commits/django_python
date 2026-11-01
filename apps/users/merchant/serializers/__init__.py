@@ -1,0 +1,1 @@
+from .merchant_serializer import MerchantProfileSerializer
