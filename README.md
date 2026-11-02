@@ -9,7 +9,10 @@ graph TD
     classDef appStyle fill:#f9f,stroke:#333,stroke-width:2px;
     classDef modelStyle fill:#bbf,stroke:#333,stroke-width:1px;
     catalogs -->|depends on| catalog
+    finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
+    systems -->|depends on| catalogs
+    systems -->|depends on| marketing_leads
     users -->|depends on| guests
     users -->|depends on| professional_network
     catalogs --- AttributeProfile[Model: AttributeProfile]
@@ -20,6 +23,7 @@ graph TD
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CoreCatalog[Model: CoreCatalog]
+    catalogs --- SparePart[Model: SparePart]
     catalogs --- InventoryProfile[Model: InventoryProfile]
     catalogs --- PricingProfile[Model: PricingProfile]
     catalogs --- ReviewsRatingsProfile[Model: ReviewsRatingsProfile]

@@ -2,9 +2,9 @@
 > Mode: COMPLETE PROJECT | Views: ALL
 
 === 0. PROJECT METRICS & STATISTICS ===
- • Total Files Scanned : 1666
- • Python (.py) Files  : 1642
- • Total Lines of Code : 6537 lines
+ • Total Files Scanned : 1682
+ • Python (.py) Files  : 1656
+ • Total Lines of Code : 7102 lines
 
 ---
 === 1. TREE VIEW STRUCTURE ===
@@ -13,13 +13,15 @@
 - `.gitignore`
 - `AI_PROJECT_CONTEXT.md`
 - `db.sqlite3`
+- `DOCUMENTATION_EN.txt`
+- `DOCUMENTATION_TA.txt`
 - `file_manager.py  [Lines: 63]`
 - `git_manager.py  [Lines: 81]`
+- `inspector.txt`
 - `manage.py  [Lines: 14]`
 - `project_inspector.py  [Lines: 354]`
 - `project_tree_path_view.txt`
 - `README.md`
-- `requirements.txt`
 - `SECURITY.md`
 - **apps/**
     - `__init__.py  [Lines: 0]`
@@ -352,9 +354,10 @@
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
                 - `0001_initial.py  [Lines: 27]`
+                - `0002_corecatalog_price_corecatalog_stock_quantity_and_more.py  [Lines: 61]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
-                - `core_catalog_profile.py  [Lines: 15]`
+                - `core_catalog_profile.py  [Lines: 34]`
                 - `__init__.py  [Lines: 0]`
             - **permissions/**
                 - `__init__.py  [Lines: 0]`
@@ -622,7 +625,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `search_filters_views.py  [Lines: 15]`
+                - `search_filters_views.py  [Lines: 62]`
                 - `__init__.py  [Lines: 0]`
         - **specifications/**
             - `admin.py  [Lines: 0]`
@@ -854,6 +857,7 @@
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
+            - `consumers.py  [Lines: 46]`
             - `urls.py  [Lines: 0]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
@@ -1103,6 +1107,7 @@
                 - `gateway_serializer.py  [Lines: 8]`
                 - `__init__.py  [Lines: 1]`
             - **services/**
+                - `escrow_service.py  [Lines: 61]`
                 - `gateway_service.py  [Lines: 16]`
                 - `__init__.py  [Lines: 1]`
             - **signals/**
@@ -1216,6 +1221,7 @@
                 - `__init__.py  [Lines: 1]`
             - **services/**
                 - `tax_service.py  [Lines: 11]`
+                - `zoho_service.py  [Lines: 42]`
                 - `__init__.py  [Lines: 1]`
             - **signals/**
                 - `__init__.py  [Lines: 0]`
@@ -1348,6 +1354,7 @@
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
             - `urls.py  [Lines: 0]`
+            - `views.py  [Lines: 25]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -1393,7 +1400,9 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `__init__.py  [Lines: 0]`
+                - `management_views.py  [Lines: 22]`
+                - `tracking_views.py  [Lines: 16]`
+                - `__init__.py  [Lines: 3]`
         - **warehouse_transfers/**
             - `admin.py  [Lines: 0]`
             - `apps.py  [Lines: 0]`
@@ -1401,6 +1410,7 @@
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
             - `urls.py  [Lines: 0]`
+            - `views.py  [Lines: 28]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -1446,7 +1456,9 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `__init__.py  [Lines: 0]`
+                - `approval_views.py  [Lines: 15]`
+                - `transfer_views.py  [Lines: 17]`
+                - `__init__.py  [Lines: 3]`
     - **marketing_leads/**
         - `conf.py  [Lines: 0]`
         - `urls.py  [Lines: 19]`
@@ -1543,7 +1555,7 @@
                 - `cart_serializer.py  [Lines: 18]`
                 - `__init__.py  [Lines: 1]`
             - **services/**
-                - `cart_service.py  [Lines: 26]`
+                - `cart_service.py  [Lines: 30]`
                 - `__init__.py  [Lines: 1]`
             - **signals/**
                 - `__init__.py  [Lines: 0]`
@@ -1824,6 +1836,7 @@
                 - `__init__.py  [Lines: 1]`
             - **services/**
                 - `notification_service.py  [Lines: 23]`
+                - `whatsapp_service.py  [Lines: 50]`
                 - `__init__.py  [Lines: 1]`
             - **signals/**
                 - `__init__.py  [Lines: 0]`
@@ -1867,6 +1880,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `wishlists_profile.py  [Lines: 15]`
@@ -2253,6 +2267,7 @@
                 - `__init__.py  [Lines: 1]`
             - **services/**
                 - `analytics_service.py  [Lines: 19]`
+                - `forecasting_service.py  [Lines: 41]`
                 - `__init__.py  [Lines: 1]`
             - **signals/**
                 - `__init__.py  [Lines: 0]`
@@ -2365,6 +2380,7 @@
                 - `__init__.py  [Lines: 0]`
             - **services/**
                 - `integration_service.py  [Lines: 19]`
+                - `notebooklm_service.py  [Lines: 36]`
                 - `__init__.py  [Lines: 1]`
             - **signals/**
                 - `__init__.py  [Lines: 0]`
@@ -2778,11 +2794,14 @@
     - `production.py  [Lines: 11]`
     - `testing.py  [Lines: 0]`
     - `__init__.py  [Lines: 0]`
+- **static/**
 
 === 2. FULL PATH VIEWS ===
 E:\django_python\.env.example
 E:\django_python\.gitignore
 E:\django_python\AI_PROJECT_CONTEXT.md
+E:\django_python\DOCUMENTATION_EN.txt
+E:\django_python\DOCUMENTATION_TA.txt
 E:\django_python\README.md
 E:\django_python\SECURITY.md
 E:\django_python\apps\__init__.py
@@ -2987,6 +3006,7 @@ E:\django_python\apps\catalogs\core_catalogs\listeners\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\managers\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\middleware\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\migrations\0001_initial.py
+E:\django_python\apps\catalogs\core_catalogs\migrations\0002_corecatalog_price_corecatalog_stock_quantity_and_more.py
 E:\django_python\apps\catalogs\core_catalogs\migrations\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\models\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\models\core_catalog_profile.py
@@ -3292,6 +3312,7 @@ E:\django_python\apps\customer_supports\live_chats\apps.py
 E:\django_python\apps\customer_supports\live_chats\choices.py
 E:\django_python\apps\customer_supports\live_chats\conf.py
 E:\django_python\apps\customer_supports\live_chats\constants.py
+E:\django_python\apps\customer_supports\live_chats\consumers.py
 E:\django_python\apps\customer_supports\live_chats\dtos\__init__.py
 E:\django_python\apps\customer_supports\live_chats\exceptions\__init__.py
 E:\django_python\apps\customer_supports\live_chats\filters\__init__.py
@@ -3432,6 +3453,7 @@ E:\django_python\apps\finances\payment_gateways\selectors\__init__.py
 E:\django_python\apps\finances\payment_gateways\serializers\__init__.py
 E:\django_python\apps\finances\payment_gateways\serializers\gateway_serializer.py
 E:\django_python\apps\finances\payment_gateways\services\__init__.py
+E:\django_python\apps\finances\payment_gateways\services\escrow_service.py
 E:\django_python\apps\finances\payment_gateways\services\gateway_service.py
 E:\django_python\apps\finances\payment_gateways\signals\__init__.py
 E:\django_python\apps\finances\payment_gateways\tasks\__init__.py
@@ -3499,6 +3521,7 @@ E:\django_python\apps\finances\taxes\serializers\__init__.py
 E:\django_python\apps\finances\taxes\serializers\tax_serializer.py
 E:\django_python\apps\finances\taxes\services\__init__.py
 E:\django_python\apps\finances\taxes\services\tax_service.py
+E:\django_python\apps\finances\taxes\services\zoho_service.py
 E:\django_python\apps\finances\taxes\signals\__init__.py
 E:\django_python\apps\finances\taxes\tasks\__init__.py
 E:\django_python\apps\finances\taxes\templates\__init__.py
@@ -3599,7 +3622,10 @@ E:\django_python\apps\logistics\shipments\tests\__init__.py
 E:\django_python\apps\logistics\shipments\urls.py
 E:\django_python\apps\logistics\shipments\utils\__init__.py
 E:\django_python\apps\logistics\shipments\validators\__init__.py
+E:\django_python\apps\logistics\shipments\views.py
 E:\django_python\apps\logistics\shipments\views\__init__.py
+E:\django_python\apps\logistics\shipments\views\management_views.py
+E:\django_python\apps\logistics\shipments\views\tracking_views.py
 E:\django_python\apps\logistics\urls.py
 E:\django_python\apps\logistics\warehouse_transfers\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\admin.py
@@ -3630,7 +3656,10 @@ E:\django_python\apps\logistics\warehouse_transfers\tests\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\urls.py
 E:\django_python\apps\logistics\warehouse_transfers\utils\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\validators\__init__.py
+E:\django_python\apps\logistics\warehouse_transfers\views.py
 E:\django_python\apps\logistics\warehouse_transfers\views\__init__.py
+E:\django_python\apps\logistics\warehouse_transfers\views\approval_views.py
+E:\django_python\apps\logistics\warehouse_transfers\views\transfer_views.py
 E:\django_python\apps\marketing_leads\__init__.py
 E:\django_python\apps\marketing_leads\ads_campaigns\__init__.py
 E:\django_python\apps\marketing_leads\ads_campaigns\admin.py
@@ -3852,6 +3881,7 @@ E:\django_python\apps\marketing_leads\push_notifications\serializers\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\serializers\notification_serializer.py
 E:\django_python\apps\marketing_leads\push_notifications\services\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\services\notification_service.py
+E:\django_python\apps\marketing_leads\push_notifications\services\whatsapp_service.py
 E:\django_python\apps\marketing_leads\push_notifications\signals\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\tasks\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\templates\__init__.py
@@ -3878,6 +3908,7 @@ E:\django_python\apps\marketing_leads\wishlists\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\listeners\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\managers\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\middleware\__init__.py
+E:\django_python\apps\marketing_leads\wishlists\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\wishlists\migrations\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\models\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\models\wishlists_profile.py
@@ -4111,6 +4142,7 @@ E:\django_python\apps\systems\analytics\serializers\__init__.py
 E:\django_python\apps\systems\analytics\serializers\analytics_serializer.py
 E:\django_python\apps\systems\analytics\services\__init__.py
 E:\django_python\apps\systems\analytics\services\analytics_service.py
+E:\django_python\apps\systems\analytics\services\forecasting_service.py
 E:\django_python\apps\systems\analytics\signals\__init__.py
 E:\django_python\apps\systems\analytics\tasks\__init__.py
 E:\django_python\apps\systems\analytics\templates\__init__.py
@@ -4177,6 +4209,7 @@ E:\django_python\apps\systems\integrations\serializers\__init__.py
 E:\django_python\apps\systems\integrations\serializers\integration_serializer.py
 E:\django_python\apps\systems\integrations\services\__init__.py
 E:\django_python\apps\systems\integrations\services\integration_service.py
+E:\django_python\apps\systems\integrations\services\notebooklm_service.py
 E:\django_python\apps\systems\integrations\signals\__init__.py
 E:\django_python\apps\systems\integrations\tasks\__init__.py
 E:\django_python\apps\systems\integrations\templates\__init__.py
@@ -4437,10 +4470,10 @@ E:\django_python\core\wsgi.py
 E:\django_python\db.sqlite3
 E:\django_python\file_manager.py
 E:\django_python\git_manager.py
+E:\django_python\inspector.txt
 E:\django_python\manage.py
 E:\django_python\project_inspector.py
 E:\django_python\project_tree_path_view.txt
-E:\django_python\requirements.txt
 E:\django_python\settings\__init__.py
 E:\django_python\settings\base.py
 E:\django_python\settings\local.py
@@ -4491,7 +4524,7 @@ E:\django_python\settings\testing.py
  • apps\catalogs\bundles_kits\models -> Models: ['BundlesKitsProfile', 'BundleProfile']
  • apps\catalogs\catalog_medias\models -> Models: ['CatalogMediaProfile', 'CatalogMediaProfile']
  • apps\catalogs\catalog_statuses\models -> Models: ['CatalogStatusProfile', 'CatalogStatusProfile']
- • apps\catalogs\core_catalogs\models -> Models: ['CoreCatalog']
+ • apps\catalogs\core_catalogs\models -> Models: ['CoreCatalog', 'SparePart']
  • apps\catalogs\inventories\models -> Models: ['InventoryProfile']
  • apps\catalogs\pricing_tiers\models -> Models: ['PricingProfile']
  • apps\catalogs\reviews_ratings\models -> Models: ['ReviewsRatingsProfile', 'CatalogReviewProfile']
@@ -4597,6 +4630,10 @@ E:\django_python\settings\testing.py
  • apps\catalogs\variants\models ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\serializers ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\services ──> Depends on Apps: ['catalogs']
+ • apps\finances\payment_gateways\services ──> Depends on Apps: ['finances', 'marketing_leads']
+ • apps\finances\taxes\services ──> Depends on Apps: ['finances', 'marketing_leads']
+ • apps\logistics\shipments ──> Depends on Apps: ['logistics']
+ • apps\logistics\warehouse_transfers ──> Depends on Apps: ['logistics']
  • apps\marketing_leads\wishlists ──> Depends on Apps: ['catalogs']
  • apps\marketing_leads\wishlists\selectors ──> Depends on Apps: ['catalogs']
  • apps\professional_network\enquiries ──> Depends on Apps: ['professional_network']
@@ -4613,17 +4650,18 @@ E:\django_python\settings\testing.py
  • apps\professional_network\service_categries ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries\serializers ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries\views ──> Depends on Apps: ['professional_network']
+ • apps\systems\analytics\services ──> Depends on Apps: ['catalogs', 'marketing_leads']
  • apps\users\executives ──> Depends on Apps: ['users']
  • apps\users\executives\serializers ──> Depends on Apps: ['users']
  • apps\users\executives\services ──> Depends on Apps: ['users']
  • apps\users\executives\views ──> Depends on Apps: ['users']
  • apps\users\guests ──> Depends on Apps: ['users']
  • apps\users\guests\forms ──> Depends on Apps: ['users']
- • apps\users\guests\selectors ──> Depends on Apps: ['users', 'guests']
+ • apps\users\guests\selectors ──> Depends on Apps: ['guests', 'users']
  • apps\users\guests\serializers ──> Depends on Apps: ['users']
- • apps\users\guests\services ──> Depends on Apps: ['users', 'guests']
+ • apps\users\guests\services ──> Depends on Apps: ['guests', 'users']
  • apps\users\guests\validators ──> Depends on Apps: ['users']
- • apps\users\guests\views ──> Depends on Apps: ['users', 'professional_network']
+ • apps\users\guests\views ──> Depends on Apps: ['professional_network', 'users']
  • apps\users\members ──> Depends on Apps: ['users']
  • apps\users\members\serializers ──> Depends on Apps: ['users']
  • apps\users\members\services ──> Depends on Apps: ['users']
@@ -4645,7 +4683,10 @@ graph TD
     classDef appStyle fill:#f9f,stroke:#333,stroke-width:2px;
     classDef modelStyle fill:#bbf,stroke:#333,stroke-width:1px;
     catalogs -->|depends on| catalog
+    finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
+    systems -->|depends on| catalogs
+    systems -->|depends on| marketing_leads
     users -->|depends on| guests
     users -->|depends on| professional_network
     catalogs --- AttributeProfile[Model: AttributeProfile]
@@ -4656,6 +4697,7 @@ graph TD
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CoreCatalog[Model: CoreCatalog]
+    catalogs --- SparePart[Model: SparePart]
     catalogs --- InventoryProfile[Model: InventoryProfile]
     catalogs --- PricingProfile[Model: PricingProfile]
     catalogs --- ReviewsRatingsProfile[Model: ReviewsRatingsProfile]
@@ -4715,5 +4757,5 @@ graph TD
 ```
 
 === 7. GIT INTEGRATION STATUS ===
- • Modified Files  : []
- • Untracked Files : []
+ • Modified Files  : ['AI_PROJECT_CONTEXT.md', 'README.md', 'apps/catalogs/core_catalogs/models/core_catalog_profile.py', 'apps/catalogs/search_filters/views/search_filters_views.py', 'apps/logistics/shipments/views/__init__.py', 'apps/logistics/warehouse_transfers/views/__init__.py', 'apps/marketing_leads/carts/services/cart_service.py', 'apps/marketing_leads/orders/models/order_profile.py']
+ • Untracked Files : ['apps/catalogs/core_catalogs/migrations/0002_corecatalog_price_corecatalog_stock_quantity_and_more.py', 'apps/customer_supports/live_chats/consumers.py', 'apps/finances/payment_gateways/services/escrow_service.py', 'apps/finances/taxes/services/zoho_service.py', 'apps/logistics/shipments/views.py', 'apps/logistics/shipments/views/management_views.py', 'apps/logistics/shipments/views/tracking_views.py', 'apps/logistics/warehouse_transfers/views.py', 'apps/logistics/warehouse_transfers/views/approval_views.py', 'apps/logistics/warehouse_transfers/views/transfer_views.py', 'apps/marketing_leads/push_notifications/services/whatsapp_service.py', 'apps/systems/analytics/services/forecasting_service.py', 'apps/systems/integrations/services/notebooklm_service.py']

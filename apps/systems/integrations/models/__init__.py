@@ -1,1 +1,1 @@
-from .integration_profile import IntegrationProfilefrom .integration_serializer import IntegrationProfileSerializer
+from .integration_profile import IntegrationProfile

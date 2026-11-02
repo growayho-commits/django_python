@@ -1,1 +1,1 @@
-from .notification_views import PushNotificationViewSe
+from .notification_views import PushNotificationViewSet

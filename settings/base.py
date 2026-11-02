@@ -25,9 +25,44 @@ INSTALLED_APPS = [
     'apps.catalogs.inventories',
     'apps.catalogs.pricing_tiers',
     'apps.catalogs.core_catalogs',
+
+    # Professional Network Apps
     'apps.professional_network',
-    'apps.marketing_leads.wishlists.apps.WishlistsConfig',
     'apps.professional_network.service_categries',
+
+    # Marketing & Leads Apps
+    'apps.marketing_leads.ads_campaigns',
+    'apps.marketing_leads.carts',
+    'apps.marketing_leads.checkout_flows',
+    'apps.marketing_leads.coupons_discounts',
+    'apps.marketing_leads.customer_leads',
+    'apps.marketing_leads.orders',
+    'apps.marketing_leads.push_notifications',
+    'apps.marketing_leads.wishlists',
+
+    # Finances Apps
+    'apps.finances.bank_accounts',
+    'apps.finances.commissions',
+    'apps.finances.payment_gateways',
+    'apps.finances.payouts',
+    'apps.finances.taxes',
+
+    # Logistics Apps
+    'apps.logistics.logistics_partners',
+    'apps.logistics.returns',
+    'apps.logistics.shipments',
+    'apps.logistics.warehouse_transfers',
+
+    # Systems Apps
+    'apps.systems.analytics',
+    'apps.systems.audits',
+    'apps.systems.integrations',
+
+    # Customer Support Apps
+    'apps.customer_supports.faqs',
+    'apps.customer_supports.helpdesk_tickets',
+    'apps.customer_supports.live_chats',
+    'apps.customer_supports.return_refunds',
 
     # Django Default Apps
     'django.contrib.admin',
@@ -38,12 +73,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Custom Domain Apps (Domain-Driven Design Structure - Users Group)
-    'apps.users.guests.apps.GuestsConfig',
-    'apps.users.members.apps.MembersConfig',
-    'apps.users.merchant.apps.MerchantConfig',
-    'apps.users.executives.apps.ExecutivesConfig',
-    'apps.users.sellers.apps.SellersConfig',
-    'apps.users.superusers.apps.SuperusersConfig',
+    'apps.users.guests',
+    'apps.users.members',
+    'apps.users.merchant',
+    'apps.users.executives',
+    'apps.users.sellers',
+    'apps.users.superusers',
 ]
 
 MIDDLEWARE = [
