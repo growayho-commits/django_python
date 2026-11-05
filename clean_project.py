@@ -3,11 +3,12 @@ import shutil
 
 def clean_project():
     root_dir = "."
-    print("🧹 Cleaning up cache files and database...")
+    print("🧹 Cleaning up cache files, database, and migrations...")
     
     deleted_pycache = 0
     deleted_pyc = 0
     db_removed = False
+    deleted_migrations = 0
 
     for dirpath, dirnames, filenames in os.walk(root_dir):
         # 1. Remove __pycache__ folders
@@ -29,12 +30,21 @@ def clean_project():
             os.remove(db_path)
             db_removed = True
 
+        # 4. Remove migration files (except __init__.py)
+        if "migrations" in dirpath.split(os.sep):
+            for filename in filenames:
+                if filename != "__init__.py" and filename.endswith(('.py', '.pyc')):
+                    mig_path = os.path.join(dirpath, filename)
+                    os.remove(mig_path)
+                    deleted_migrations += 1
+
     print(f"✅ Removed {deleted_pycache} '__pycache__' folders.")
     print(f"✅ Removed {deleted_pyc} compiled python files.")
     if db_removed:
         print("✅ Removed 'db.sqlite3' database file.")
     else:
         print("ℹ️ 'db.sqlite3' not found.")
+    print(f"✅ Removed {deleted_migrations} old migration files.")
 
 if __name__ == "__main__":
     clean_project()

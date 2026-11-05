@@ -1,0 +1,1 @@
+from .core_catalog_models import CoreCatalog

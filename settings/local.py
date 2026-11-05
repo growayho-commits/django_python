@@ -33,6 +33,7 @@ SUPERUSER_EMAIL = 'growayho@gmail.com'
 # REST Framework Integration (Missing previously)
 INSTALLED_APPS += [
     'rest_framework',
+    
 ]
 
 REST_FRAMEWORK = {

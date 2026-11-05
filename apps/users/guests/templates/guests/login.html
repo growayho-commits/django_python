@@ -6,32 +6,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold-primary: #D4AF37;
-            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
-            --bg-dark: #0A0D14;
-            --card-bg: rgba(20, 24, 36, 0.85);
+            --gold-primary: #C5A059;
+            --gold-gradient: linear-gradient(135deg, #DFBD6D 0%, #F5E6BE 50%, #C5A059 100%);
+            --bg-light: #F8F6F0;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-dark: #1A202C;
         }
         body {
             margin: 0;
             padding: 0;
-            background: var(--bg-dark);
+            background: var(--bg-light);
             font-family: 'Poppins', sans-serif;
-            color: #E2E8F0;
+            color: var(--text-dark);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-image: radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.15), transparent 60%);
+            background-image: radial-gradient(circle at 50% 10%, rgba(197, 160, 89, 0.12), transparent 70%);
         }
         .royalty-card {
             background: var(--card-bg);
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(197, 160, 89, 0.4);
             border-radius: 16px;
             padding: 40px;
             width: 100%;
-            max-width: 400px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(212,175,55,0.1);
+            max-width: 420px;
+            box-shadow: 0 15px 35px rgba(26, 32, 44, 0.08), 0 0 20px rgba(197, 160, 89, 0.1);
             backdrop-filter: blur(12px);
+            box-sizing: border-box;
         }
         .royalty-header {
             text-align: center;
@@ -39,36 +41,37 @@
         }
         .royalty-title {
             font-family: 'Cinzel', serif;
-            font-size: 26px;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 24px;
+            font-weight: 700;
+            color: #8C6D23;
             margin: 0;
             letter-spacing: 2px;
         }
         .royalty-subtitle {
             font-size: 13px;
-            color: #94A3B8;
+            color: #718096;
             margin-top: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .form-group {
             margin-bottom: 20px;
         }
-        .royalty-input {
+        .royalty-input, input[type="email"], input[type="password"], input[type="text"] {
             width: 100%;
             padding: 12px 16px;
-            background: rgba(10, 13, 20, 0.7);
-            border: 1px solid rgba(212, 175, 55, 0.25);
+            background: #FFFFFF;
+            border: 1px solid #CBD5E0;
             border-radius: 8px;
-            color: #FFF;
+            color: #2D3748;
             font-size: 14px;
             box-sizing: border-box;
             transition: all 0.3s ease;
         }
-        .royalty-input:focus {
+        .royalty-input:focus, input:focus {
             outline: none;
             border-color: var(--gold-primary);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.25);
         }
         .royalty-btn {
             width: 100%;
@@ -76,7 +79,7 @@
             background: var(--gold-gradient);
             border: none;
             border-radius: 8px;
-            color: #0A0D14;
+            color: #1A202C;
             font-weight: 600;
             font-size: 15px;
             cursor: pointer;
@@ -86,17 +89,33 @@
         }
         .royalty-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.3);
+        }
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #EF4444;
+            color: #B91C1C;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
         }
         .royalty-footer {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 13px;
-            color: #94A3B8;
+            color: #718096;
         }
         .royalty-footer a {
-            color: var(--gold-primary);
+            color: #8C6D23;
             text-decoration: none;
+            font-weight: 500;
+        }
+        .royalty-footer a:hover {
+            text-decoration: underline;
+        }
+        .back-home {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -108,12 +127,18 @@
         </div>
         <form method="post">
             {% csrf_token %}
+            {% if form.errors %}
+                <div class="error-box">
+                    Invalid credentials. Please check your email and password.
+                </div>
+            {% endif %}
             <div class="form-group">{{ form.email }}</div>
             <div class="form-group">{{ form.password }}</div>
             <button type="submit" class="royalty-btn">Login to Dashboard</button>
         </form>
         <div class="royalty-footer">
-            Don't have an account? <a href="{% url 'guests:register' %}">Register Now</a>
+            <p>Don't have an account? <a href="{% url 'guests:register' %}">Register Now</a></p>
+            <p class="back-home"><a href="{% url 'guests:guest_home' %}">&larr; Back to Home</a></p>
         </div>
     </div>
 </body>

@@ -2,9 +2,9 @@
 > Mode: COMPLETE PROJECT | Views: ALL
 
 === 0. PROJECT METRICS & STATISTICS ===
- • Total Files Scanned : 1715
- • Python (.py) Files  : 1681
- • Total Lines of Code : 8096 lines
+ • Total Files Scanned : 1720
+ • Python (.py) Files  : 1685
+ • Total Lines of Code : 8079 lines
 
 ---
 === 1. TREE VIEW STRUCTURE ===
@@ -13,7 +13,7 @@
 - `.gitignore`
 - `admin.py  [Lines: 0]`
 - `AI_PROJECT_CONTEXT.md`
-- `clean_project.py  [Lines: 40]`
+- `clean_project.py  [Lines: 50]`
 - `db.sqlite3`
 - `file.py  [Lines: 63]`
 - `git_manager.py  [Lines: 81]`
@@ -110,7 +110,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `bundles_kits_profile.py  [Lines: 22]`
@@ -172,7 +171,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 35]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `catalog_media_profile.py  [Lines: 35]`
@@ -234,7 +232,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 31]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `catalog_status_profile.py  [Lines: 28]`
@@ -328,12 +325,12 @@
             - **views/**
                 - `__init__.py  [Lines: 0]`
         - **core_catalogs/**
-            - `admin.py  [Lines: 9]`
+            - `admin.py  [Lines: 8]`
             - `apps.py  [Lines: 7]`
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 7]`
+            - `urls.py  [Lines: 8]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `core_catalog_dtos.py  [Lines: 123]`
@@ -353,12 +350,12 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 27]`
-                - `0002_corecatalog_price_corecatalog_stock_quantity_and_more.py  [Lines: 61]`
+                - `0001_initial.py  [Lines: 29]`
+                - `0002_initial.py  [Lines: 23]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
-                - `core_catalog_profile.py  [Lines: 34]`
-                - `__init__.py  [Lines: 0]`
+                - `core_catalog_models.py  [Lines: 23]`
+                - `__init__.py  [Lines: 1]`
             - **permissions/**
                 - `__init__.py  [Lines: 0]`
             - **presenters/**
@@ -367,7 +364,8 @@
                 - `__init__.py  [Lines: 0]`
             - **serializers/**
                 - `core_catalog_serializer.py  [Lines: 10]`
-                - `__init__.py  [Lines: 0]`
+                - `core_catalog_serializers.py  [Lines: 19]`
+                - `__init__.py  [Lines: 1]`
             - **services/**
                 - `core_catalog_service.py  [Lines: 21]`
                 - `__init__.py  [Lines: 0]`
@@ -377,6 +375,8 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **catalogs/**
+                    - `product_list.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -384,7 +384,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `core_catalog_views.py  [Lines: 29]`
+                - `core_catalog_views.py  [Lines: 26]`
                 - `__init__.py  [Lines: 0]`
         - **inventories/**
             - `admin.py  [Lines: 0]`
@@ -412,7 +412,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 27]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `inventory_profile.py  [Lines: 14]`
@@ -470,7 +469,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `pricing_profile.py  [Lines: 16]`
@@ -529,7 +527,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 32]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `reviews_ratings_profile.py  [Lines: 26]`
@@ -591,7 +588,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 30]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `filter_profile.py  [Lines: 15]`
@@ -653,7 +649,6 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 27]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `specifications_profile.py  [Lines: 14]`
@@ -1468,7 +1463,7 @@
                 - `__init__.py  [Lines: 3]`
     - **marketing_leads/**
         - `conf.py  [Lines: 0]`
-        - `urls.py  [Lines: 19]`
+        - `urls.py  [Lines: 12]`
         - `__init__.py  [Lines: 0]`
         - **ads_campaigns/**
             - `admin.py  [Lines: 0]`
@@ -1530,7 +1525,7 @@
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 12]`
+            - `urls.py  [Lines: 11]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -1549,7 +1544,8 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 38]`
+                - `0001_initial.py  [Lines: 33]`
+                - `0002_initial.py  [Lines: 28]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `cart_profile.py  [Lines: 25]`
@@ -1561,10 +1557,10 @@
             - **selectors/**
                 - `__init__.py  [Lines: 0]`
             - **serializers/**
-                - `cart_serializer.py  [Lines: 18]`
+                - `cart_serializer.py  [Lines: 16]`
                 - `__init__.py  [Lines: 1]`
             - **services/**
-                - `cart_service.py  [Lines: 30]`
+                - `cart_service.py  [Lines: 49]`
                 - `__init__.py  [Lines: 1]`
             - **signals/**
                 - `__init__.py  [Lines: 0]`
@@ -1579,7 +1575,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `cart_views.py  [Lines: 19]`
+                - `cart_views.py  [Lines: 31]`
                 - `__init__.py  [Lines: 1]`
         - **checkout_flows/**
             - `admin.py  [Lines: 0]`
@@ -1606,7 +1602,8 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 31]`
+                - `0001_initial.py  [Lines: 27]`
+                - `0002_initial.py  [Lines: 23]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `checkout_profile.py  [Lines: 25]`
@@ -1758,7 +1755,7 @@
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 12]`
+            - `urls.py  [Lines: 11]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -1789,7 +1786,7 @@
             - **selectors/**
                 - `__init__.py  [Lines: 0]`
             - **serializers/**
-                - `order_serializer.py  [Lines: 18]`
+                - `order_serializer.py  [Lines: 19]`
                 - `__init__.py  [Lines: 1]`
             - **services/**
                 - `order_service.py  [Lines: 30]`
@@ -1807,7 +1804,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `order_views.py  [Lines: 15]`
+                - `order_views.py  [Lines: 30]`
                 - `__init__.py  [Lines: 1]`
         - **push_notifications/**
             - `admin.py  [Lines: 0]`
@@ -1874,7 +1871,7 @@
             - `conf .py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 7]`
+            - `urls.py  [Lines: 10]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `wishlists_dtos.py  [Lines: 6]`
@@ -1895,9 +1892,10 @@
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
                 - `0001_initial.py  [Lines: 29]`
+                - `0002_wishlist_delete_wishlistprofile.py  [Lines: 28]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
-                - `wishlists_profile.py  [Lines: 15]`
+                - `wishlist_profile.py  [Lines: 12]`
                 - `__init__.py  [Lines: 1]`
             - **permissions/**
                 - `__init__.py  [Lines: 0]`
@@ -1907,7 +1905,7 @@
                 - `wishlists_selectors.py  [Lines: 6]`
                 - `__init__.py  [Lines: 0]`
             - **serializers/**
-                - `wishlists_serializer.py  [Lines: 10]`
+                - `wishlist_serializer.py  [Lines: 8]`
                 - `__init__.py  [Lines: 1]`
             - **services/**
                 - `wishlists_service.py  [Lines: 16]`
@@ -1925,7 +1923,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `wishlists_views.py  [Lines: 15]`
+                - `wishlist_views.py  [Lines: 13]`
                 - `__init__.py  [Lines: 1]`
     - **professional_network/**
         - `apps.py  [Lines: 5]`
@@ -1994,6 +1992,13 @@
             - **commands/**
                 - `import_service_categories.py  [Lines: 213]`
                 - `__init__.py  [Lines: 0]`
+        - **migrations/**
+            - `0001_initial.py  [Lines: 44]`
+            - `__init__.py  [Lines: 0]`
+        - **models/**
+            - `professional_profile.py  [Lines: 17]`
+            - `service_request.py  [Lines: 24]`
+            - `__init__.py  [Lines: 2]`
         - **profiles/**
             - `admin.py  [Lines: 0]`
             - `apps.py  [Lines: 0]`
@@ -2166,6 +2171,9 @@
             - **views/**
                 - `search_views.py  [Lines: 40]`
                 - `__init__.py  [Lines: 1]`
+        - **serializers/**
+            - `professional_serializer.py  [Lines: 29]`
+            - `__init__.py  [Lines: 1]`
         - **service_categries/**
             - `admin.py  [Lines: 38]`
             - `apps.py  [Lines: 7]`
@@ -2238,6 +2246,9 @@
             - **views/**
                 - `service_categries_views.py  [Lines: 50]`
                 - `__init__.py  [Lines: 0]`
+        - **views/**
+            - `professional_views.py  [Lines: 30]`
+            - `__init__.py  [Lines: 1]`
     - **systems/**
         - `urls.py  [Lines: 0]`
         - `__init__.py  [Lines: 0]`
@@ -2324,7 +2335,8 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 29]`
+                - `0001_initial.py  [Lines: 25]`
+                - `0002_initial.py  [Lines: 23]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `audit_profile.py  [Lines: 16]`
@@ -2513,8 +2525,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 123]`
-                - `0002_customuser.py  [Lines: 35]`
+                - `0001_initial.py  [Lines: 143]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `address_profile.py  [Lines: 52]`
@@ -2783,8 +2794,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
-                - `0001_initial.py  [Lines: 37]`
-                - `0002_superuserprofile.py  [Lines: 26]`
+                - `0001_initial.py  [Lines: 47]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `role_request.py  [Lines: 17]`
@@ -2826,12 +2836,12 @@
                 - `__init__.py  [Lines: 1]`
 - **core/**
     - `asgi.py  [Lines: 16]`
-    - `urls.py  [Lines: 46]`
+    - `urls.py  [Lines: 49]`
     - `wsgi.py  [Lines: 16]`
     - `__init__.py  [Lines: 0]`
 - **settings/**
     - `base.py  [Lines: 145]`
-    - `local.py  [Lines: 43]`
+    - `local.py  [Lines: 44]`
     - `production.py  [Lines: 11]`
     - `testing.py  [Lines: 0]`
     - `__init__.py  [Lines: 0]`
@@ -2894,7 +2904,6 @@ E:\django_python\apps\catalogs\bundles_kits\interfaces\__init__.py
 E:\django_python\apps\catalogs\bundles_kits\listeners\__init__.py
 E:\django_python\apps\catalogs\bundles_kits\managers\__init__.py
 E:\django_python\apps\catalogs\bundles_kits\middleware\__init__.py
-E:\django_python\apps\catalogs\bundles_kits\migrations\0001_initial.py
 E:\django_python\apps\catalogs\bundles_kits\migrations\__init__.py
 E:\django_python\apps\catalogs\bundles_kits\models\__init__.py
 E:\django_python\apps\catalogs\bundles_kits\models\bundle_profile.py
@@ -2933,7 +2942,6 @@ E:\django_python\apps\catalogs\catalog_medias\interfaces\__init__.py
 E:\django_python\apps\catalogs\catalog_medias\listeners\__init__.py
 E:\django_python\apps\catalogs\catalog_medias\managers\__init__.py
 E:\django_python\apps\catalogs\catalog_medias\middleware\__init__.py
-E:\django_python\apps\catalogs\catalog_medias\migrations\0001_initial.py
 E:\django_python\apps\catalogs\catalog_medias\migrations\__init__.py
 E:\django_python\apps\catalogs\catalog_medias\models\__init__.py
 E:\django_python\apps\catalogs\catalog_medias\models\catalog_media_profile.py
@@ -2972,7 +2980,6 @@ E:\django_python\apps\catalogs\catalog_statuses\interfaces\__init__.py
 E:\django_python\apps\catalogs\catalog_statuses\listeners\__init__.py
 E:\django_python\apps\catalogs\catalog_statuses\managers\__init__.py
 E:\django_python\apps\catalogs\catalog_statuses\middleware\__init__.py
-E:\django_python\apps\catalogs\catalog_statuses\migrations\0001_initial.py
 E:\django_python\apps\catalogs\catalog_statuses\migrations\__init__.py
 E:\django_python\apps\catalogs\catalog_statuses\models\__init__.py
 E:\django_python\apps\catalogs\catalog_statuses\models\catalog_status_profile.py
@@ -3046,20 +3053,22 @@ E:\django_python\apps\catalogs\core_catalogs\listeners\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\managers\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\middleware\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\migrations\0001_initial.py
-E:\django_python\apps\catalogs\core_catalogs\migrations\0002_corecatalog_price_corecatalog_stock_quantity_and_more.py
+E:\django_python\apps\catalogs\core_catalogs\migrations\0002_initial.py
 E:\django_python\apps\catalogs\core_catalogs\migrations\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\models\__init__.py
-E:\django_python\apps\catalogs\core_catalogs\models\core_catalog_profile.py
+E:\django_python\apps\catalogs\core_catalogs\models\core_catalog_models.py
 E:\django_python\apps\catalogs\core_catalogs\permissions\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\presenters\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\selectors\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\serializers\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\serializers\core_catalog_serializer.py
+E:\django_python\apps\catalogs\core_catalogs\serializers\core_catalog_serializers.py
 E:\django_python\apps\catalogs\core_catalogs\services\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\services\core_catalog_service.py
 E:\django_python\apps\catalogs\core_catalogs\signals\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\tasks\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\templates\__init__.py
+E:\django_python\apps\catalogs\core_catalogs\templates\catalogs\product_list.html
 E:\django_python\apps\catalogs\core_catalogs\tests\__init__.py
 E:\django_python\apps\catalogs\core_catalogs\urls.py
 E:\django_python\apps\catalogs\core_catalogs\utils\__init__.py
@@ -3081,7 +3090,6 @@ E:\django_python\apps\catalogs\inventories\interfaces\__init__.py
 E:\django_python\apps\catalogs\inventories\listeners\__init__.py
 E:\django_python\apps\catalogs\inventories\managers\__init__.py
 E:\django_python\apps\catalogs\inventories\middleware\__init__.py
-E:\django_python\apps\catalogs\inventories\migrations\0001_initial.py
 E:\django_python\apps\catalogs\inventories\migrations\__init__.py
 E:\django_python\apps\catalogs\inventories\models\__init__.py
 E:\django_python\apps\catalogs\inventories\models\inventory_profile.py
@@ -3116,7 +3124,6 @@ E:\django_python\apps\catalogs\pricing_tiers\interfaces\__init__.py
 E:\django_python\apps\catalogs\pricing_tiers\listeners\__init__.py
 E:\django_python\apps\catalogs\pricing_tiers\managers\__init__.py
 E:\django_python\apps\catalogs\pricing_tiers\middleware\__init__.py
-E:\django_python\apps\catalogs\pricing_tiers\migrations\0001_initial.py
 E:\django_python\apps\catalogs\pricing_tiers\migrations\__init__.py
 E:\django_python\apps\catalogs\pricing_tiers\models\__init__.py
 E:\django_python\apps\catalogs\pricing_tiers\models\pricing_profile.py
@@ -3152,7 +3159,6 @@ E:\django_python\apps\catalogs\reviews_ratings\interfaces\__init__.py
 E:\django_python\apps\catalogs\reviews_ratings\listeners\__init__.py
 E:\django_python\apps\catalogs\reviews_ratings\managers\__init__.py
 E:\django_python\apps\catalogs\reviews_ratings\middleware\__init__.py
-E:\django_python\apps\catalogs\reviews_ratings\migrations\0001_initial.py
 E:\django_python\apps\catalogs\reviews_ratings\migrations\__init__.py
 E:\django_python\apps\catalogs\reviews_ratings\models\__init__.py
 E:\django_python\apps\catalogs\reviews_ratings\models\review_profile.py
@@ -3191,7 +3197,6 @@ E:\django_python\apps\catalogs\search_filters\interfaces\__init__.py
 E:\django_python\apps\catalogs\search_filters\listeners\__init__.py
 E:\django_python\apps\catalogs\search_filters\managers\__init__.py
 E:\django_python\apps\catalogs\search_filters\middleware\__init__.py
-E:\django_python\apps\catalogs\search_filters\migrations\0001_initial.py
 E:\django_python\apps\catalogs\search_filters\migrations\__init__.py
 E:\django_python\apps\catalogs\search_filters\models\__init__.py
 E:\django_python\apps\catalogs\search_filters\models\filter_profile.py
@@ -3230,7 +3235,6 @@ E:\django_python\apps\catalogs\specifications\interfaces\__init__.py
 E:\django_python\apps\catalogs\specifications\listeners\__init__.py
 E:\django_python\apps\catalogs\specifications\managers\__init__.py
 E:\django_python\apps\catalogs\specifications\middleware\__init__.py
-E:\django_python\apps\catalogs\specifications\migrations\0001_initial.py
 E:\django_python\apps\catalogs\specifications\migrations\__init__.py
 E:\django_python\apps\catalogs\specifications\models\__init__.py
 E:\django_python\apps\catalogs\specifications\models\specifications_profile.py
@@ -3754,6 +3758,7 @@ E:\django_python\apps\marketing_leads\carts\listeners\__init__.py
 E:\django_python\apps\marketing_leads\carts\managers\__init__.py
 E:\django_python\apps\marketing_leads\carts\middleware\__init__.py
 E:\django_python\apps\marketing_leads\carts\migrations\0001_initial.py
+E:\django_python\apps\marketing_leads\carts\migrations\0002_initial.py
 E:\django_python\apps\marketing_leads\carts\migrations\__init__.py
 E:\django_python\apps\marketing_leads\carts\models\__init__.py
 E:\django_python\apps\marketing_leads\carts\models\cart_profile.py
@@ -3788,6 +3793,7 @@ E:\django_python\apps\marketing_leads\checkout_flows\listeners\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\managers\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\middleware\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\migrations\0001_initial.py
+E:\django_python\apps\marketing_leads\checkout_flows\migrations\0002_initial.py
 E:\django_python\apps\marketing_leads\checkout_flows\migrations\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\models\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\models\checkout_profile.py
@@ -3963,15 +3969,16 @@ E:\django_python\apps\marketing_leads\wishlists\listeners\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\managers\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\middleware\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\migrations\0001_initial.py
+E:\django_python\apps\marketing_leads\wishlists\migrations\0002_wishlist_delete_wishlistprofile.py
 E:\django_python\apps\marketing_leads\wishlists\migrations\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\models\__init__.py
-E:\django_python\apps\marketing_leads\wishlists\models\wishlists_profile.py
+E:\django_python\apps\marketing_leads\wishlists\models\wishlist_profile.py
 E:\django_python\apps\marketing_leads\wishlists\permissions\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\presenters\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\selectors\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\selectors\wishlists_selectors.py
 E:\django_python\apps\marketing_leads\wishlists\serializers\__init__.py
-E:\django_python\apps\marketing_leads\wishlists\serializers\wishlists_serializer.py
+E:\django_python\apps\marketing_leads\wishlists\serializers\wishlist_serializer.py
 E:\django_python\apps\marketing_leads\wishlists\services\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\services\wishlists_service.py
 E:\django_python\apps\marketing_leads\wishlists\signals\__init__.py
@@ -3982,7 +3989,7 @@ E:\django_python\apps\marketing_leads\wishlists\urls.py
 E:\django_python\apps\marketing_leads\wishlists\utils\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\validators\__init__.py
 E:\django_python\apps\marketing_leads\wishlists\views\__init__.py
-E:\django_python\apps\marketing_leads\wishlists\views\wishlists_views.py
+E:\django_python\apps\marketing_leads\wishlists\views\wishlist_views.py
 E:\django_python\apps\professional_network\__init__.py
 E:\django_python\apps\professional_network\apps.py
 E:\django_python\apps\professional_network\enquiries\__init__.py
@@ -4022,6 +4029,11 @@ E:\django_python\apps\professional_network\enquiries\views\send_enquiry.py
 E:\django_python\apps\professional_network\management\__init__.py
 E:\django_python\apps\professional_network\management\commands\__init__.py
 E:\django_python\apps\professional_network\management\commands\import_service_categories.py
+E:\django_python\apps\professional_network\migrations\0001_initial.py
+E:\django_python\apps\professional_network\migrations\__init__.py
+E:\django_python\apps\professional_network\models\__init__.py
+E:\django_python\apps\professional_network\models\professional_profile.py
+E:\django_python\apps\professional_network\models\service_request.py
 E:\django_python\apps\professional_network\profiles\__init__.py
 E:\django_python\apps\professional_network\profiles\admin.py
 E:\django_python\apps\professional_network\profiles\apps.py
@@ -4122,6 +4134,8 @@ E:\django_python\apps\professional_network\search_engine\utils\__init__.py
 E:\django_python\apps\professional_network\search_engine\validators\__init__.py
 E:\django_python\apps\professional_network\search_engine\views\__init__.py
 E:\django_python\apps\professional_network\search_engine\views\search_views.py
+E:\django_python\apps\professional_network\serializers\__init__.py
+E:\django_python\apps\professional_network\serializers\professional_serializer.py
 E:\django_python\apps\professional_network\service_categries\__init__.py
 E:\django_python\apps\professional_network\service_categries\admin.py
 E:\django_python\apps\professional_network\service_categries\apps.py
@@ -4171,6 +4185,8 @@ E:\django_python\apps\professional_network\service_categries\validators\service_
 E:\django_python\apps\professional_network\service_categries\views\__init__.py
 E:\django_python\apps\professional_network\service_categries\views\service_categries_views.py
 E:\django_python\apps\professional_network\urls.py
+E:\django_python\apps\professional_network\views\__init__.py
+E:\django_python\apps\professional_network\views\professional_views.py
 E:\django_python\apps\systems\__init__.py
 E:\django_python\apps\systems\analytics\__init__.py
 E:\django_python\apps\systems\analytics\admin.py
@@ -4222,6 +4238,7 @@ E:\django_python\apps\systems\audits\listeners\__init__.py
 E:\django_python\apps\systems\audits\managers\__init__.py
 E:\django_python\apps\systems\audits\middleware\__init__.py
 E:\django_python\apps\systems\audits\migrations\0001_initial.py
+E:\django_python\apps\systems\audits\migrations\0002_initial.py
 E:\django_python\apps\systems\audits\migrations\__init__.py
 E:\django_python\apps\systems\audits\models\__init__.py
 E:\django_python\apps\systems\audits\models\audit_profile.py
@@ -4337,7 +4354,6 @@ E:\django_python\apps\users\guests\managers\__init__.py
 E:\django_python\apps\users\guests\managers\core_users_managers.py
 E:\django_python\apps\users\guests\middleware\__init__.py
 E:\django_python\apps\users\guests\migrations\0001_initial.py
-E:\django_python\apps\users\guests\migrations\0002_customuser.py
 E:\django_python\apps\users\guests\migrations\__init__.py
 E:\django_python\apps\users\guests\models\__init__.py
 E:\django_python\apps\users\guests\models\address_profile.py
@@ -4508,7 +4524,6 @@ E:\django_python\apps\users\superusers\listeners\__init__.py
 E:\django_python\apps\users\superusers\managers\__init__.py
 E:\django_python\apps\users\superusers\middleware\__init__.py
 E:\django_python\apps\users\superusers\migrations\0001_initial.py
-E:\django_python\apps\users\superusers\migrations\0002_superuserprofile.py
 E:\django_python\apps\users\superusers\migrations\__init__.py
 E:\django_python\apps\users\superusers\models\__init__.py
 E:\django_python\apps\users\superusers\models\role_request.py
@@ -4559,6 +4574,7 @@ E:\django_python\structure.py
  • apps\catalogs\bundles_kits -> ['add/']
  • apps\catalogs\catalog_medias -> ['save/']
  • apps\catalogs\catalog_statuses -> ['update/']
+ • apps\catalogs\core_catalogs -> ['products/']
  • apps\catalogs\inventories -> ['sync/']
  • apps\catalogs\pricing_tiers -> ['configure/']
  • apps\catalogs\reviews_ratings -> ['post/']
@@ -4567,15 +4583,15 @@ E:\django_python\structure.py
  • apps\finances\payment_gateways -> ['']
  • apps\finances\payouts -> ['']
  • apps\finances\taxes -> ['']
- • apps\marketing_leads -> ['core/', 'pricing/', 'inventory/', 'categories/', 'attributes/', 'variants/', 'media/', 'status/', 'specifications/', 'bundles/', 'search-filters/', 'wishlist/', 'reviews/']
+ • apps\marketing_leads -> ['carts/', 'orders/', 'checkout/', 'coupons/', 'wishlist/', 'notifications/']
  • apps\marketing_leads\carts -> ['']
  • apps\marketing_leads\checkout_flows -> ['']
  • apps\marketing_leads\coupons_discounts -> ['']
  • apps\marketing_leads\customer_leads -> ['']
  • apps\marketing_leads\orders -> ['']
  • apps\marketing_leads\push_notifications -> ['']
- • apps\marketing_leads\wishlists -> ['add/']
- • apps\professional_network -> ['profiles/', 'search/', 'enquiries/', 'ratings/', 'services/']
+ • apps\marketing_leads\wishlists -> ['']
+ • apps\professional_network -> ['']
  • apps\professional_network\enquiries -> ['send/<int:profile_id>/', 'inbox/']
  • apps\professional_network\profiles -> ['create/', 'schedule/<int:profile_id>/']
  • apps\professional_network\ratings -> ['add/<int:enquiry_id>/']
@@ -4591,14 +4607,14 @@ E:\django_python\structure.py
  • apps\users\merchant -> ['dashboard/', 'profile/']
  • apps\users\sellers -> ['dashboard/', 'profile/']
  • apps\users\superusers -> ['dashboard/', 'profile/']
- • core -> ['', 'admin/', 'api/v1/catalogs/', 'api/v1/users/', 'api/professional-network/', 'api/v1/support/', 'api/v1/finances/', 'api/v1/logistics/', 'api/v1/marketing/', 'api/v1/systems/']
+ • core -> ['', 'admin/', 'api/v1/catalogs/', 'api/v1/users/', 'api/v1/professional-network/', 'api/professional-network/', 'api/v1/support/', 'api/v1/finances/', 'api/v1/logistics/', 'api/v1/marketing/', 'api/v1/systems/']
 
 === 4. DJANGO MODELS SUMMARY (Folder/File) ===
  • apps\catalogs\attributes\models -> Models: ['AttributeProfile']
  • apps\catalogs\bundles_kits\models -> Models: ['BundlesKitsProfile', 'BundleProfile']
  • apps\catalogs\catalog_medias\models -> Models: ['CatalogMediaProfile', 'CatalogMediaProfile']
  • apps\catalogs\catalog_statuses\models -> Models: ['CatalogStatusProfile', 'CatalogStatusProfile']
- • apps\catalogs\core_catalogs\models -> Models: ['CoreCatalog', 'SparePart']
+ • apps\catalogs\core_catalogs\models -> Models: ['CoreCatalog']
  • apps\catalogs\inventories\models -> Models: ['InventoryProfile']
  • apps\catalogs\pricing_tiers\models -> Models: ['PricingProfile']
  • apps\catalogs\reviews_ratings\models -> Models: ['ReviewsRatingsProfile', 'CatalogReviewProfile']
@@ -4624,8 +4640,9 @@ E:\django_python\structure.py
  • apps\marketing_leads\customer_leads\models -> Models: ['CustomerLeadProfile']
  • apps\marketing_leads\orders\models -> Models: ['OrderProfile', 'OrderItem']
  • apps\marketing_leads\push_notifications\models -> Models: ['PushNotificationProfile']
- • apps\marketing_leads\wishlists\models -> Models: ['WishlistProfile']
+ • apps\marketing_leads\wishlists\models -> Models: ['Wishlist']
  • apps\professional_network\enquiries\models -> Models: ['SkillEnquiry']
+ • apps\professional_network\models -> Models: ['ProfessionalProfile', 'ServiceRequest']
  • apps\professional_network\profiles\models -> Models: ['ProviderAvailability', 'ProfessionalProfile', 'ProfessionalMedia', 'ProfessionalStory', 'ProfessionalEvent']
  • apps\professional_network\ratings\models -> Models: ['SkillRating']
  • apps\professional_network\search_engine\models -> Models: ['SearchLog']
@@ -4659,9 +4676,9 @@ E:\django_python\structure.py
  • apps\catalogs\catalog_medias\views ──> Depends on Apps: ['catalogs']
  • apps\catalogs\catalog_statuses ──> Depends on Apps: ['catalogs']
  • apps\catalogs\catalog_statuses\models ──> Depends on Apps: ['catalogs']
- • apps\catalogs\catalog_statuses\selectors ──> Depends on Apps: ['catalog', 'catalogs']
- • apps\catalogs\catalog_statuses\serializers ──> Depends on Apps: ['catalog', 'catalogs']
- • apps\catalogs\catalog_statuses\services ──> Depends on Apps: ['catalog', 'catalogs']
+ • apps\catalogs\catalog_statuses\selectors ──> Depends on Apps: ['catalogs', 'catalog']
+ • apps\catalogs\catalog_statuses\serializers ──> Depends on Apps: ['catalogs', 'catalog']
+ • apps\catalogs\catalog_statuses\services ──> Depends on Apps: ['catalogs', 'catalog']
  • apps\catalogs\catalog_statuses\views ──> Depends on Apps: ['catalogs']
  • apps\catalogs\categories\serializers ──> Depends on Apps: ['catalogs']
  • apps\catalogs\categories\services ──> Depends on Apps: ['catalogs']
@@ -4703,16 +4720,27 @@ E:\django_python\structure.py
  • apps\catalogs\variants\models ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\serializers ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\services ──> Depends on Apps: ['catalogs']
- • apps\finances\payment_gateways\services ──> Depends on Apps: ['marketing_leads', 'finances']
- • apps\finances\taxes\services ──> Depends on Apps: ['marketing_leads', 'finances']
+ • apps\finances\payment_gateways\services ──> Depends on Apps: ['finances', 'marketing_leads']
+ • apps\finances\taxes\services ──> Depends on Apps: ['finances', 'marketing_leads']
  • apps\logistics\shipments ──> Depends on Apps: ['logistics']
  • apps\logistics\warehouse_transfers ──> Depends on Apps: ['logistics']
- • apps\marketing_leads\wishlists ──> Depends on Apps: ['catalogs']
+ • apps\marketing_leads\carts ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\carts\serializers ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\carts\services ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\carts\views ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\orders ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\orders\serializers ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\orders\views ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\wishlists ──> Depends on Apps: ['marketing_leads']
  • apps\marketing_leads\wishlists\selectors ──> Depends on Apps: ['catalogs']
+ • apps\marketing_leads\wishlists\serializers ──> Depends on Apps: ['marketing_leads']
+ • apps\marketing_leads\wishlists\views ──> Depends on Apps: ['marketing_leads']
+ • apps\professional_network ──> Depends on Apps: ['professional_network']
  • apps\professional_network\enquiries ──> Depends on Apps: ['professional_network']
  • apps\professional_network\enquiries\models ──> Depends on Apps: ['professional_network']
  • apps\professional_network\enquiries\views ──> Depends on Apps: ['professional_network']
  • apps\professional_network\management\commands ──> Depends on Apps: ['professional_network']
+ • apps\professional_network\models ──> Depends on Apps: ['professional_network']
  • apps\professional_network\profiles ──> Depends on Apps: ['professional_network']
  • apps\professional_network\profiles\views ──> Depends on Apps: ['professional_network']
  • apps\professional_network\ratings ──> Depends on Apps: ['professional_network']
@@ -4720,10 +4748,12 @@ E:\django_python\structure.py
  • apps\professional_network\ratings\views ──> Depends on Apps: ['professional_network']
  • apps\professional_network\search_engine ──> Depends on Apps: ['professional_network']
  • apps\professional_network\search_engine\views ──> Depends on Apps: ['professional_network']
+ • apps\professional_network\serializers ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries\serializers ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries\views ──> Depends on Apps: ['professional_network']
- • apps\systems\analytics\services ──> Depends on Apps: ['marketing_leads', 'catalogs']
+ • apps\professional_network\views ──> Depends on Apps: ['professional_network']
+ • apps\systems\analytics\services ──> Depends on Apps: ['catalogs', 'marketing_leads']
  • apps\users ──> Depends on Apps: ['users']
  • apps\users\executives ──> Depends on Apps: ['users']
  • apps\users\executives\serializers ──> Depends on Apps: ['users']
@@ -4759,8 +4789,8 @@ graph TD
     catalogs -->|depends on| catalog
     finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
-    systems -->|depends on| marketing_leads
     systems -->|depends on| catalogs
+    systems -->|depends on| marketing_leads
     users -->|depends on| guests
     users -->|depends on| professional_network
     catalogs --- AttributeProfile[Model: AttributeProfile]
@@ -4771,7 +4801,6 @@ graph TD
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CoreCatalog[Model: CoreCatalog]
-    catalogs --- SparePart[Model: SparePart]
     catalogs --- InventoryProfile[Model: InventoryProfile]
     catalogs --- PricingProfile[Model: PricingProfile]
     catalogs --- ReviewsRatingsProfile[Model: ReviewsRatingsProfile]
@@ -4801,8 +4830,10 @@ graph TD
     marketing_leads --- OrderProfile[Model: OrderProfile]
     marketing_leads --- OrderItem[Model: OrderItem]
     marketing_leads --- PushNotificationProfile[Model: PushNotificationProfile]
-    marketing_leads --- WishlistProfile[Model: WishlistProfile]
+    marketing_leads --- Wishlist[Model: Wishlist]
     professional_network --- SkillEnquiry[Model: SkillEnquiry]
+    professional_network --- ProfessionalProfile[Model: ProfessionalProfile]
+    professional_network --- ServiceRequest[Model: ServiceRequest]
     professional_network --- ProviderAvailability[Model: ProviderAvailability]
     professional_network --- ProfessionalProfile[Model: ProfessionalProfile]
     professional_network --- ProfessionalMedia[Model: ProfessionalMedia]
@@ -4831,5 +4862,5 @@ graph TD
 ```
 
 === 7. GIT INTEGRATION STATUS ===
- • Modified Files  : ['AI_PROJECT_CONTEXT.md', 'README.md', 'apps/users/executives/admin.py', 'apps/users/executives/urls.py', 'apps/users/executives/views/executive_views.py', 'apps/users/guests/admin.py', 'apps/users/guests/forms/core_users_forms.py', 'apps/users/guests/models/__init__.py', 'apps/users/guests/services/auth_service.py', 'apps/users/guests/templates/guests/guest_home.html', 'apps/users/guests/templates/guests/login.html', 'apps/users/guests/templates/guests/register.html', 'apps/users/guests/urls.py', 'apps/users/guests/user_models.py', 'apps/users/guests/views/__init__.py', 'apps/users/guests/views/core_users_views.py', 'apps/users/members/admin.py', 'apps/users/members/urls.py', 'apps/users/members/views/__init__.py', 'apps/users/members/views/member_views.py', 'apps/users/merchant/admin.py', 'apps/users/merchant/urls.py', 'apps/users/merchant/views/merchant_views.py', 'apps/users/sellers/admin.py', 'apps/users/sellers/urls.py', 'apps/users/sellers/views/seller_views.py', 'apps/users/superusers/admin.py', 'apps/users/superusers/models/__init__.py', 'apps/users/superusers/serializers/__init__.py', 'apps/users/superusers/templates/superusers/dashboard.html', 'apps/users/superusers/urls.py', 'apps/users/urls.py', 'core/urls.py', 'settings/local.py']
- • Untracked Files : ['admin.py', 'apps/users/admin.py', 'apps/users/executives/templates/executives/', 'apps/users/guests/migrations/0002_customuser.py', 'apps/users/guests/models/user_models.py', 'apps/users/members/templates/members/', 'apps/users/merchant/templates/merchant/', 'apps/users/sellers/templates/sellers/', 'apps/users/superusers/migrations/0002_superuserprofile.py', 'apps/users/superusers/models/superuser_models.py', 'apps/users/superusers/serializers/superuser_serializers.py', 'apps/users/superusers/views/superuser_views.py', 'clean_project.py', 'file.py', 'inspector.py', 'structure.py']
+ • Modified Files  : ['AI_PROJECT_CONTEXT.md', 'README.md', 'apps/catalogs/core_catalogs/admin.py', 'apps/catalogs/core_catalogs/migrations/0001_initial.py', 'apps/catalogs/core_catalogs/models/__init__.py', 'apps/catalogs/core_catalogs/serializers/__init__.py', 'apps/catalogs/core_catalogs/urls.py', 'apps/catalogs/core_catalogs/views/core_catalog_views.py', 'apps/catalogs/variants/migrations/0001_initial.py', 'apps/catalogs/variants/models/variant_profile.py', 'apps/finances/payment_gateways/migrations/0001_initial.py', 'apps/finances/payouts/migrations/0001_initial.py', 'apps/finances/taxes/migrations/0001_initial.py', 'apps/logistics/logistics_partners/migrations/0001_initial.py', 'apps/logistics/returns/migrations/0001_initial.py', 'apps/logistics/shipments/migrations/0001_initial.py', 'apps/logistics/warehouse_transfers/migrations/0001_initial.py', 'apps/marketing_leads/ads_campaigns/migrations/0001_initial.py', 'apps/marketing_leads/carts/migrations/0001_initial.py', 'apps/marketing_leads/carts/serializers/cart_serializer.py', 'apps/marketing_leads/carts/services/__init__.py', 'apps/marketing_leads/carts/services/cart_service.py', 'apps/marketing_leads/carts/urls.py', 'apps/marketing_leads/carts/views/__init__.py', 'apps/marketing_leads/carts/views/cart_views.py', 'apps/marketing_leads/checkout_flows/migrations/0001_initial.py', 'apps/marketing_leads/coupons_discounts/migrations/0001_initial.py', 'apps/marketing_leads/customer_leads/migrations/0001_initial.py', 'apps/marketing_leads/orders/migrations/0001_initial.py', 'apps/marketing_leads/orders/serializers/order_serializer.py', 'apps/marketing_leads/orders/urls.py', 'apps/marketing_leads/orders/views/__init__.py', 'apps/marketing_leads/orders/views/order_views.py', 'apps/marketing_leads/push_notifications/migrations/0001_initial.py', 'apps/marketing_leads/urls.py', 'apps/marketing_leads/wishlists/migrations/0001_initial.py', 'apps/marketing_leads/wishlists/models/__init__.py', 'apps/marketing_leads/wishlists/serializers/__init__.py', 'apps/marketing_leads/wishlists/urls.py', 'apps/marketing_leads/wishlists/views/__init__.py', 'apps/professional_network/service_categries/migrations/0001_initial.py', 'apps/professional_network/urls.py', 'apps/systems/analytics/migrations/0001_initial.py', 'apps/systems/audits/migrations/0001_initial.py', 'apps/systems/integrations/migrations/0001_initial.py', 'apps/users/executives/migrations/0001_initial.py', 'apps/users/executives/migrations/0002_initial.py', 'apps/users/guests/migrations/0001_initial.py', 'apps/users/members/migrations/0001_initial.py', 'apps/users/merchant/migrations/0001_initial.py', 'apps/users/sellers/migrations/0001_initial.py', 'apps/users/superusers/migrations/0001_initial.py', 'clean_project.py', 'core/urls.py', 'settings/local.py']
+ • Untracked Files : ['apps/catalogs/core_catalogs/migrations/0002_initial.py', 'apps/catalogs/core_catalogs/models/core_catalog_models.py', 'apps/catalogs/core_catalogs/serializers/core_catalog_serializers.py', 'apps/catalogs/core_catalogs/templates/catalogs/', 'apps/marketing_leads/carts/migrations/0002_initial.py', 'apps/marketing_leads/checkout_flows/migrations/0002_initial.py', 'apps/marketing_leads/wishlists/migrations/0002_wishlist_delete_wishlistprofile.py', 'apps/marketing_leads/wishlists/models/wishlist_profile.py', 'apps/marketing_leads/wishlists/serializers/wishlist_serializer.py', 'apps/marketing_leads/wishlists/views/wishlist_views.py', 'apps/professional_network/migrations/', 'apps/professional_network/models/', 'apps/professional_network/serializers/', 'apps/professional_network/views/', 'apps/systems/audits/migrations/0002_initial.py']

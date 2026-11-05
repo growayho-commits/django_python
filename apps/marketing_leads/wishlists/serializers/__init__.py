@@ -1,1 +1,1 @@
-from .wishlists_serializer import WishlistSerializer
+from .wishlist_serializer import WishlistSerializer

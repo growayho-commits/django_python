@@ -11,8 +11,8 @@ graph TD
     catalogs -->|depends on| catalog
     finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
-    systems -->|depends on| marketing_leads
     systems -->|depends on| catalogs
+    systems -->|depends on| marketing_leads
     users -->|depends on| guests
     users -->|depends on| professional_network
     catalogs --- AttributeProfile[Model: AttributeProfile]
@@ -23,7 +23,6 @@ graph TD
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
     catalogs --- CoreCatalog[Model: CoreCatalog]
-    catalogs --- SparePart[Model: SparePart]
     catalogs --- InventoryProfile[Model: InventoryProfile]
     catalogs --- PricingProfile[Model: PricingProfile]
     catalogs --- ReviewsRatingsProfile[Model: ReviewsRatingsProfile]
@@ -53,8 +52,10 @@ graph TD
     marketing_leads --- OrderProfile[Model: OrderProfile]
     marketing_leads --- OrderItem[Model: OrderItem]
     marketing_leads --- PushNotificationProfile[Model: PushNotificationProfile]
-    marketing_leads --- WishlistProfile[Model: WishlistProfile]
+    marketing_leads --- Wishlist[Model: Wishlist]
     professional_network --- SkillEnquiry[Model: SkillEnquiry]
+    professional_network --- ProfessionalProfile[Model: ProfessionalProfile]
+    professional_network --- ServiceRequest[Model: ServiceRequest]
     professional_network --- ProviderAvailability[Model: ProviderAvailability]
     professional_network --- ProfessionalProfile[Model: ProfessionalProfile]
     professional_network --- ProfessionalMedia[Model: ProfessionalMedia]

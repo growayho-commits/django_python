@@ -1,8 +1,8 @@
 # apps/catalogs/variants/models/variant_profile.py
 
 from django.db import models
-from apps.catalogs.core_catalogs.models.core_catalog_profile import CoreCatalog
 
+from apps.catalogs.core_catalogs.models.core_catalog_models import CoreCatalog
 class CatalogVariantProfile(models.Model):
     catalog = models.ForeignKey(CoreCatalog, on_delete=models.CASCADE, related_name='variants')
     variant_name = models.CharField(max_length=150) # எ.கா: Red / XL, 128GB / Black

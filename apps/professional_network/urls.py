@@ -1,11 +1,11 @@
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from apps.professional_network.views import ProfessionalProfileViewSet, ServiceRequestViewSet
 
-app_name = 'professional_network'
+router = DefaultRouter()
+router.register(r'profiles', ProfessionalProfileViewSet, basename='professional-profile')
+router.register(r'service-requests', ServiceRequestViewSet, basename='service-request')
 
 urlpatterns = [
-    path('profiles/', include('apps.professional_network.profiles.urls')),
-    path('search/', include('apps.professional_network.search_engine.urls')),
-    path('enquiries/', include('apps.professional_network.enquiries.urls')),
-    path('ratings/', include('apps.professional_network.ratings.urls')),
-    path('services/', include('apps.professional_network.service_categries.urls')),
+    path('', include(router.urls)),
 ]

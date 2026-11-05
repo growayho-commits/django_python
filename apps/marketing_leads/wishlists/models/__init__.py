@@ -1,1 +1,1 @@
-from .wishlists_profile import WishlistProfile
+from .wishlist_profile import Wishlist

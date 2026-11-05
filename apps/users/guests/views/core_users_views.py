@@ -3,6 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from apps.users.guests.forms.core_users_forms import GuestLoginForm, GuestRegisterForm
 
+def guest_home_view(request):
+    """
+    தளத்திற்கு வரும் விருந்தினர்களுக்கான முகப்புப் பக்கம் (guest_home.html)
+    """
+    return render(request, 'guests/guest_home.html')
+
 def register_view(request):
     if request.method == 'POST':
         form = GuestRegisterForm(data=request.POST)

@@ -1,18 +1,19 @@
-# apps/marketing_leads/orders/serializers/order_serializer.py
-
 from rest_framework import serializers
-from ..models.order_profile import OrderProfile, OrderItem
+from apps.marketing_leads.orders.models import OrderProfile, OrderItem
 
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
-        fields = ['id', 'product_id', 'quantity', 'unit_price', 'subtotal']
-        read_only_fields = ['id']
+        fields = ['id', 'order', 'product', 'quantity', 'price', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 class OrderProfileSerializer(serializers.ModelSerializer):
-    items = OrderItemSerializer(many=True, read_only=True)
+    items = OrderItemSerializer(many=True, read_only=True, source='orderitem_set')
 
     class Meta:
         model = OrderProfile
-        fields = ['id', 'user', 'order_number', 'status', 'total_amount', 'shipping_address', 'billing_address', 'items', 'created_at', 'updated_at']
-        read_only_fields = ['id', 'order_number', 'created_at', 'updated_at']
+        fields = [
+            'id', 'user', 'status', 'total_amount', 'shipping_address', 
+            'billing_address', 'items', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'user', 'total_amount', 'created_at', 'updated_at']

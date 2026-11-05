@@ -1,7 +1,10 @@
-from django.urls import path
-from apps.catalogs.wishlists.views.wishlists_views import WishlistToggleAPIView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from apps.marketing_leads.wishlists.views import WishlistViewSet
 
-app_name = 'wishlists'
+router = DefaultRouter()
+router.register(r'wishlists', WishlistViewSet, basename='marketing-wishlist')
+
 urlpatterns = [
-    path('add/', WishlistToggleAPIView.as_view(), name='wishlist-add'),
+    path('', include(router.urls)),
 ]

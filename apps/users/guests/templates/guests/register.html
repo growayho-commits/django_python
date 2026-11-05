@@ -2,166 +2,148 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hybrid Marketplace - Royalty Portal</title>
+    <title>Register | HYBRID MARKETPLACE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --royal-gold: #d4af37;
-            --royal-gold-light: #f3e5ab;
-            --royal-dark: #0b0f19;
-            --royal-card-bg: rgba(15, 23, 42, 0.85);
-            --royal-border: rgba(212, 175, 55, 0.4);
+            --gold-primary: #C5A059;
+            --gold-gradient: linear-gradient(135deg, #DFBD6D 0%, #F5E6BE 50%, #C5A059 100%);
+            --bg-light: #F8F6F0;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-dark: #1A202C;
         }
-
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Cinzel', 'Playfair Display', serif, sans-serif;
-            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e1b4b 100%);
-            color: #f8fafc;
+            background: var(--bg-light);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-image: radial-gradient(circle at 50% 10%, rgba(197, 160, 89, 0.12), transparent 70%);
         }
-
         .royalty-container {
             width: 100%;
             max-width: 450px;
             padding: 40px;
-            background: var(--royal-card-bg);
-            border: 2px solid var(--royal-gold);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.25), inset 0 0 15px rgba(212, 175, 55, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 8px;
+            background: var(--card-bg);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(26, 32, 44, 0.08), 0 0 20px rgba(197, 160, 89, 0.1);
+            backdrop-filter: blur(12px);
             box-sizing: border-box;
+            margin: 20px;
         }
-
         .royalty-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
-
         .royalty-title {
+            font-family: 'Cinzel', serif;
             font-size: 24px;
             font-weight: 700;
+            color: #8C6D23;
+            margin: 0 0 6px 0;
             letter-spacing: 2px;
-            color: var(--royal-gold);
-            margin: 0 0 10px 0;
             text-transform: uppercase;
         }
-
         .royalty-subtitle {
-            font-size: 14px;
-            color: #94a3b8;
+            font-size: 13px;
+            color: #718096;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
-
-        /* Form Fields styling */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
-
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            color: var(--royal-gold-light);
+            margin-bottom: 6px;
+            color: #4A5568;
             font-size: 13px;
-            letter-spacing: 0.5px;
+            font-weight: 500;
         }
-
-        /* Django form inputs styling */
         input[type="text"],
         input[type="email"],
         input[type="password"],
         select {
             width: 100%;
             padding: 12px 15px;
-            background: rgba(2, 6, 23, 0.6);
-            border: 1px solid var(--royal-border);
-            color: #fff;
-            border-radius: 4px;
+            background: #FFFFFF;
+            border: 1px solid #CBD5E0;
+            color: #2D3748;
+            border-radius: 8px;
             box-sizing: border-box;
             font-size: 14px;
             transition: all 0.3s ease;
         }
-
         input:focus, select:focus {
             outline: none;
-            border-color: var(--royal-gold);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.25);
         }
-
-        /* Royalty Button */
         .royalty-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+            background: var(--gold-gradient);
             border: none;
-            color: #0b0f19;
-            font-weight: bold;
+            color: #1A202C;
+            font-weight: 600;
             font-size: 15px;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             margin-top: 10px;
         }
-
         .royalty-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.3);
         }
-
-        /* Error box */
         .error-box {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid #ef4444;
-            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #EF4444;
+            color: #B91C1C;
             padding: 12px;
-            border-radius: 4px;
+            border-radius: 8px;
             margin-bottom: 20px;
             font-size: 13px;
         }
-
         .error-box ul {
             margin: 0;
             padding-left: 20px;
         }
-
-        /* Footer links */
         .royalty-footer {
             text-align: center;
             margin-top: 25px;
             font-size: 13px;
-            color: #94a3b8;
+            color: #718096;
         }
-
         .royalty-footer a {
-            color: var(--royal-gold);
+            color: #8C6D23;
             text-decoration: none;
-            transition: color 0.2s;
+            font-weight: 500;
         }
-
         .royalty-footer a:hover {
-            color: var(--royal-gold-light);
             text-decoration: underline;
+        }
+        .back-home {
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
-
     <div class="royalty-container">
         <div class="royalty-header">
             <h1 class="royalty-title">Hybrid Marketplace</h1>
-            <div class="royalty-subtitle">Exclusive Portal Access</div>
+            <div class="royalty-subtitle">Exclusive Portal Registration</div>
         </div>
 
         <form method="post">
             {% csrf_token %}
-            
-            <!-- ஃபார்ம் பிழைகள் (Form Errors) காட்ட -->
             {% if form.errors %}
                 <div class="error-box">
                     <ul>
@@ -177,16 +159,15 @@
                 </div>
             {% endif %}
 
-            <!-- Django Form Fields otomatik rendering -->
             {{ form.as_p }}
 
-            <button type="submit" class="royalty-btn">Proceed Securely</button>
+            <button type="submit" class="royalty-btn">Register Securely</button>
         </form>
 
         <div class="royalty-footer">
-            Don't have an account? <a href="{% url 'guests:register' %}">Register Now</a>
+            <p>Already have an account? <a href="{% url 'guests:login' %}">Login Here</a></p>
+            <p class="back-home"><a href="{% url 'guests:guest_home' %}">&larr; Back to Home</a></p>
         </div>
     </div>
-
 </body>
 </html>

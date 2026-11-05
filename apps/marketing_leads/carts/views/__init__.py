@@ -1,1 +1,1 @@
-from .cart_views import CartViewSet
+from .cart_views import CartViewSet, CartItemViewSet
