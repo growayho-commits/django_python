@@ -23,6 +23,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)  # Username is strictly email id
     role = models.CharField(max_length=20, choices=UserRole.choices, default=UserRole.MEMBER)
     
+    # செல்லரை அசைன் செய்ய சேர்க்கப்பட்டுள்ள புதிய ஃபீல்டு:
+    assigned_seller = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={'role': 'seller'},
+        related_name='assigned_members'
+    )
+    
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)

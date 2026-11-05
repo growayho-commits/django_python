@@ -1,1 +1,2 @@
 from .role_serializers import RoleRequirementSerializer, RoleUpgradeRequestSerializer
+from .superuser_serializers import SuperuserProfileSerializer

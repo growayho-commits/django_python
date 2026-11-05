@@ -1,11 +1,18 @@
-from rest_framework import generics, permissions
-from apps.users.members.models import MemberProfile
-from apps.users.members.serializers import MemberProfileSerializer
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
 
-class MemberProfileCreateOrUpdateView(generics.RetrieveUpdateAPIView):
-    serializer_class = MemberProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
+@login_required
+def member_dashboard_view(request):
+    """
+    மெம்பர் டேஷ்போர்டு வியூ
+    """
+    return render(request, 'members/dashboard.html')
 
-    def get_object(self):
-        profile, created = MemberProfile.objects.get_or_create(user=self.request.user)
-        return profile
+@method_decorator(login_required, name='dispatch')
+class MemberProfileCreateOrUpdateView(TemplateView):
+    """
+    மெம்பர் சுயவிவரத்தை உருவாக்கும் அல்லது புதுப்பிக்கும் வியூ
+    """
+    template_name = 'members/member_profile.html'

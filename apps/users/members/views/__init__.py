@@ -1,1 +1,1 @@
-from .member_views import MemberProfileCreateOrUpdateView
+from .member_views import member_dashboard_view, MemberProfileCreateOrUpdateView

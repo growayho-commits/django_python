@@ -2,27 +2,27 @@
 > Mode: COMPLETE PROJECT | Views: ALL
 
 === 0. PROJECT METRICS & STATISTICS ===
- • Total Files Scanned : 1682
- • Python (.py) Files  : 1656
- • Total Lines of Code : 7102 lines
+ • Total Files Scanned : 1715
+ • Python (.py) Files  : 1681
+ • Total Lines of Code : 8096 lines
 
 ---
 === 1. TREE VIEW STRUCTURE ===
 # django_python/
 - `.env.example`
 - `.gitignore`
+- `admin.py  [Lines: 0]`
 - `AI_PROJECT_CONTEXT.md`
+- `clean_project.py  [Lines: 40]`
 - `db.sqlite3`
-- `DOCUMENTATION_EN.txt`
-- `DOCUMENTATION_TA.txt`
-- `file_manager.py  [Lines: 63]`
+- `file.py  [Lines: 63]`
 - `git_manager.py  [Lines: 81]`
-- `inspector.txt`
+- `inspector.py  [Lines: 354]`
 - `manage.py  [Lines: 14]`
-- `project_inspector.py  [Lines: 354]`
 - `project_tree_path_view.txt`
 - `README.md`
 - `SECURITY.md`
+- `structure.py  [Lines: 67]`
 - **apps/**
     - `__init__.py  [Lines: 0]`
     - **catalogs/**
@@ -1093,6 +1093,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 26]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `gateway_profile.py  [Lines: 12]`
@@ -1150,6 +1151,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `payout_profile.py  [Lines: 13]`
@@ -1206,6 +1208,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 24]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `tax_profile.py  [Lines: 10]`
@@ -1266,6 +1269,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 25]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `partner_profile.py  [Lines: 11]`
@@ -1319,6 +1323,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 28]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `return_profile.py  [Lines: 20]`
@@ -1373,6 +1378,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `shipment_profile.py  [Lines: 21]`
@@ -1429,6 +1435,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 26]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `transfer_profile.py  [Lines: 18]`
@@ -1488,6 +1495,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 30]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `campaign_profile.py  [Lines: 25]`
@@ -1541,6 +1549,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 38]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `cart_profile.py  [Lines: 25]`
@@ -1597,6 +1606,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 31]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `checkout_profile.py  [Lines: 25]`
@@ -1653,6 +1663,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 28]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `coupon_profile.py  [Lines: 21]`
@@ -1709,6 +1720,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 27]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `lead_profile.py  [Lines: 23]`
@@ -1765,6 +1777,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 42]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `order_profile.py  [Lines: 37]`
@@ -1821,6 +1834,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 28]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `notification_profile.py  [Lines: 15]`
@@ -2252,6 +2266,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 25]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `analytics_profile.py  [Lines: 13]`
@@ -2309,6 +2324,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `audit_profile.py  [Lines: 16]`
@@ -2365,6 +2381,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 27]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `integration_profile.py  [Lines: 15]`
@@ -2398,16 +2415,19 @@
                 - `integration_views.py  [Lines: 10]`
                 - `__init__.py  [Lines: 1]`
     - **users/**
-        - `urls.py  [Lines: 6]`
+        - `admin.py  [Lines: 46]`
+        - `urls.py  [Lines: 10]`
         - `__init__.py  [Lines: 0]`
         - **executives/**
-            - `admin.py  [Lines: 0]`
+            - `admin.py  [Lines: 8]`
             - `apps.py  [Lines: 5]`
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 6]`
+            - `urls.py  [Lines: 9]`
             - `__init__.py  [Lines: 0]`
+            - **docs/**
+                - `executives_plan.txt`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
             - **exceptions/**
@@ -2449,6 +2469,8 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **executives/**
+                    - `dashboard.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -2456,18 +2478,19 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `executive_views.py  [Lines: 11]`
+                - `executive_views.py  [Lines: 34]`
                 - `__init__.py  [Lines: 1]`
         - **guests/**
-            - `admin.py  [Lines: 3]`
+            - `admin.py  [Lines: 27]`
             - `apps.py  [Lines: 5]`
             - `choices.py  [Lines: 15]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 3]`
-            - `tests.py  [Lines: 3]`
-            - `urls.py  [Lines: 10]`
-            - `user_models.py  [Lines: 52]`
+            - `urls.py  [Lines: 16]`
+            - `user_models.py  [Lines: 62]`
             - `__init__.py  [Lines: 2]`
+            - **docs/**
+                - `guests_plan.txt`
             - **dtos/**
                 - `core_users_dtos.py  [Lines: 0]`
                 - `__init__.py  [Lines: 0]`
@@ -2477,7 +2500,7 @@
             - **filters/**
                 - `__init__.py  [Lines: 0]`
             - **forms/**
-                - `core_users_forms.py  [Lines: 50]`
+                - `core_users_forms.py  [Lines: 26]`
                 - `inquiry_form.py  [Lines: 18]`
                 - `__init__.py  [Lines: 1]`
             - **interfaces/**
@@ -2491,6 +2514,7 @@
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
                 - `0001_initial.py  [Lines: 123]`
+                - `0002_customuser.py  [Lines: 35]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `address_profile.py  [Lines: 52]`
@@ -2498,7 +2522,8 @@
                 - `business_profile.py  [Lines: 39]`
                 - `guest_inquiry.py  [Lines: 25]`
                 - `security_profile.py  [Lines: 47]`
-                - `__init__.py  [Lines: 5]`
+                - `user_models.py  [Lines: 40]`
+                - `__init__.py  [Lines: 6]`
             - **permissions/**
                 - `security_permissions.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
@@ -2516,7 +2541,7 @@
                 - `__init__.py  [Lines: 0]`
             - **services/**
                 - `address_service.py  [Lines: 60]`
-                - `auth_service.py  [Lines: 19]`
+                - `auth_service.py  [Lines: 21]`
                 - `tree_service.py  [Lines: 53]`
                 - `workflow_service.py  [Lines: 19]`
                 - `__init__.py  [Lines: 0]`
@@ -2543,17 +2568,19 @@
                 - `security_validators.py  [Lines: 15]`
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `core_users_views.py  [Lines: 56]`
+                - `core_users_views.py  [Lines: 45]`
                 - `guest_views.py  [Lines: 11]`
-                - `__init__.py  [Lines: 1]`
+                - `__init__.py  [Lines: 2]`
         - **members/**
-            - `admin.py  [Lines: 0]`
+            - `admin.py  [Lines: 8]`
             - `apps.py  [Lines: 5]`
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 6]`
+            - `urls.py  [Lines: 9]`
             - `__init__.py  [Lines: 0]`
+            - **docs/**
+                - `members_plan.txt`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
             - **exceptions/**
@@ -2594,6 +2621,9 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **members/**
+                    - `dashboard.html`
+                    - `member_profile.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -2601,16 +2631,18 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `member_views.py  [Lines: 11]`
+                - `member_views.py  [Lines: 18]`
                 - `__init__.py  [Lines: 1]`
         - **merchant/**
-            - `admin.py  [Lines: 0]`
+            - `admin.py  [Lines: 8]`
             - `apps.py  [Lines: 5]`
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 6]`
+            - `urls.py  [Lines: 9]`
             - `__init__.py  [Lines: 0]`
+            - **docs/**
+                - `merchants_plan.txt`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
             - **exceptions/**
@@ -2651,6 +2683,8 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **merchant/**
+                    - `dashboard.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -2658,16 +2692,18 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `merchant_views.py  [Lines: 11]`
+                - `merchant_views.py  [Lines: 31]`
                 - `__init__.py  [Lines: 1]`
         - **sellers/**
-            - `admin.py  [Lines: 0]`
+            - `admin.py  [Lines: 8]`
             - `apps.py  [Lines: 5]`
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 6]`
+            - `urls.py  [Lines: 9]`
             - `__init__.py  [Lines: 0]`
+            - **docs/**
+                - `sellers_plan.txt`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
             - **exceptions/**
@@ -2708,6 +2744,8 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **sellers/**
+                    - `dashboard.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -2715,19 +2753,18 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `seller_views.py  [Lines: 11]`
+                - `seller_views.py  [Lines: 34]`
                 - `__init__.py  [Lines: 1]`
-        - **superuser/**
-            - **models/**
-                - `role_requirement.py  [Lines: 21]`
         - **superusers/**
-            - `admin.py  [Lines: 0]`
+            - `admin.py  [Lines: 14]`
             - `apps.py  [Lines: 5]`
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 10]`
+            - `urls.py  [Lines: 9]`
             - `__init__.py  [Lines: 0]`
+            - **docs/**
+                - `superusers_plan.txt`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
             - **exceptions/**
@@ -2747,11 +2784,13 @@
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
                 - `0001_initial.py  [Lines: 37]`
+                - `0002_superuserprofile.py  [Lines: 26]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `role_request.py  [Lines: 17]`
                 - `role_requirement.py  [Lines: 21]`
-                - `__init__.py  [Lines: 2]`
+                - `superuser_models.py  [Lines: 11]`
+                - `__init__.py  [Lines: 3]`
             - **permissions/**
                 - `__init__.py  [Lines: 0]`
             - **presenters/**
@@ -2760,7 +2799,8 @@
                 - `__init__.py  [Lines: 0]`
             - **serializers/**
                 - `role_serializers.py  [Lines: 14]`
-                - `__init__.py  [Lines: 1]`
+                - `superuser_serializers.py  [Lines: 8]`
+                - `__init__.py  [Lines: 2]`
             - **services/**
                 - `role_service.py  [Lines: 15]`
                 - `__init__.py  [Lines: 1]`
@@ -2782,15 +2822,16 @@
                 - `__init__.py  [Lines: 0]`
             - **views/**
                 - `role_views.py  [Lines: 72]`
+                - `superuser_views.py  [Lines: 34]`
                 - `__init__.py  [Lines: 1]`
 - **core/**
     - `asgi.py  [Lines: 16]`
-    - `urls.py  [Lines: 19]`
+    - `urls.py  [Lines: 46]`
     - `wsgi.py  [Lines: 16]`
     - `__init__.py  [Lines: 0]`
 - **settings/**
-    - `base.py  [Lines: 110]`
-    - `local.py  [Lines: 31]`
+    - `base.py  [Lines: 145]`
+    - `local.py  [Lines: 43]`
     - `production.py  [Lines: 11]`
     - `testing.py  [Lines: 0]`
     - `__init__.py  [Lines: 0]`
@@ -2800,10 +2841,9 @@
 E:\django_python\.env.example
 E:\django_python\.gitignore
 E:\django_python\AI_PROJECT_CONTEXT.md
-E:\django_python\DOCUMENTATION_EN.txt
-E:\django_python\DOCUMENTATION_TA.txt
 E:\django_python\README.md
 E:\django_python\SECURITY.md
+E:\django_python\admin.py
 E:\django_python\apps\__init__.py
 E:\django_python\apps\catalogs\__init__.py
 E:\django_python\apps\catalogs\attributes\__init__.py
@@ -3444,6 +3484,7 @@ E:\django_python\apps\finances\payment_gateways\interfaces\__init__.py
 E:\django_python\apps\finances\payment_gateways\listeners\__init__.py
 E:\django_python\apps\finances\payment_gateways\managers\__init__.py
 E:\django_python\apps\finances\payment_gateways\middleware\__init__.py
+E:\django_python\apps\finances\payment_gateways\migrations\0001_initial.py
 E:\django_python\apps\finances\payment_gateways\migrations\__init__.py
 E:\django_python\apps\finances\payment_gateways\models\__init__.py
 E:\django_python\apps\finances\payment_gateways\models\gateway_profile.py
@@ -3478,6 +3519,7 @@ E:\django_python\apps\finances\payouts\interfaces\__init__.py
 E:\django_python\apps\finances\payouts\listeners\__init__.py
 E:\django_python\apps\finances\payouts\managers\__init__.py
 E:\django_python\apps\finances\payouts\middleware\__init__.py
+E:\django_python\apps\finances\payouts\migrations\0001_initial.py
 E:\django_python\apps\finances\payouts\migrations\__init__.py
 E:\django_python\apps\finances\payouts\models\__init__.py
 E:\django_python\apps\finances\payouts\models\payout_profile.py
@@ -3511,6 +3553,7 @@ E:\django_python\apps\finances\taxes\interfaces\__init__.py
 E:\django_python\apps\finances\taxes\listeners\__init__.py
 E:\django_python\apps\finances\taxes\managers\__init__.py
 E:\django_python\apps\finances\taxes\middleware\__init__.py
+E:\django_python\apps\finances\taxes\migrations\0001_initial.py
 E:\django_python\apps\finances\taxes\migrations\__init__.py
 E:\django_python\apps\finances\taxes\models\__init__.py
 E:\django_python\apps\finances\taxes\models\tax_profile.py
@@ -3547,6 +3590,7 @@ E:\django_python\apps\logistics\logistics_partners\interfaces\__init__.py
 E:\django_python\apps\logistics\logistics_partners\listeners\__init__.py
 E:\django_python\apps\logistics\logistics_partners\managers\__init__.py
 E:\django_python\apps\logistics\logistics_partners\middleware\__init__.py
+E:\django_python\apps\logistics\logistics_partners\migrations\0001_initial.py
 E:\django_python\apps\logistics\logistics_partners\migrations\__init__.py
 E:\django_python\apps\logistics\logistics_partners\models\__init__.py
 E:\django_python\apps\logistics\logistics_partners\models\partner_profile.py
@@ -3577,6 +3621,7 @@ E:\django_python\apps\logistics\returns\interfaces\__init__.py
 E:\django_python\apps\logistics\returns\listeners\__init__.py
 E:\django_python\apps\logistics\returns\managers\__init__.py
 E:\django_python\apps\logistics\returns\middleware\__init__.py
+E:\django_python\apps\logistics\returns\migrations\0001_initial.py
 E:\django_python\apps\logistics\returns\migrations\__init__.py
 E:\django_python\apps\logistics\returns\models\__init__.py
 E:\django_python\apps\logistics\returns\models\return_profile.py
@@ -3607,6 +3652,7 @@ E:\django_python\apps\logistics\shipments\interfaces\__init__.py
 E:\django_python\apps\logistics\shipments\listeners\__init__.py
 E:\django_python\apps\logistics\shipments\managers\__init__.py
 E:\django_python\apps\logistics\shipments\middleware\__init__.py
+E:\django_python\apps\logistics\shipments\migrations\0001_initial.py
 E:\django_python\apps\logistics\shipments\migrations\__init__.py
 E:\django_python\apps\logistics\shipments\models\__init__.py
 E:\django_python\apps\logistics\shipments\models\shipment_profile.py
@@ -3641,6 +3687,7 @@ E:\django_python\apps\logistics\warehouse_transfers\interfaces\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\listeners\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\managers\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\middleware\__init__.py
+E:\django_python\apps\logistics\warehouse_transfers\migrations\0001_initial.py
 E:\django_python\apps\logistics\warehouse_transfers\migrations\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\models\__init__.py
 E:\django_python\apps\logistics\warehouse_transfers\models\transfer_profile.py
@@ -3675,6 +3722,7 @@ E:\django_python\apps\marketing_leads\ads_campaigns\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\ads_campaigns\listeners\__init__.py
 E:\django_python\apps\marketing_leads\ads_campaigns\managers\__init__.py
 E:\django_python\apps\marketing_leads\ads_campaigns\middleware\__init__.py
+E:\django_python\apps\marketing_leads\ads_campaigns\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\ads_campaigns\migrations\__init__.py
 E:\django_python\apps\marketing_leads\ads_campaigns\models\__init__.py
 E:\django_python\apps\marketing_leads\ads_campaigns\models\campaign_profile.py
@@ -3705,6 +3753,7 @@ E:\django_python\apps\marketing_leads\carts\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\carts\listeners\__init__.py
 E:\django_python\apps\marketing_leads\carts\managers\__init__.py
 E:\django_python\apps\marketing_leads\carts\middleware\__init__.py
+E:\django_python\apps\marketing_leads\carts\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\carts\migrations\__init__.py
 E:\django_python\apps\marketing_leads\carts\models\__init__.py
 E:\django_python\apps\marketing_leads\carts\models\cart_profile.py
@@ -3738,6 +3787,7 @@ E:\django_python\apps\marketing_leads\checkout_flows\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\listeners\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\managers\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\middleware\__init__.py
+E:\django_python\apps\marketing_leads\checkout_flows\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\checkout_flows\migrations\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\models\__init__.py
 E:\django_python\apps\marketing_leads\checkout_flows\models\checkout_profile.py
@@ -3772,6 +3822,7 @@ E:\django_python\apps\marketing_leads\coupons_discounts\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\coupons_discounts\listeners\__init__.py
 E:\django_python\apps\marketing_leads\coupons_discounts\managers\__init__.py
 E:\django_python\apps\marketing_leads\coupons_discounts\middleware\__init__.py
+E:\django_python\apps\marketing_leads\coupons_discounts\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\coupons_discounts\migrations\__init__.py
 E:\django_python\apps\marketing_leads\coupons_discounts\models\__init__.py
 E:\django_python\apps\marketing_leads\coupons_discounts\models\coupon_profile.py
@@ -3805,6 +3856,7 @@ E:\django_python\apps\marketing_leads\customer_leads\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\customer_leads\listeners\__init__.py
 E:\django_python\apps\marketing_leads\customer_leads\managers\__init__.py
 E:\django_python\apps\marketing_leads\customer_leads\middleware\__init__.py
+E:\django_python\apps\marketing_leads\customer_leads\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\customer_leads\migrations\__init__.py
 E:\django_python\apps\marketing_leads\customer_leads\models\__init__.py
 E:\django_python\apps\marketing_leads\customer_leads\models\lead_profile.py
@@ -3838,6 +3890,7 @@ E:\django_python\apps\marketing_leads\orders\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\orders\listeners\__init__.py
 E:\django_python\apps\marketing_leads\orders\managers\__init__.py
 E:\django_python\apps\marketing_leads\orders\middleware\__init__.py
+E:\django_python\apps\marketing_leads\orders\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\orders\migrations\__init__.py
 E:\django_python\apps\marketing_leads\orders\models\__init__.py
 E:\django_python\apps\marketing_leads\orders\models\order_profile.py
@@ -3871,6 +3924,7 @@ E:\django_python\apps\marketing_leads\push_notifications\interfaces\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\listeners\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\managers\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\middleware\__init__.py
+E:\django_python\apps\marketing_leads\push_notifications\migrations\0001_initial.py
 E:\django_python\apps\marketing_leads\push_notifications\migrations\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\models\__init__.py
 E:\django_python\apps\marketing_leads\push_notifications\models\notification_profile.py
@@ -4132,6 +4186,7 @@ E:\django_python\apps\systems\analytics\interfaces\__init__.py
 E:\django_python\apps\systems\analytics\listeners\__init__.py
 E:\django_python\apps\systems\analytics\managers\__init__.py
 E:\django_python\apps\systems\analytics\middleware\__init__.py
+E:\django_python\apps\systems\analytics\migrations\0001_initial.py
 E:\django_python\apps\systems\analytics\migrations\__init__.py
 E:\django_python\apps\systems\analytics\models\__init__.py
 E:\django_python\apps\systems\analytics\models\analytics_profile.py
@@ -4166,6 +4221,7 @@ E:\django_python\apps\systems\audits\interfaces\__init__.py
 E:\django_python\apps\systems\audits\listeners\__init__.py
 E:\django_python\apps\systems\audits\managers\__init__.py
 E:\django_python\apps\systems\audits\middleware\__init__.py
+E:\django_python\apps\systems\audits\migrations\0001_initial.py
 E:\django_python\apps\systems\audits\migrations\__init__.py
 E:\django_python\apps\systems\audits\models\__init__.py
 E:\django_python\apps\systems\audits\models\audit_profile.py
@@ -4199,6 +4255,7 @@ E:\django_python\apps\systems\integrations\interfaces\__init__.py
 E:\django_python\apps\systems\integrations\listeners\__init__.py
 E:\django_python\apps\systems\integrations\managers\__init__.py
 E:\django_python\apps\systems\integrations\middleware\__init__.py
+E:\django_python\apps\systems\integrations\migrations\0001_initial.py
 E:\django_python\apps\systems\integrations\migrations\__init__.py
 E:\django_python\apps\systems\integrations\models\__init__.py
 E:\django_python\apps\systems\integrations\models\integration_profile.py
@@ -4221,12 +4278,14 @@ E:\django_python\apps\systems\integrations\views\__init__.py
 E:\django_python\apps\systems\integrations\views\integration_views.py
 E:\django_python\apps\systems\urls.py
 E:\django_python\apps\users\__init__.py
+E:\django_python\apps\users\admin.py
 E:\django_python\apps\users\executives\__init__.py
 E:\django_python\apps\users\executives\admin.py
 E:\django_python\apps\users\executives\apps.py
 E:\django_python\apps\users\executives\choices.py
 E:\django_python\apps\users\executives\conf.py
 E:\django_python\apps\users\executives\constants.py
+E:\django_python\apps\users\executives\docs\executives_plan.txt
 E:\django_python\apps\users\executives\dtos\__init__.py
 E:\django_python\apps\users\executives\exceptions\__init__.py
 E:\django_python\apps\users\executives\filters\__init__.py
@@ -4250,6 +4309,7 @@ E:\django_python\apps\users\executives\services\executive_service.py
 E:\django_python\apps\users\executives\signals\__init__.py
 E:\django_python\apps\users\executives\tasks\__init__.py
 E:\django_python\apps\users\executives\templates\__init__.py
+E:\django_python\apps\users\executives\templates\executives\dashboard.html
 E:\django_python\apps\users\executives\tests\__init__.py
 E:\django_python\apps\users\executives\urls.py
 E:\django_python\apps\users\executives\utils\__init__.py
@@ -4262,6 +4322,7 @@ E:\django_python\apps\users\guests\apps.py
 E:\django_python\apps\users\guests\choices.py
 E:\django_python\apps\users\guests\conf.py
 E:\django_python\apps\users\guests\constants.py
+E:\django_python\apps\users\guests\docs\guests_plan.txt
 E:\django_python\apps\users\guests\dtos\__init__.py
 E:\django_python\apps\users\guests\dtos\core_users_dtos.py
 E:\django_python\apps\users\guests\exceptions\__init__.py
@@ -4276,6 +4337,7 @@ E:\django_python\apps\users\guests\managers\__init__.py
 E:\django_python\apps\users\guests\managers\core_users_managers.py
 E:\django_python\apps\users\guests\middleware\__init__.py
 E:\django_python\apps\users\guests\migrations\0001_initial.py
+E:\django_python\apps\users\guests\migrations\0002_customuser.py
 E:\django_python\apps\users\guests\migrations\__init__.py
 E:\django_python\apps\users\guests\models\__init__.py
 E:\django_python\apps\users\guests\models\address_profile.py
@@ -4283,6 +4345,7 @@ E:\django_python\apps\users\guests\models\basic_profile.py
 E:\django_python\apps\users\guests\models\business_profile.py
 E:\django_python\apps\users\guests\models\guest_inquiry.py
 E:\django_python\apps\users\guests\models\security_profile.py
+E:\django_python\apps\users\guests\models\user_models.py
 E:\django_python\apps\users\guests\permissions\__init__.py
 E:\django_python\apps\users\guests\permissions\security_permissions.py
 E:\django_python\apps\users\guests\presenters\__init__.py
@@ -4306,7 +4369,6 @@ E:\django_python\apps\users\guests\templates\__init__.py
 E:\django_python\apps\users\guests\templates\guests\guest_home.html
 E:\django_python\apps\users\guests\templates\guests\login.html
 E:\django_python\apps\users\guests\templates\guests\register.html
-E:\django_python\apps\users\guests\tests.py
 E:\django_python\apps\users\guests\tests\__init__.py
 E:\django_python\apps\users\guests\tests\test_models.py
 E:\django_python\apps\users\guests\tests\test_selectors.py
@@ -4326,6 +4388,7 @@ E:\django_python\apps\users\members\apps.py
 E:\django_python\apps\users\members\choices.py
 E:\django_python\apps\users\members\conf.py
 E:\django_python\apps\users\members\constants.py
+E:\django_python\apps\users\members\docs\members_plan.txt
 E:\django_python\apps\users\members\dtos\__init__.py
 E:\django_python\apps\users\members\exceptions\__init__.py
 E:\django_python\apps\users\members\filters\__init__.py
@@ -4348,6 +4411,8 @@ E:\django_python\apps\users\members\services\member_service.py
 E:\django_python\apps\users\members\signals\__init__.py
 E:\django_python\apps\users\members\tasks\__init__.py
 E:\django_python\apps\users\members\templates\__init__.py
+E:\django_python\apps\users\members\templates\members\dashboard.html
+E:\django_python\apps\users\members\templates\members\member_profile.html
 E:\django_python\apps\users\members\tests\__init__.py
 E:\django_python\apps\users\members\urls.py
 E:\django_python\apps\users\members\utils\__init__.py
@@ -4360,6 +4425,7 @@ E:\django_python\apps\users\merchant\apps.py
 E:\django_python\apps\users\merchant\choices.py
 E:\django_python\apps\users\merchant\conf.py
 E:\django_python\apps\users\merchant\constants.py
+E:\django_python\apps\users\merchant\docs\merchants_plan.txt
 E:\django_python\apps\users\merchant\dtos\__init__.py
 E:\django_python\apps\users\merchant\exceptions\__init__.py
 E:\django_python\apps\users\merchant\filters\__init__.py
@@ -4382,6 +4448,7 @@ E:\django_python\apps\users\merchant\services\merchant_service.py
 E:\django_python\apps\users\merchant\signals\__init__.py
 E:\django_python\apps\users\merchant\tasks\__init__.py
 E:\django_python\apps\users\merchant\templates\__init__.py
+E:\django_python\apps\users\merchant\templates\merchant\dashboard.html
 E:\django_python\apps\users\merchant\tests\__init__.py
 E:\django_python\apps\users\merchant\urls.py
 E:\django_python\apps\users\merchant\utils\__init__.py
@@ -4394,6 +4461,7 @@ E:\django_python\apps\users\sellers\apps.py
 E:\django_python\apps\users\sellers\choices.py
 E:\django_python\apps\users\sellers\conf.py
 E:\django_python\apps\users\sellers\constants.py
+E:\django_python\apps\users\sellers\docs\sellers_plan.txt
 E:\django_python\apps\users\sellers\dtos\__init__.py
 E:\django_python\apps\users\sellers\exceptions\__init__.py
 E:\django_python\apps\users\sellers\filters\__init__.py
@@ -4416,19 +4484,20 @@ E:\django_python\apps\users\sellers\services\seller_service.py
 E:\django_python\apps\users\sellers\signals\__init__.py
 E:\django_python\apps\users\sellers\tasks\__init__.py
 E:\django_python\apps\users\sellers\templates\__init__.py
+E:\django_python\apps\users\sellers\templates\sellers\dashboard.html
 E:\django_python\apps\users\sellers\tests\__init__.py
 E:\django_python\apps\users\sellers\urls.py
 E:\django_python\apps\users\sellers\utils\__init__.py
 E:\django_python\apps\users\sellers\validators\__init__.py
 E:\django_python\apps\users\sellers\views\__init__.py
 E:\django_python\apps\users\sellers\views\seller_views.py
-E:\django_python\apps\users\superuser\models\role_requirement.py
 E:\django_python\apps\users\superusers\__init__.py
 E:\django_python\apps\users\superusers\admin.py
 E:\django_python\apps\users\superusers\apps.py
 E:\django_python\apps\users\superusers\choices.py
 E:\django_python\apps\users\superusers\conf.py
 E:\django_python\apps\users\superusers\constants.py
+E:\django_python\apps\users\superusers\docs\superusers_plan.txt
 E:\django_python\apps\users\superusers\dtos\__init__.py
 E:\django_python\apps\users\superusers\exceptions\__init__.py
 E:\django_python\apps\users\superusers\filters\__init__.py
@@ -4439,15 +4508,18 @@ E:\django_python\apps\users\superusers\listeners\__init__.py
 E:\django_python\apps\users\superusers\managers\__init__.py
 E:\django_python\apps\users\superusers\middleware\__init__.py
 E:\django_python\apps\users\superusers\migrations\0001_initial.py
+E:\django_python\apps\users\superusers\migrations\0002_superuserprofile.py
 E:\django_python\apps\users\superusers\migrations\__init__.py
 E:\django_python\apps\users\superusers\models\__init__.py
 E:\django_python\apps\users\superusers\models\role_request.py
 E:\django_python\apps\users\superusers\models\role_requirement.py
+E:\django_python\apps\users\superusers\models\superuser_models.py
 E:\django_python\apps\users\superusers\permissions\__init__.py
 E:\django_python\apps\users\superusers\presenters\__init__.py
 E:\django_python\apps\users\superusers\selectors\__init__.py
 E:\django_python\apps\users\superusers\serializers\__init__.py
 E:\django_python\apps\users\superusers\serializers\role_serializers.py
+E:\django_python\apps\users\superusers\serializers\superuser_serializers.py
 E:\django_python\apps\users\superusers\services\__init__.py
 E:\django_python\apps\users\superusers\services\role_service.py
 E:\django_python\apps\users\superusers\signals\__init__.py
@@ -4462,23 +4534,25 @@ E:\django_python\apps\users\superusers\utils\__init__.py
 E:\django_python\apps\users\superusers\validators\__init__.py
 E:\django_python\apps\users\superusers\views\__init__.py
 E:\django_python\apps\users\superusers\views\role_views.py
+E:\django_python\apps\users\superusers\views\superuser_views.py
 E:\django_python\apps\users\urls.py
+E:\django_python\clean_project.py
 E:\django_python\core\__init__.py
 E:\django_python\core\asgi.py
 E:\django_python\core\urls.py
 E:\django_python\core\wsgi.py
 E:\django_python\db.sqlite3
-E:\django_python\file_manager.py
+E:\django_python\file.py
 E:\django_python\git_manager.py
-E:\django_python\inspector.txt
+E:\django_python\inspector.py
 E:\django_python\manage.py
-E:\django_python\project_inspector.py
 E:\django_python\project_tree_path_view.txt
 E:\django_python\settings\__init__.py
 E:\django_python\settings\base.py
 E:\django_python\settings\local.py
 E:\django_python\settings\production.py
 E:\django_python\settings\testing.py
+E:\django_python\structure.py
 
 === 3. URL ENDPOINTS EXTRACTED ===
  • apps\catalogs -> ['core/', 'pricing/', 'inventory/', 'categories/', 'attributes/', 'variants/', 'media/', 'status/', 'specifications/', 'bundles/', 'search-filters/', 'wishlist/', 'reviews/', '']
@@ -4510,14 +4584,14 @@ E:\django_python\settings\testing.py
  • apps\systems\analytics -> ['']
  • apps\systems\audits -> ['']
  • apps\systems\integrations -> ['']
- • apps\users -> ['guests/', 'superusers/']
- • apps\users\executives -> ['profile/']
- • apps\users\guests -> ['', 'registration/', 'login/', 'logout/']
- • apps\users\members -> ['profile/']
- • apps\users\merchant -> ['profile/']
- • apps\users\sellers -> ['profile/']
- • apps\users\superusers -> ['dashboard/', 'request-action/<int:request_id>/<str:action>/', 'requirement/update/<int:pk>/', 'network-tree/']
- • core -> ['', 'admin/', 'api/v1/catalogs/', 'api/v1/users/', 'api/v1/support/', 'api/v1/finances/', 'api/v1/logistics/', 'api/v1/marketing/', 'api/v1/systems/', 'api/professional-network/']
+ • apps\users -> ['guests/', 'members/', 'merchant/', 'executives/', 'sellers/', 'superusers/']
+ • apps\users\executives -> ['dashboard/', 'profile/']
+ • apps\users\guests -> ['registration/', 'login/', 'logout/', 'role-redirect/']
+ • apps\users\members -> ['dashboard/', 'profile/']
+ • apps\users\merchant -> ['dashboard/', 'profile/']
+ • apps\users\sellers -> ['dashboard/', 'profile/']
+ • apps\users\superusers -> ['dashboard/', 'profile/']
+ • core -> ['', 'admin/', 'api/v1/catalogs/', 'api/v1/users/', 'api/professional-network/', 'api/v1/support/', 'api/v1/finances/', 'api/v1/logistics/', 'api/v1/marketing/', 'api/v1/systems/']
 
 === 4. DJANGO MODELS SUMMARY (Folder/File) ===
  • apps\catalogs\attributes\models -> Models: ['AttributeProfile']
@@ -4564,8 +4638,7 @@ E:\django_python\settings\testing.py
  • apps\users\members\models -> Models: ['MemberProfile']
  • apps\users\merchant\models -> Models: ['MerchantProfile']
  • apps\users\sellers\models -> Models: ['SellerProfile']
- • apps\users\superuser\models -> Models: ['RoleRequirement']
- • apps\users\superusers\models -> Models: ['RoleUpgradeRequest', 'RoleRequirement']
+ • apps\users\superusers\models -> Models: ['RoleUpgradeRequest', 'RoleRequirement', 'SuperuserProfile']
 
 === 5. WORKFLOW & CROSS-APP DEPENDENCY VIEW ===
  • apps\catalogs\attributes\models ──> Depends on Apps: ['catalogs']
@@ -4586,9 +4659,9 @@ E:\django_python\settings\testing.py
  • apps\catalogs\catalog_medias\views ──> Depends on Apps: ['catalogs']
  • apps\catalogs\catalog_statuses ──> Depends on Apps: ['catalogs']
  • apps\catalogs\catalog_statuses\models ──> Depends on Apps: ['catalogs']
- • apps\catalogs\catalog_statuses\selectors ──> Depends on Apps: ['catalogs', 'catalog']
- • apps\catalogs\catalog_statuses\serializers ──> Depends on Apps: ['catalogs', 'catalog']
- • apps\catalogs\catalog_statuses\services ──> Depends on Apps: ['catalogs', 'catalog']
+ • apps\catalogs\catalog_statuses\selectors ──> Depends on Apps: ['catalog', 'catalogs']
+ • apps\catalogs\catalog_statuses\serializers ──> Depends on Apps: ['catalog', 'catalogs']
+ • apps\catalogs\catalog_statuses\services ──> Depends on Apps: ['catalog', 'catalogs']
  • apps\catalogs\catalog_statuses\views ──> Depends on Apps: ['catalogs']
  • apps\catalogs\categories\serializers ──> Depends on Apps: ['catalogs']
  • apps\catalogs\categories\services ──> Depends on Apps: ['catalogs']
@@ -4630,8 +4703,8 @@ E:\django_python\settings\testing.py
  • apps\catalogs\variants\models ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\serializers ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\services ──> Depends on Apps: ['catalogs']
- • apps\finances\payment_gateways\services ──> Depends on Apps: ['finances', 'marketing_leads']
- • apps\finances\taxes\services ──> Depends on Apps: ['finances', 'marketing_leads']
+ • apps\finances\payment_gateways\services ──> Depends on Apps: ['marketing_leads', 'finances']
+ • apps\finances\taxes\services ──> Depends on Apps: ['marketing_leads', 'finances']
  • apps\logistics\shipments ──> Depends on Apps: ['logistics']
  • apps\logistics\warehouse_transfers ──> Depends on Apps: ['logistics']
  • apps\marketing_leads\wishlists ──> Depends on Apps: ['catalogs']
@@ -4650,13 +4723,15 @@ E:\django_python\settings\testing.py
  • apps\professional_network\service_categries ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries\serializers ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries\views ──> Depends on Apps: ['professional_network']
- • apps\systems\analytics\services ──> Depends on Apps: ['catalogs', 'marketing_leads']
+ • apps\systems\analytics\services ──> Depends on Apps: ['marketing_leads', 'catalogs']
+ • apps\users ──> Depends on Apps: ['users']
  • apps\users\executives ──> Depends on Apps: ['users']
  • apps\users\executives\serializers ──> Depends on Apps: ['users']
  • apps\users\executives\services ──> Depends on Apps: ['users']
  • apps\users\executives\views ──> Depends on Apps: ['users']
  • apps\users\guests ──> Depends on Apps: ['users']
  • apps\users\guests\forms ──> Depends on Apps: ['users']
+ • apps\users\guests\models ──> Depends on Apps: ['users']
  • apps\users\guests\selectors ──> Depends on Apps: ['guests', 'users']
  • apps\users\guests\serializers ──> Depends on Apps: ['users']
  • apps\users\guests\services ──> Depends on Apps: ['guests', 'users']
@@ -4665,8 +4740,6 @@ E:\django_python\settings\testing.py
  • apps\users\members ──> Depends on Apps: ['users']
  • apps\users\members\serializers ──> Depends on Apps: ['users']
  • apps\users\members\services ──> Depends on Apps: ['users']
- • apps\users\members\views ──> Depends on Apps: ['users']
- • apps\users\merchant ──> Depends on Apps: ['users']
  • apps\users\merchant\serializers ──> Depends on Apps: ['users']
  • apps\users\merchant\services ──> Depends on Apps: ['users']
  • apps\users\merchant\views ──> Depends on Apps: ['users']
@@ -4675,6 +4748,7 @@ E:\django_python\settings\testing.py
  • apps\users\sellers\services ──> Depends on Apps: ['users']
  • apps\users\sellers\views ──> Depends on Apps: ['users']
  • apps\users\superusers ──> Depends on Apps: ['users']
+ • apps\users\superusers\serializers ──> Depends on Apps: ['users']
  • apps\users\superusers\views ──> Depends on Apps: ['users']
 
 === 6. FLOW CHART / ARCHITECTURE DIAGRAM (Mermaid) ===
@@ -4685,8 +4759,8 @@ graph TD
     catalogs -->|depends on| catalog
     finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
-    systems -->|depends on| catalogs
     systems -->|depends on| marketing_leads
+    systems -->|depends on| catalogs
     users -->|depends on| guests
     users -->|depends on| professional_network
     catalogs --- AttributeProfile[Model: AttributeProfile]
@@ -4751,11 +4825,11 @@ graph TD
     users --- MemberProfile[Model: MemberProfile]
     users --- MerchantProfile[Model: MerchantProfile]
     users --- SellerProfile[Model: SellerProfile]
-    users --- RoleRequirement[Model: RoleRequirement]
     users --- RoleUpgradeRequest[Model: RoleUpgradeRequest]
     users --- RoleRequirement[Model: RoleRequirement]
+    users --- SuperuserProfile[Model: SuperuserProfile]
 ```
 
 === 7. GIT INTEGRATION STATUS ===
- • Modified Files  : ['AI_PROJECT_CONTEXT.md', 'README.md', 'apps/catalogs/core_catalogs/models/core_catalog_profile.py', 'apps/catalogs/search_filters/views/search_filters_views.py', 'apps/logistics/shipments/views/__init__.py', 'apps/logistics/warehouse_transfers/views/__init__.py', 'apps/marketing_leads/carts/services/cart_service.py', 'apps/marketing_leads/orders/models/order_profile.py']
- • Untracked Files : ['apps/catalogs/core_catalogs/migrations/0002_corecatalog_price_corecatalog_stock_quantity_and_more.py', 'apps/customer_supports/live_chats/consumers.py', 'apps/finances/payment_gateways/services/escrow_service.py', 'apps/finances/taxes/services/zoho_service.py', 'apps/logistics/shipments/views.py', 'apps/logistics/shipments/views/management_views.py', 'apps/logistics/shipments/views/tracking_views.py', 'apps/logistics/warehouse_transfers/views.py', 'apps/logistics/warehouse_transfers/views/approval_views.py', 'apps/logistics/warehouse_transfers/views/transfer_views.py', 'apps/marketing_leads/push_notifications/services/whatsapp_service.py', 'apps/systems/analytics/services/forecasting_service.py', 'apps/systems/integrations/services/notebooklm_service.py']
+ • Modified Files  : ['AI_PROJECT_CONTEXT.md', 'README.md', 'apps/users/executives/admin.py', 'apps/users/executives/urls.py', 'apps/users/executives/views/executive_views.py', 'apps/users/guests/admin.py', 'apps/users/guests/forms/core_users_forms.py', 'apps/users/guests/models/__init__.py', 'apps/users/guests/services/auth_service.py', 'apps/users/guests/templates/guests/guest_home.html', 'apps/users/guests/templates/guests/login.html', 'apps/users/guests/templates/guests/register.html', 'apps/users/guests/urls.py', 'apps/users/guests/user_models.py', 'apps/users/guests/views/__init__.py', 'apps/users/guests/views/core_users_views.py', 'apps/users/members/admin.py', 'apps/users/members/urls.py', 'apps/users/members/views/__init__.py', 'apps/users/members/views/member_views.py', 'apps/users/merchant/admin.py', 'apps/users/merchant/urls.py', 'apps/users/merchant/views/merchant_views.py', 'apps/users/sellers/admin.py', 'apps/users/sellers/urls.py', 'apps/users/sellers/views/seller_views.py', 'apps/users/superusers/admin.py', 'apps/users/superusers/models/__init__.py', 'apps/users/superusers/serializers/__init__.py', 'apps/users/superusers/templates/superusers/dashboard.html', 'apps/users/superusers/urls.py', 'apps/users/urls.py', 'core/urls.py', 'settings/local.py']
+ • Untracked Files : ['admin.py', 'apps/users/admin.py', 'apps/users/executives/templates/executives/', 'apps/users/guests/migrations/0002_customuser.py', 'apps/users/guests/models/user_models.py', 'apps/users/members/templates/members/', 'apps/users/merchant/templates/merchant/', 'apps/users/sellers/templates/sellers/', 'apps/users/superusers/migrations/0002_superuserprofile.py', 'apps/users/superusers/models/superuser_models.py', 'apps/users/superusers/serializers/superuser_serializers.py', 'apps/users/superusers/views/superuser_views.py', 'clean_project.py', 'file.py', 'inspector.py', 'structure.py']

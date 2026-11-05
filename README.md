@@ -11,8 +11,8 @@ graph TD
     catalogs -->|depends on| catalog
     finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
-    systems -->|depends on| catalogs
     systems -->|depends on| marketing_leads
+    systems -->|depends on| catalogs
     users -->|depends on| guests
     users -->|depends on| professional_network
     catalogs --- AttributeProfile[Model: AttributeProfile]
@@ -77,7 +77,7 @@ graph TD
     users --- MemberProfile[Model: MemberProfile]
     users --- MerchantProfile[Model: MerchantProfile]
     users --- SellerProfile[Model: SellerProfile]
-    users --- RoleRequirement[Model: RoleRequirement]
     users --- RoleUpgradeRequest[Model: RoleUpgradeRequest]
     users --- RoleRequirement[Model: RoleRequirement]
+    users --- SuperuserProfile[Model: SuperuserProfile]
 ```
