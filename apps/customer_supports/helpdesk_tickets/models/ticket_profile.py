@@ -1,20 +1,26 @@
-from django.conf import settings
 from django.db import models
+from django.conf import settings
 
 class HelpdeskTicket(models.Model):
-    STATUS_CHOICES = [
-        ('open', 'Open'),
-        ('in_progress', 'In Progress'),
-        ('resolved', 'Resolved'),
-        ('closed', 'Closed'),
+    PRIORITY_CHOICES = [
+        ('Low', 'Low'),
+        ('Medium', 'Medium'),
+        ('High', 'High'),
     ]
     
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='helpdesk_tickets')
-    subject = models.CharField(max_length=200)
+    STATUS_CHOICES = [
+        ('Open', 'Open'),
+        ('In Progress', 'In Progress'),
+        ('Resolved', 'Resolved'),
+        ('Closed', 'Closed'),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=255)
     description = models.TextField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='Medium')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Open')
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Ticket #{self.id} - {self.subject}"
+        return self.subject

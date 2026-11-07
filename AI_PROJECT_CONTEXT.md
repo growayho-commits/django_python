@@ -2,9 +2,9 @@
 > Mode: COMPLETE PROJECT | Views: ALL
 
 === 0. PROJECT METRICS & STATISTICS ===
- • Total Files Scanned : 1720
- • Python (.py) Files  : 1685
- • Total Lines of Code : 8079 lines
+ • Total Files Scanned : 1755
+ • Python (.py) Files  : 1700
+ • Total Lines of Code : 8547 lines
 
 ---
 === 1. TREE VIEW STRUCTURE ===
@@ -738,7 +738,7 @@
             - **views/**
                 - `__init__.py  [Lines: 0]`
     - **customer_supports/**
-        - `urls.py  [Lines: 0]`
+        - `urls.py  [Lines: 12]`
         - `__init__.py  [Lines: 0]`
         - **faqs/**
             - `admin.py  [Lines: 0]`
@@ -746,7 +746,7 @@
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 0]`
+            - `urls.py  [Lines: 7]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -755,6 +755,7 @@
             - **filters/**
                 - `__init__.py  [Lines: 0]`
             - **forms/**
+                - `faq_form.py  [Lines: 12]`
                 - `__init__.py  [Lines: 0]`
             - **interfaces/**
                 - `__init__.py  [Lines: 0]`
@@ -765,6 +766,7 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 25]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
                 - `faq_profile.py  [Lines: 11]`
@@ -785,6 +787,8 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **faqs/**
+                    - `faq_list.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -792,6 +796,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
+                - `faq_views.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
         - **helpdesk_tickets/**
             - `admin.py  [Lines: 0]`
@@ -799,7 +804,7 @@
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 0]`
+            - `urls.py  [Lines: 7]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -808,6 +813,7 @@
             - **filters/**
                 - `__init__.py  [Lines: 0]`
             - **forms/**
+                - `ticket_form.py  [Lines: 13]`
                 - `__init__.py  [Lines: 0]`
             - **interfaces/**
                 - `__init__.py  [Lines: 0]`
@@ -818,9 +824,10 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
-                - `ticket_profile.py  [Lines: 20]`
+                - `ticket_profile.py  [Lines: 26]`
                 - `__init__.py  [Lines: 0]`
             - **permissions/**
                 - `__init__.py  [Lines: 0]`
@@ -838,6 +845,9 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **helpdesk_tickets/**
+                    - `ticket_form.html`
+                    - `ticket_list.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -845,6 +855,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
+                - `ticket_views.py  [Lines: 22]`
                 - `__init__.py  [Lines: 0]`
         - **live_chats/**
             - `admin.py  [Lines: 0]`
@@ -853,7 +864,7 @@
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
             - `consumers.py  [Lines: 46]`
-            - `urls.py  [Lines: 0]`
+            - `urls.py  [Lines: 6]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -862,6 +873,7 @@
             - **filters/**
                 - `__init__.py  [Lines: 0]`
             - **forms/**
+                - `chat_form.py  [Lines: 10]`
                 - `__init__.py  [Lines: 0]`
             - **interfaces/**
                 - `__init__.py  [Lines: 0]`
@@ -892,6 +904,8 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **live_chats/**
+                    - `room.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -899,6 +913,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
+                - `chat_views.py  [Lines: 8]`
                 - `__init__.py  [Lines: 0]`
         - **return_refunds/**
             - `admin.py  [Lines: 0]`
@@ -906,7 +921,7 @@
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
-            - `urls.py  [Lines: 0]`
+            - `urls.py  [Lines: 7]`
             - `__init__.py  [Lines: 0]`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
@@ -915,6 +930,7 @@
             - **filters/**
                 - `__init__.py  [Lines: 0]`
             - **forms/**
+                - `refund_form.py  [Lines: 13]`
                 - `__init__.py  [Lines: 0]`
             - **interfaces/**
                 - `__init__.py  [Lines: 0]`
@@ -925,9 +941,10 @@
             - **middleware/**
                 - `__init__.py  [Lines: 0]`
             - **migrations/**
+                - `0001_initial.py  [Lines: 29]`
                 - `__init__.py  [Lines: 0]`
             - **models/**
-                - `refund_profile.py  [Lines: 21]`
+                - `refund_profile.py  [Lines: 20]`
                 - `__init__.py  [Lines: 0]`
             - **permissions/**
                 - `__init__.py  [Lines: 0]`
@@ -945,6 +962,9 @@
                 - `__init__.py  [Lines: 0]`
             - **templates/**
                 - `__init__.py  [Lines: 0]`
+                - **return_refunds/**
+                    - `refund_form.html`
+                    - `refund_list.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -952,6 +972,7 @@
             - **validators/**
                 - `__init__.py  [Lines: 0]`
             - **views/**
+                - `refund_views.py  [Lines: 22]`
                 - `__init__.py  [Lines: 0]`
     - **finances/**
         - `urls.py  [Lines: 0]`
@@ -2498,7 +2519,7 @@
             - `choices.py  [Lines: 15]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 3]`
-            - `urls.py  [Lines: 16]`
+            - `urls.py  [Lines: 19]`
             - `user_models.py  [Lines: 62]`
             - `__init__.py  [Lines: 2]`
             - **docs/**
@@ -2579,9 +2600,14 @@
                 - `security_validators.py  [Lines: 15]`
                 - `__init__.py  [Lines: 0]`
             - **views/**
-                - `core_users_views.py  [Lines: 45]`
+                - `core_users_views.py  [Lines: 51]`
                 - `guest_views.py  [Lines: 11]`
                 - `__init__.py  [Lines: 2]`
+        - **management/**
+            - `__init__.py  [Lines: 0]`
+            - **commands/**
+                - `show_users.py  [Lines: 75]`
+                - `__init__.py  [Lines: 0]`
         - **members/**
             - `admin.py  [Lines: 8]`
             - `apps.py  [Lines: 5]`
@@ -2633,8 +2659,12 @@
             - **templates/**
                 - `__init__.py  [Lines: 0]`
                 - **members/**
+                    - `catalogs.html`
                     - `dashboard.html`
-                    - `member_profile.html`
+                    - `orders.html`
+                    - `profile.html`
+                    - `requests.html`
+                    - `services.html`
             - **tests/**
                 - `__init__.py  [Lines: 0]`
             - **utils/**
@@ -2772,10 +2802,19 @@
             - `choices.py  [Lines: 0]`
             - `conf.py  [Lines: 0]`
             - `constants.py  [Lines: 0]`
+            - `context_processors.py  [Lines: 168]`
             - `urls.py  [Lines: 9]`
             - `__init__.py  [Lines: 0]`
             - **docs/**
+                - `catalogues_superusers.txt`
+                - `customersupport_superusers.txt`
+                - `finances_superusers.txt`
+                - `logistics_superusers.txt`
+                - `markettings_superusers.txt`
+                - `profesionals_superusers.txt`
                 - `superusers_plan.txt`
+                - `systems_superusers.txt`
+                - `users_superusers.txt`
             - **dtos/**
                 - `__init__.py  [Lines: 0]`
             - **exceptions/**
@@ -2832,20 +2871,23 @@
                 - `__init__.py  [Lines: 0]`
             - **views/**
                 - `role_views.py  [Lines: 72]`
-                - `superuser_views.py  [Lines: 34]`
+                - `superuser_views.py  [Lines: 13]`
                 - `__init__.py  [Lines: 1]`
 - **core/**
     - `asgi.py  [Lines: 16]`
-    - `urls.py  [Lines: 49]`
+    - `urls.py  [Lines: 50]`
     - `wsgi.py  [Lines: 16]`
     - `__init__.py  [Lines: 0]`
 - **settings/**
-    - `base.py  [Lines: 145]`
-    - `local.py  [Lines: 44]`
+    - `base.py  [Lines: 116]`
+    - `local.py  [Lines: 53]`
     - `production.py  [Lines: 11]`
     - `testing.py  [Lines: 0]`
     - `__init__.py  [Lines: 0]`
 - **static/**
+- **templates/**
+    - `base.html`
+    - `base1.html`
 
 === 2. FULL PATH VIEWS ===
 E:\django_python\.env.example
@@ -3300,10 +3342,12 @@ E:\django_python\apps\customer_supports\faqs\dtos\__init__.py
 E:\django_python\apps\customer_supports\faqs\exceptions\__init__.py
 E:\django_python\apps\customer_supports\faqs\filters\__init__.py
 E:\django_python\apps\customer_supports\faqs\forms\__init__.py
+E:\django_python\apps\customer_supports\faqs\forms\faq_form.py
 E:\django_python\apps\customer_supports\faqs\interfaces\__init__.py
 E:\django_python\apps\customer_supports\faqs\listeners\__init__.py
 E:\django_python\apps\customer_supports\faqs\managers\__init__.py
 E:\django_python\apps\customer_supports\faqs\middleware\__init__.py
+E:\django_python\apps\customer_supports\faqs\migrations\0001_initial.py
 E:\django_python\apps\customer_supports\faqs\migrations\__init__.py
 E:\django_python\apps\customer_supports\faqs\models\__init__.py
 E:\django_python\apps\customer_supports\faqs\models\faq_profile.py
@@ -3315,11 +3359,13 @@ E:\django_python\apps\customer_supports\faqs\services\__init__.py
 E:\django_python\apps\customer_supports\faqs\signals\__init__.py
 E:\django_python\apps\customer_supports\faqs\tasks\__init__.py
 E:\django_python\apps\customer_supports\faqs\templates\__init__.py
+E:\django_python\apps\customer_supports\faqs\templates\faqs\faq_list.html
 E:\django_python\apps\customer_supports\faqs\tests\__init__.py
 E:\django_python\apps\customer_supports\faqs\urls.py
 E:\django_python\apps\customer_supports\faqs\utils\__init__.py
 E:\django_python\apps\customer_supports\faqs\validators\__init__.py
 E:\django_python\apps\customer_supports\faqs\views\__init__.py
+E:\django_python\apps\customer_supports\faqs\views\faq_views.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\admin.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\apps.py
@@ -3330,10 +3376,12 @@ E:\django_python\apps\customer_supports\helpdesk_tickets\dtos\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\exceptions\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\filters\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\forms\__init__.py
+E:\django_python\apps\customer_supports\helpdesk_tickets\forms\ticket_form.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\interfaces\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\listeners\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\managers\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\middleware\__init__.py
+E:\django_python\apps\customer_supports\helpdesk_tickets\migrations\0001_initial.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\migrations\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\models\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\models\ticket_profile.py
@@ -3345,11 +3393,14 @@ E:\django_python\apps\customer_supports\helpdesk_tickets\services\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\signals\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\tasks\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\templates\__init__.py
+E:\django_python\apps\customer_supports\helpdesk_tickets\templates\helpdesk_tickets\ticket_form.html
+E:\django_python\apps\customer_supports\helpdesk_tickets\templates\helpdesk_tickets\ticket_list.html
 E:\django_python\apps\customer_supports\helpdesk_tickets\tests\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\urls.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\utils\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\validators\__init__.py
 E:\django_python\apps\customer_supports\helpdesk_tickets\views\__init__.py
+E:\django_python\apps\customer_supports\helpdesk_tickets\views\ticket_views.py
 E:\django_python\apps\customer_supports\live_chats\__init__.py
 E:\django_python\apps\customer_supports\live_chats\admin.py
 E:\django_python\apps\customer_supports\live_chats\apps.py
@@ -3361,6 +3412,7 @@ E:\django_python\apps\customer_supports\live_chats\dtos\__init__.py
 E:\django_python\apps\customer_supports\live_chats\exceptions\__init__.py
 E:\django_python\apps\customer_supports\live_chats\filters\__init__.py
 E:\django_python\apps\customer_supports\live_chats\forms\__init__.py
+E:\django_python\apps\customer_supports\live_chats\forms\chat_form.py
 E:\django_python\apps\customer_supports\live_chats\interfaces\__init__.py
 E:\django_python\apps\customer_supports\live_chats\listeners\__init__.py
 E:\django_python\apps\customer_supports\live_chats\managers\__init__.py
@@ -3376,11 +3428,13 @@ E:\django_python\apps\customer_supports\live_chats\services\__init__.py
 E:\django_python\apps\customer_supports\live_chats\signals\__init__.py
 E:\django_python\apps\customer_supports\live_chats\tasks\__init__.py
 E:\django_python\apps\customer_supports\live_chats\templates\__init__.py
+E:\django_python\apps\customer_supports\live_chats\templates\live_chats\room.html
 E:\django_python\apps\customer_supports\live_chats\tests\__init__.py
 E:\django_python\apps\customer_supports\live_chats\urls.py
 E:\django_python\apps\customer_supports\live_chats\utils\__init__.py
 E:\django_python\apps\customer_supports\live_chats\validators\__init__.py
 E:\django_python\apps\customer_supports\live_chats\views\__init__.py
+E:\django_python\apps\customer_supports\live_chats\views\chat_views.py
 E:\django_python\apps\customer_supports\return_refunds\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\admin.py
 E:\django_python\apps\customer_supports\return_refunds\apps.py
@@ -3391,10 +3445,12 @@ E:\django_python\apps\customer_supports\return_refunds\dtos\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\exceptions\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\filters\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\forms\__init__.py
+E:\django_python\apps\customer_supports\return_refunds\forms\refund_form.py
 E:\django_python\apps\customer_supports\return_refunds\interfaces\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\listeners\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\managers\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\middleware\__init__.py
+E:\django_python\apps\customer_supports\return_refunds\migrations\0001_initial.py
 E:\django_python\apps\customer_supports\return_refunds\migrations\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\models\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\models\refund_profile.py
@@ -3406,11 +3462,14 @@ E:\django_python\apps\customer_supports\return_refunds\services\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\signals\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\tasks\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\templates\__init__.py
+E:\django_python\apps\customer_supports\return_refunds\templates\return_refunds\refund_form.html
+E:\django_python\apps\customer_supports\return_refunds\templates\return_refunds\refund_list.html
 E:\django_python\apps\customer_supports\return_refunds\tests\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\urls.py
 E:\django_python\apps\customer_supports\return_refunds\utils\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\validators\__init__.py
 E:\django_python\apps\customer_supports\return_refunds\views\__init__.py
+E:\django_python\apps\customer_supports\return_refunds\views\refund_views.py
 E:\django_python\apps\customer_supports\urls.py
 E:\django_python\apps\finances\__init__.py
 E:\django_python\apps\finances\bank_accounts\__init__.py
@@ -4398,6 +4457,9 @@ E:\django_python\apps\users\guests\validators\security_validators.py
 E:\django_python\apps\users\guests\views\__init__.py
 E:\django_python\apps\users\guests\views\core_users_views.py
 E:\django_python\apps\users\guests\views\guest_views.py
+E:\django_python\apps\users\management\__init__.py
+E:\django_python\apps\users\management\commands\__init__.py
+E:\django_python\apps\users\management\commands\show_users.py
 E:\django_python\apps\users\members\__init__.py
 E:\django_python\apps\users\members\admin.py
 E:\django_python\apps\users\members\apps.py
@@ -4427,8 +4489,12 @@ E:\django_python\apps\users\members\services\member_service.py
 E:\django_python\apps\users\members\signals\__init__.py
 E:\django_python\apps\users\members\tasks\__init__.py
 E:\django_python\apps\users\members\templates\__init__.py
+E:\django_python\apps\users\members\templates\members\catalogs.html
 E:\django_python\apps\users\members\templates\members\dashboard.html
-E:\django_python\apps\users\members\templates\members\member_profile.html
+E:\django_python\apps\users\members\templates\members\orders.html
+E:\django_python\apps\users\members\templates\members\profile.html
+E:\django_python\apps\users\members\templates\members\requests.html
+E:\django_python\apps\users\members\templates\members\services.html
 E:\django_python\apps\users\members\tests\__init__.py
 E:\django_python\apps\users\members\urls.py
 E:\django_python\apps\users\members\utils\__init__.py
@@ -4513,7 +4579,16 @@ E:\django_python\apps\users\superusers\apps.py
 E:\django_python\apps\users\superusers\choices.py
 E:\django_python\apps\users\superusers\conf.py
 E:\django_python\apps\users\superusers\constants.py
+E:\django_python\apps\users\superusers\context_processors.py
+E:\django_python\apps\users\superusers\docs\catalogues_superusers.txt
+E:\django_python\apps\users\superusers\docs\customersupport_superusers.txt
+E:\django_python\apps\users\superusers\docs\finances_superusers.txt
+E:\django_python\apps\users\superusers\docs\logistics_superusers.txt
+E:\django_python\apps\users\superusers\docs\markettings_superusers.txt
+E:\django_python\apps\users\superusers\docs\profesionals_superusers.txt
 E:\django_python\apps\users\superusers\docs\superusers_plan.txt
+E:\django_python\apps\users\superusers\docs\systems_superusers.txt
+E:\django_python\apps\users\superusers\docs\users_superusers.txt
 E:\django_python\apps\users\superusers\dtos\__init__.py
 E:\django_python\apps\users\superusers\exceptions\__init__.py
 E:\django_python\apps\users\superusers\filters\__init__.py
@@ -4568,6 +4643,8 @@ E:\django_python\settings\local.py
 E:\django_python\settings\production.py
 E:\django_python\settings\testing.py
 E:\django_python\structure.py
+E:\django_python\templates\base.html
+E:\django_python\templates\base1.html
 
 === 3. URL ENDPOINTS EXTRACTED ===
  • apps\catalogs -> ['core/', 'pricing/', 'inventory/', 'categories/', 'attributes/', 'variants/', 'media/', 'status/', 'specifications/', 'bundles/', 'search-filters/', 'wishlist/', 'reviews/', '']
@@ -4580,6 +4657,11 @@ E:\django_python\structure.py
  • apps\catalogs\reviews_ratings -> ['post/']
  • apps\catalogs\search_filters -> ['save/']
  • apps\catalogs\specifications -> ['save/']
+ • apps\customer_supports -> ['', 'faqs/', 'helpdesk-tickets/', 'live-chats/', 'return-refunds/']
+ • apps\customer_supports\faqs -> ['', 'add/']
+ • apps\customer_supports\helpdesk_tickets -> ['', 'create/']
+ • apps\customer_supports\live_chats -> ['room/<str:room_name>/']
+ • apps\customer_supports\return_refunds -> ['', 'request/']
  • apps\finances\payment_gateways -> ['']
  • apps\finances\payouts -> ['']
  • apps\finances\taxes -> ['']
@@ -4602,12 +4684,12 @@ E:\django_python\structure.py
  • apps\systems\integrations -> ['']
  • apps\users -> ['guests/', 'members/', 'merchant/', 'executives/', 'sellers/', 'superusers/']
  • apps\users\executives -> ['dashboard/', 'profile/']
- • apps\users\guests -> ['registration/', 'login/', 'logout/', 'role-redirect/']
+ • apps\users\guests -> ['', 'registration/', 'login/', 'logout/', 'role-redirect/']
  • apps\users\members -> ['dashboard/', 'profile/']
  • apps\users\merchant -> ['dashboard/', 'profile/']
  • apps\users\sellers -> ['dashboard/', 'profile/']
- • apps\users\superusers -> ['dashboard/', 'profile/']
- • core -> ['', 'admin/', 'api/v1/catalogs/', 'api/v1/users/', 'api/v1/professional-network/', 'api/professional-network/', 'api/v1/support/', 'api/v1/finances/', 'api/v1/logistics/', 'api/v1/marketing/', 'api/v1/systems/']
+ • apps\users\superusers -> ['profile/', 'dashboard/']
+ • core -> ['', 'admin/', 'api/v1/catalogs/', 'api/v1/users/', 'api/v1/professional-network/', 'api/v1/marketing/', 'api/v1/support/', 'api/v1/finances/', 'api/v1/logistics/', 'api/v1/systems/']
 
 === 4. DJANGO MODELS SUMMARY (Folder/File) ===
  • apps\catalogs\attributes\models -> Models: ['AttributeProfile']
@@ -4720,6 +4802,18 @@ E:\django_python\structure.py
  • apps\catalogs\variants\models ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\serializers ──> Depends on Apps: ['catalogs']
  • apps\catalogs\variants\services ──> Depends on Apps: ['catalogs']
+ • apps\customer_supports ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\faqs ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\faqs\forms ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\faqs\views ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\helpdesk_tickets ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\helpdesk_tickets\forms ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\helpdesk_tickets\views ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\live_chats ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\live_chats\forms ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\return_refunds ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\return_refunds\forms ──> Depends on Apps: ['customer_supports']
+ • apps\customer_supports\return_refunds\views ──> Depends on Apps: ['customer_supports']
  • apps\finances\payment_gateways\services ──> Depends on Apps: ['finances', 'marketing_leads']
  • apps\finances\taxes\services ──> Depends on Apps: ['finances', 'marketing_leads']
  • apps\logistics\shipments ──> Depends on Apps: ['logistics']
@@ -4753,7 +4847,7 @@ E:\django_python\structure.py
  • apps\professional_network\service_categries\serializers ──> Depends on Apps: ['professional_network']
  • apps\professional_network\service_categries\views ──> Depends on Apps: ['professional_network']
  • apps\professional_network\views ──> Depends on Apps: ['professional_network']
- • apps\systems\analytics\services ──> Depends on Apps: ['catalogs', 'marketing_leads']
+ • apps\systems\analytics\services ──> Depends on Apps: ['marketing_leads', 'catalogs']
  • apps\users ──> Depends on Apps: ['users']
  • apps\users\executives ──> Depends on Apps: ['users']
  • apps\users\executives\serializers ──> Depends on Apps: ['users']
@@ -4762,11 +4856,11 @@ E:\django_python\structure.py
  • apps\users\guests ──> Depends on Apps: ['users']
  • apps\users\guests\forms ──> Depends on Apps: ['users']
  • apps\users\guests\models ──> Depends on Apps: ['users']
- • apps\users\guests\selectors ──> Depends on Apps: ['guests', 'users']
+ • apps\users\guests\selectors ──> Depends on Apps: ['users', 'guests']
  • apps\users\guests\serializers ──> Depends on Apps: ['users']
- • apps\users\guests\services ──> Depends on Apps: ['guests', 'users']
+ • apps\users\guests\services ──> Depends on Apps: ['users', 'guests']
  • apps\users\guests\validators ──> Depends on Apps: ['users']
- • apps\users\guests\views ──> Depends on Apps: ['professional_network', 'users']
+ • apps\users\guests\views ──> Depends on Apps: ['users', 'professional_network']
  • apps\users\members ──> Depends on Apps: ['users']
  • apps\users\members\serializers ──> Depends on Apps: ['users']
  • apps\users\members\services ──> Depends on Apps: ['users']
@@ -4780,6 +4874,7 @@ E:\django_python\structure.py
  • apps\users\superusers ──> Depends on Apps: ['users']
  • apps\users\superusers\serializers ──> Depends on Apps: ['users']
  • apps\users\superusers\views ──> Depends on Apps: ['users']
+ • core ──> Depends on Apps: ['users']
 
 === 6. FLOW CHART / ARCHITECTURE DIAGRAM (Mermaid) ===
 ```mermaid
@@ -4789,10 +4884,11 @@ graph TD
     catalogs -->|depends on| catalog
     finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
-    systems -->|depends on| catalogs
     systems -->|depends on| marketing_leads
+    systems -->|depends on| catalogs
     users -->|depends on| guests
     users -->|depends on| professional_network
+    core -->|depends on| users
     catalogs --- AttributeProfile[Model: AttributeProfile]
     catalogs --- BundlesKitsProfile[Model: BundlesKitsProfile]
     catalogs --- BundleProfile[Model: BundleProfile]
@@ -4862,5 +4958,5 @@ graph TD
 ```
 
 === 7. GIT INTEGRATION STATUS ===
- • Modified Files  : ['AI_PROJECT_CONTEXT.md', 'README.md', 'apps/catalogs/core_catalogs/admin.py', 'apps/catalogs/core_catalogs/migrations/0001_initial.py', 'apps/catalogs/core_catalogs/models/__init__.py', 'apps/catalogs/core_catalogs/serializers/__init__.py', 'apps/catalogs/core_catalogs/urls.py', 'apps/catalogs/core_catalogs/views/core_catalog_views.py', 'apps/catalogs/variants/migrations/0001_initial.py', 'apps/catalogs/variants/models/variant_profile.py', 'apps/finances/payment_gateways/migrations/0001_initial.py', 'apps/finances/payouts/migrations/0001_initial.py', 'apps/finances/taxes/migrations/0001_initial.py', 'apps/logistics/logistics_partners/migrations/0001_initial.py', 'apps/logistics/returns/migrations/0001_initial.py', 'apps/logistics/shipments/migrations/0001_initial.py', 'apps/logistics/warehouse_transfers/migrations/0001_initial.py', 'apps/marketing_leads/ads_campaigns/migrations/0001_initial.py', 'apps/marketing_leads/carts/migrations/0001_initial.py', 'apps/marketing_leads/carts/serializers/cart_serializer.py', 'apps/marketing_leads/carts/services/__init__.py', 'apps/marketing_leads/carts/services/cart_service.py', 'apps/marketing_leads/carts/urls.py', 'apps/marketing_leads/carts/views/__init__.py', 'apps/marketing_leads/carts/views/cart_views.py', 'apps/marketing_leads/checkout_flows/migrations/0001_initial.py', 'apps/marketing_leads/coupons_discounts/migrations/0001_initial.py', 'apps/marketing_leads/customer_leads/migrations/0001_initial.py', 'apps/marketing_leads/orders/migrations/0001_initial.py', 'apps/marketing_leads/orders/serializers/order_serializer.py', 'apps/marketing_leads/orders/urls.py', 'apps/marketing_leads/orders/views/__init__.py', 'apps/marketing_leads/orders/views/order_views.py', 'apps/marketing_leads/push_notifications/migrations/0001_initial.py', 'apps/marketing_leads/urls.py', 'apps/marketing_leads/wishlists/migrations/0001_initial.py', 'apps/marketing_leads/wishlists/models/__init__.py', 'apps/marketing_leads/wishlists/serializers/__init__.py', 'apps/marketing_leads/wishlists/urls.py', 'apps/marketing_leads/wishlists/views/__init__.py', 'apps/professional_network/service_categries/migrations/0001_initial.py', 'apps/professional_network/urls.py', 'apps/systems/analytics/migrations/0001_initial.py', 'apps/systems/audits/migrations/0001_initial.py', 'apps/systems/integrations/migrations/0001_initial.py', 'apps/users/executives/migrations/0001_initial.py', 'apps/users/executives/migrations/0002_initial.py', 'apps/users/guests/migrations/0001_initial.py', 'apps/users/members/migrations/0001_initial.py', 'apps/users/merchant/migrations/0001_initial.py', 'apps/users/sellers/migrations/0001_initial.py', 'apps/users/superusers/migrations/0001_initial.py', 'clean_project.py', 'core/urls.py', 'settings/local.py']
- • Untracked Files : ['apps/catalogs/core_catalogs/migrations/0002_initial.py', 'apps/catalogs/core_catalogs/models/core_catalog_models.py', 'apps/catalogs/core_catalogs/serializers/core_catalog_serializers.py', 'apps/catalogs/core_catalogs/templates/catalogs/', 'apps/marketing_leads/carts/migrations/0002_initial.py', 'apps/marketing_leads/checkout_flows/migrations/0002_initial.py', 'apps/marketing_leads/wishlists/migrations/0002_wishlist_delete_wishlistprofile.py', 'apps/marketing_leads/wishlists/models/wishlist_profile.py', 'apps/marketing_leads/wishlists/serializers/wishlist_serializer.py', 'apps/marketing_leads/wishlists/views/wishlist_views.py', 'apps/professional_network/migrations/', 'apps/professional_network/models/', 'apps/professional_network/serializers/', 'apps/professional_network/views/', 'apps/systems/audits/migrations/0002_initial.py']
+ • Modified Files  : ['AI_PROJECT_CONTEXT.md', 'README.md', 'apps/customer_supports/faqs/urls.py', 'apps/customer_supports/helpdesk_tickets/models/ticket_profile.py', 'apps/customer_supports/helpdesk_tickets/urls.py', 'apps/customer_supports/live_chats/urls.py', 'apps/customer_supports/return_refunds/models/refund_profile.py', 'apps/customer_supports/return_refunds/urls.py', 'apps/customer_supports/urls.py', 'apps/users/executives/templates/executives/dashboard.html', 'apps/users/guests/templates/guests/guest_home.html', 'apps/users/members/templates/members/dashboard.html', 'apps/users/merchant/templates/merchant/dashboard.html', 'apps/users/sellers/templates/sellers/dashboard.html', 'apps/users/superusers/templates/superusers/dashboard.html', 'apps/users/superusers/urls.py', 'apps/users/superusers/views/superuser_views.py', 'core/urls.py', 'settings/base.py', 'settings/local.py']
+ • Untracked Files : ['apps/customer_supports/faqs/forms/faq_form.py', 'apps/customer_supports/faqs/migrations/0001_initial.py', 'apps/customer_supports/faqs/templates/faqs/', 'apps/customer_supports/faqs/views/faq_views.py', 'apps/customer_supports/helpdesk_tickets/forms/ticket_form.py', 'apps/customer_supports/helpdesk_tickets/migrations/0001_initial.py', 'apps/customer_supports/helpdesk_tickets/templates/helpdesk_tickets/', 'apps/customer_supports/helpdesk_tickets/views/ticket_views.py', 'apps/customer_supports/live_chats/forms/chat_form.py', 'apps/customer_supports/live_chats/templates/live_chats/', 'apps/customer_supports/live_chats/views/chat_views.py', 'apps/customer_supports/return_refunds/forms/refund_form.py', 'apps/customer_supports/return_refunds/migrations/0001_initial.py', 'apps/customer_supports/return_refunds/templates/return_refunds/', 'apps/customer_supports/return_refunds/views/refund_views.py', 'apps/users/members/templates/members/catalogs.html', 'apps/users/members/templates/members/orders.html', 'apps/users/members/templates/members/profile.html', 'apps/users/members/templates/members/requests.html', 'apps/users/members/templates/members/services.html', 'apps/users/superusers/context_processors.py', 'templates/']

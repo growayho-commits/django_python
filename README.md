@@ -11,10 +11,11 @@ graph TD
     catalogs -->|depends on| catalog
     finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
-    systems -->|depends on| catalogs
     systems -->|depends on| marketing_leads
+    systems -->|depends on| catalogs
     users -->|depends on| guests
     users -->|depends on| professional_network
+    core -->|depends on| users
     catalogs --- AttributeProfile[Model: AttributeProfile]
     catalogs --- BundlesKitsProfile[Model: BundlesKitsProfile]
     catalogs --- BundleProfile[Model: BundleProfile]

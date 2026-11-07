@@ -1,96 +1,177 @@
 <!DOCTYPE html>
-<html lang="ta">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HYBRID MARKETPLACE - Welcome Guest</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .royal-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #09090b 100%);
+        }
+        .gold-border {
+            border-color: rgba(217, 119, 6, 0.4);
+        }
+        .gold-text {
+            color: #fbbf24;
+        }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- Header / Navbar -->
-    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
+    <!-- Header / Navbar with Navigation Links -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-amber-500/20 sticky top-0 z-50 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <a href="{% url 'guests:guest_home' %}" class="text-xl sm:text-2xl font-black tracking-wider text-indigo-600">
+            <div class="flex items-center space-x-6">
+                <a href="{% url 'guests:guest_home' %}" class="text-xl sm:text-2xl font-black tracking-wider gold-text">
                     HYBRID MARKETPLACE
                 </a>
+                <!-- Quick Navigation Links -->
+                <nav class="hidden md:flex space-x-4 text-sm font-medium">
+                    <a href="#catalogs" class="text-slate-300 hover:text-amber-400 transition">Catalogs</a>
+                    <a href="#latest-news" class="text-slate-300 hover:text-amber-400 transition">Latest News</a>
+                    <a href="#services" class="text-slate-300 hover:text-amber-400 transition">Services</a>
+                    <a href="#inquiry" class="text-slate-300 hover:text-amber-400 transition">Inquiry</a>
+                </nav>
             </div>
             
-            <!-- Geo-Location Status Badge in Navbar (Shows Place & Pincode) -->
-            <div id="geo-location-badge" class="hidden sm:flex items-center text-xs bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full border border-indigo-100 font-medium">
-                <span id="location-text">📍 இருப்பிடம் கண்டறியப்படுகிறது...</span>
+            <!-- Geo-Location Badge in Navbar -->
+            <div id="geo-location-badge" class="hidden lg:flex items-center text-xs bg-amber-500/10 text-amber-300 px-3 py-1.5 rounded-full border border-amber-500/30 font-medium">
+                <span id="location-text">📍 Detecting location...</span>
             </div>
 
+            <!-- Login & Register Buttons -->
             <div class="space-x-3">
-                <a href="{% url 'guests:login' %}" class="text-slate-600 hover:text-indigo-600 font-medium px-3 py-2 text-sm sm:text-base transition">Login</a>
-                <a href="{% url 'guests:register' %}" class="bg-indigo-600 text-white font-medium px-4 py-2 rounded-xl shadow hover:bg-indigo-700 transition text-sm sm:text-base">Register</a>
+                <a href="{% url 'guests:login' %}" class="text-slate-300 hover:text-amber-400 font-medium px-3 py-2 text-sm sm:text-base transition">Login</a>
+                <a href="{% url 'guests:register' %}" class="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 font-bold px-4 py-2 rounded-xl shadow-md hover:opacity-90 transition text-sm sm:text-base">Register</a>
             </div>
         </div>
     </header>
 
-    <!-- Hero / Main Section -->
+    <!-- Main Content Section -->
     <main class="flex-grow">
-        <!-- Hero Banner -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-            <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
-                Welcome to <span class="text-indigo-600">HYBRID MARKETPLACE</span>
-            </h1>
-            <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-6">
-                Explore a vast range of services, premium products, categories, and custom solutions all under one unified ecosystem.
-            </p>
-            
-            <!-- Exact Live Place Name & Pincode Display Card -->
-            <div class="inline-block bg-white border border-indigo-100 shadow-sm rounded-2xl px-6 py-4 mb-8">
-                <p class="text-xs text-slate-400 uppercase tracking-wider mb-1 font-semibold">உங்கள் தற்போதைய நேரடி இருப்பிடம்</p>
-                <div id="exact-location-display" class="text-indigo-600 font-bold text-base sm:text-lg">
-                    📍 இருப்பிட விவரங்கள் பெறப்படுகின்றன...
+        <!-- Hero Banner with Royal Gradient -->
+        <section class="royal-gradient border-b border-amber-500/10 py-16 text-center px-4">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-3xl sm:text-6xl font-extrabold tracking-tight mb-6 text-white">
+                    Welcome to <span class="gold-text">HYBRID MARKETPLACE</span>
+                </h1>
+                <p class="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto mb-8 font-light">
+                    Explore pin-code verified professional services, premium catalogs, and custom solutions all under one unified ecosystem across India.
+                </p>
+                
+                <!-- Live Location Card -->
+                <div class="inline-block bg-slate-900/80 border gold-border shadow-xl rounded-2xl px-6 py-4 backdrop-blur-sm">
+                    <p class="text-xs text-amber-400 uppercase tracking-widest mb-1 font-semibold">Your Current Live Location & Pincode</p>
+                    <div id="exact-location-display" class="text-white font-bold text-base sm:text-lg">
+                        📍 Fetching GPS coordinates & pincode...
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Categories Section -->
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b pb-3">Explore Service Categories</h2>
+        <!-- 1. Featured Catalogs Section (Pincode Filtered) -->
+        <section id="catalogs" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-3">
+                <h2 class="text-2xl font-bold text-white">Featured Catalogs (Available in Your Area)</h2>
+                <span class="text-xs text-amber-400 font-medium">Verified Delivery</span>
+            </div>
             
-            {% if parent_categories %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-12">
-                    {% for category in parent_categories %}
-                        <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
-                            <h3 class="text-lg font-semibold text-indigo-600 mb-2">{{ category.name }}</h3>
-                            <p class="text-slate-500 text-sm">Explore professional listings and reliable services in this category.</p>
+            {% if products %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    {% for product in products %}
+                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-2xl shadow-sm hover:border-amber-500/50 transition flex flex-col justify-between">
+                            <div>
+                                <a href="{% if product.get_absolute_url %}{{ product.get_absolute_url }}{% else %}{% url 'guests:login' %}{% endif %}" class="block group">
+                                    <h3 class="text-md font-semibold text-white group-hover:text-amber-400 transition mb-1">{{ product.name }}</h3>
+                                </a>
+                                <p class="gold-text font-bold text-lg mb-2">₹{{ product.price }}</p>
+                                <p class="text-slate-400 text-xs mb-4">{{ product.description|truncatechars:60 }}</p>
+                            </div>
+                            <a href="{% url 'guests:login' %}" class="block text-center bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 text-sm font-medium py-2 rounded-xl transition">
+                                View Details
+                            </a>
                         </div>
                     {% endfor %}
                 </div>
             {% else %}
-                <div class="bg-white border border-slate-200 p-8 rounded-2xl text-center mb-12">
-                    <p class="text-slate-500">No main categories available at the moment. Browse freely as a guest!</p>
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl text-center">
+                    <p class="text-slate-400 text-sm">No catalogs available for your current pincode at the moment.</p>
                 </div>
             {% endif %}
         </section>
 
-        <!-- Inquiry Form Section -->
-        <section class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 bg-white border border-slate-200 rounded-3xl shadow-sm mb-16">
-            <h2 class="text-2xl font-bold text-slate-900 text-center mb-2">Send Us an Inquiry</h2>
-            <p class="text-slate-500 text-center text-sm mb-6">Have questions or looking for specific services? Drop us a message below.</p>
+        <!-- 2. Latest News & Updates Section -->
+        <section id="latest-news" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-800 pb-3">Latest News & Updates</h2>
+            <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="border-l-4 border-amber-500 pl-4">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Announcement</span>
+                        <h4 class="text-white font-semibold mt-1 mb-2">Pan-India Vendor Onboarding Live</h4>
+                        <p class="text-slate-400 text-xs">Merchants and professional service providers across India can now register and set up digital storefronts instantly.</p>
+                    </div>
+                    <div class="border-l-4 border-amber-500 pl-4">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Feature Update</span>
+                        <h4 class="text-white font-semibold mt-1 mb-2">Geo-Targeted Pincode Filter</h4>
+                        <p class="text-slate-400 text-xs">Customers can view professional services and catalogs specific to their exact locality and pincode delivery range.</p>
+                    </div>
+                    <div class="border-l-4 border-amber-500 pl-4">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Special Offer</span>
+                        <h4 class="text-white font-semibold mt-1 mb-2">Zero Commission Period</h4>
+                        <p class="text-slate-400 text-xs">Register early as a member or merchant to enjoy promotional benefits across the ecosystem.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Professional Services Section -->
+        <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h2 class="text-2xl font-bold text-white mb-6 border-b border-slate-800 pb-3 flex items-center justify-between">
+                <span>Professional Services & Categories</span>
+                <span class="text-xs text-amber-400 font-normal">Verified Experts in Your Pincode</span>
+            </h2>
             
-            <form method="POST" class="space-y-4">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-xl shadow-lg hover:bg-indigo-700 transition">
-                    Submit Inquiry
-                </button>
-            </form>
+            {% if parent_categories %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {% for category in parent_categories %}
+                        <div class="bg-slate-900 border border-slate-800 hover:border-amber-500/50 p-6 rounded-2xl shadow-sm transition">
+                            <h3 class="text-lg font-semibold gold-text mb-2">{{ category.name }}</h3>
+                            <p class="text-slate-400 text-sm">Explore professional listings, specialists, and reliable services available in your service radius.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl text-center">
+                    <p class="text-slate-400">No professional services available for your pincode at the moment.</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- 4. Inquiry Form Section -->
+        <section id="inquiry" class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="bg-slate-900 border gold-border p-8 rounded-3xl shadow-xl">
+                <h2 class="text-2xl font-bold text-white text-center mb-2">Send Us an Inquiry</h2>
+                <p class="text-slate-400 text-center text-sm mb-6">Have questions or looking for specific professional services in your area? Drop us a message below.</p>
+                
+                <form method="POST" class="space-y-4">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition">
+                        Submit Inquiry
+                    </button>
+                </form>
+            </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-6 text-center text-slate-500 text-sm">
+    <footer class="bg-slate-900 border-t border-slate-800 py-6 text-center text-slate-500 text-sm">
         &copy; 2026 HYBRID MARKETPLACE. All rights reserved.
     </footer>
 
-    <!-- JavaScript for Place Name & Pincode Auto-Detection -->
+    <!-- JavaScript for Live Geo-Location & Pincode Detection -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const locText = document.getElementById("location-text");
@@ -102,8 +183,7 @@
                         const lat = position.coords.latitude;
                         const lon = position.coords.longitude;
 
-                        // OpenStreetMap Nominatim API மூலம் Lat/Lon ஐ வைத்து ஊர்ப் பெயர் மற்றும் Pincode பெறுதல்
-                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`)
+                        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1&accept-language=en`)
                             .then(response => response.json())
                             .then(data => {
                                 if (data && data.address) {
@@ -112,7 +192,7 @@
                                     
                                     let displayMessage = "";
                                     if (suburb && postcode) {
-                                        displayMessage = `📍 ${suburb} - ${postcode}`;
+                                        displayMessage = `📍 ${suburb} - Pincode: ${postcode}`;
                                     } else if (suburb) {
                                         displayMessage = `📍 ${suburb}`;
                                     } else if (postcode) {
@@ -127,19 +207,19 @@
                             })
                             .catch(err => {
                                 console.log("Location fetch error:", err);
-                                if (locText) locText.innerText = "📍 Location detected";
-                                if (exactLocDisplay) exactLocDisplay.innerText = "📍 Location detected";
+                                if (locText) locText.innerText = "📍 India Marketplace";
+                                if (exactLocDisplay) exactLocDisplay.innerText = "📍 India Marketplace";
                             });
                     },
                     function(error) {
-                        const errorMessage = "📍 இருப்பிட அனுமதி மறுக்கப்பட்டுள்ளது";
+                        const errorMessage = "📍 Location permission denied";
                         if (locText) locText.innerText = errorMessage;
                         if (exactLocDisplay) exactLocDisplay.innerText = errorMessage;
                     },
                     { timeout: 10000, enableHighAccuracy: true }
                 );
             } else {
-                const unSupportedMessage = "📍 ஜியோ லொகேஷன் ஆதரிக்கப்படவில்லை";
+                const unSupportedMessage = "📍 Geolocation not supported";
                 if (locText) locText.innerText = unSupportedMessage;
                 if (exactLocDisplay) exactLocDisplay.innerText = unSupportedMessage;
             }

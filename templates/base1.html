@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hybrid Marketplace - Portal{% endblock %}</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .role-badge { 
+            font-size: 0.75rem; 
+            padding: 4px 10px; 
+            border-radius: 20px; 
+            font-weight: 600; 
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <div class="flex flex-col flex-grow w-full min-h-screen">
+        {% block body_content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-500 text-sm w-full mt-auto">
+        &copy; 2026 HYBRID MARKETPLACE. All rights reserved.
+    </footer>
+
+    <!-- Global Dropdown & Submenu Toggle Script -->
+    <script>
+        function toggleZohoLeftMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById("zohoLeftDropdown");
+            if (menu) {
+                menu.classList.toggle("hidden");
+            }
+        }
+
+        function toggleSubmenu(submenuId, event) {
+            event.stopPropagation();
+            const submenu = document.getElementById(submenuId);
+            if (submenu) {
+                submenu.classList.toggle("hidden");
+            }
+        }
+
+        window.addEventListener("click", function() {
+            const menu = document.getElementById("zohoLeftDropdown");
+            if (menu && !menu.classList.contains("hidden")) {
+                menu.classList.add("hidden");
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

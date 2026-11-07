@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Requests - Member Portal{% endblock %}
+{% block page_header %}Active Service Requests & Inquiries{% endblock %}
+
+{% block content %}
+<div class="space-y-6 w-full text-light">
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl">
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+            <div>
+                <span class="bg-amber-500/10 text-amber-400 text-xs px-2.5 py-0.5 rounded-full mb-1 inline-block">Request #104</span>
+                <h4 class="text-white font-semibold text-sm">Emergency Electrical Maintenance</h4>
+                <p class="text-slate-400 text-xs mt-1">Location Pincode: 641652 | Status: Pending Response</p>
+            </div>
+            <button class="mt-3 sm:mt-0 bg-amber-500 text-slate-950 font-semibold px-4 py-2 rounded-xl text-xs">Manage Request</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

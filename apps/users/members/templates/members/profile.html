@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Profile Settings - Member Portal{% endblock %}
+{% block page_header %}Member Profile Settings{% endblock %}
+
+{% block content %}
+<div class="bg-slate-900 border border-amber-500/30 p-6 sm:p-8 rounded-2xl shadow-xl w-full text-light">
+    <form method="POST" class="space-y-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs uppercase font-semibold gold-text mb-1">Full Name / Business Name</label>
+                <input type="text" value="{{ request.user.get_full_name|default:request.user.email }}" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-amber-500">
+            </div>
+            <div>
+                <label class="block text-xs uppercase font-semibold gold-text mb-1">Email Address</label>
+                <input type="email" value="{{ request.user.email }}" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm outline-none" readonly>
+            </div>
+            <div>
+                <label class="block text-xs uppercase font-semibold gold-text mb-1">Phone Number</label>
+                <input type="text" value="{{ request.user.profile.phone|default:'' }}" placeholder="+91 9876543210" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-amber-500">
+            </div>
+            <div>
+                <label class="block text-xs uppercase font-semibold gold-text mb-1">Primary Delivery Pincode</label>
+                <input type="text" value="{{ request.user.profile.pincode|default:'641652' }}" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-amber-500">
+            </div>
+        </div>
+        <div class="flex justify-end pt-2">
+            <button type="submit" class="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-sm shadow-lg">Save Profile Details</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

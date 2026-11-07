@@ -1,75 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merchant Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: auto;
-        }
-        h2 {
-            color: #333;
-        }
-        p {
-            color: #555;
-            font-size: 16px;
-        }
-        .profile-info {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 15px 0;
-        }
-        .logout-btn {
-            background-color: #d9534f;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 14px;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .logout-btn:hover {
-            background-color: #c9302c;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Dashboard - Merchant Portal{% endblock %}
 
-    <div class="container">
-        <h2>Welcome to Merchant Dashboard</h2>
-        <p>You have successfully logged in as a merchant!</p>
-        
-        {% if profile %}
-        <div class="profile-info">
-            <p><strong>Business Name:</strong> {{ profile.business_name|default:"Not Provided" }}</p>
-            <p><strong>Merchant Type:</strong> {{ profile.merchant_type }}</p>
-            <p><strong>GSTIN:</strong> {{ profile.gstin|default:"N/A" }}</p>
-            <p><strong>Verified:</strong> {% if profile.is_verified %}Yes{% else %}No{% endif %}</p>
+{% block body_content %}
+<div class="flex flex-col w-full min-h-screen bg-slate-50 relative">
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center space-x-4 relative">
+            <div class="relative">
+                <button onclick="toggleZohoLeftMenu(event)" class="p-2.5 text-slate-600 hover:text-cyan-600 hover:bg-slate-100 rounded-lg transition cursor-pointer border border-slate-200 bg-white shadow-sm flex items-center justify-center w-10 h-10">
+                    <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
+                </button>
+                <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 z-50">
+                    <div class="px-4 py-3 border-b border-slate-100 text-center bg-slate-50/50 mx-2 rounded-lg mb-2">
+                        <span class="text-xs text-slate-400 block">Signed in as</span>
+                        <strong class="text-slate-800 text-xs truncate block">{{ request.user.email }}</strong>
+                        <div class="mt-1"><span class="bg-cyan-100 text-cyan-700 role-badge">Merchant</span></div>
+                    </div>
+                    <div class="px-2 space-y-1">
+                        <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm text-slate-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition">
+                            <i class="fa-solid fa-chart-pie w-5 text-center text-slate-400"></i><span>Merchant Overview</span>
+                        </a>
+                        <div>
+                            <button onclick="toggleSubmenu('bulkOrdersSub', event)" class="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition cursor-pointer">
+                                <span class="flex items-center space-x-3"><i class="fa-solid fa-truck-ramp-box w-5 text-center text-slate-400"></i><span>பல்க் விற்பனை (Bulk)</span></span>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                            </button>
+                            <div id="bulkOrdersSub" class="hidden pl-9 pr-2 py-1 space-y-1">
+                                <a href="#" class="block py-1.5 text-xs text-slate-600 hover:text-cyan-600">Bulk Orders</a>
+                                <a href="#" class="block py-1.5 text-xs text-slate-600 hover:text-cyan-600">Wholesale Pricing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="text-xl font-bold text-slate-900 m-0">Merchant Portal</h1>
         </div>
-        {% endif %}
-
-        <!-- லாக் அவுட் செய்வதற்கான படிவம் (Logout Form) -->
-        <form action="/api/v1/users/guests/logout/" method="POST" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
-    </div>
-
-</body>
-</html>
+        <div class="flex items-center space-x-4">
+            <span class="text-sm font-medium text-slate-600 hidden sm:inline">{{ request.user.email }}</span>
+            <form action="{% url 'guests:logout' %}" method="POST" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="flex items-center space-x-2 bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition cursor-pointer">
+                    <i class="fa-solid fa-power-off"></i><span>Logout</span>
+                </button>
+            </form>
+        </div>
+    </header>
+    <main class="p-6 md:p-10 flex-grow max-w-7xl mx-auto w-full">
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 md:p-8 border-t-4 border-cyan-500">
+            <h2 class="text-2xl font-extrabold text-slate-900 mb-2">Merchant Dashboard</h2>
+            <p class="text-slate-500 text-sm">Manage your wholesale orders, bulk sales, and inventory efficiently.</p>
+        </div>
+    </main>
+</div>
+{% endblock %}

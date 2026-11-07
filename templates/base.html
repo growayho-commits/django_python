@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Hybrid Marketplace - Portal{% endblock %}</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .role-badge { 
+            font-size: 0.65rem; 
+            padding: 5px 12px; 
+            border-radius: 20px; 
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        /* Custom sleek scrollbar for dropdown menu */
+        #zohoLeftDropdown::-webkit-scrollbar { width: 6px; }
+        #zohoLeftDropdown::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        /* Modern Hardware-Accelerated Flyout Submenu */
+        .has-submenu {
+            position: relative;
+        }
+
+        .submenu-flyout {
+            display: none;
+            position: fixed;
+            width: 270px;
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.18);
+            border: 1px solid #f1f5f9;
+            padding: 0.75rem 0;
+            z-index: 99999;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .submenu-flyout.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Invisible Safe Hover Bridge to completely prevent mouse-gap closing bugs */
+        .has-submenu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -12px;
+            width: 15px;
+            height: 100%;
+        }
+
+        .menu-item-active {
+            background-color: #fffbeb !important;
+            color: #d97706 !important;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <div class="flex flex-col flex-grow w-full min-h-screen">
+        
+        <!-- Global Top Header Navbar -->
+        <header class="bg-white/95 backdrop-blur-md border-b border-amber-200/50 sticky top-0 z-50 px-4 md:px-8 py-3.5 flex justify-between items-center shadow-[0_4px_20px_-10px_rgba(0,0,0,0.06)]">
+            
+            <div class="flex items-center space-x-3 md:space-x-5 relative">
+                <div class="relative">
+                    <button id="mainMenuBtn" type="button" class="p-2 text-slate-500 hover:text-amber-600 hover:border-amber-300 hover:bg-amber-50 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 bg-white shadow-sm flex items-center justify-center w-11 h-11">
+                        <i class="fa-solid fa-ellipsis-vertical text-xl"></i>
+                    </button>
+
+                    <!-- Main Dropdown Menu (Fixed Left - User Card Removed, Optimized Max Height for All Apps) -->
+                    <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-72 bg-white rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 py-3 z-50">
+                        
+                        <!-- Menu Items Container with proper scroll handling to show all modules -->
+                        <div class="px-3 space-y-1 max-h-[75vh] overflow-y-auto">
+                            <a href="{% url 'superusers:dashboard' %}" class="flex items-center space-x-3 px-3 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-xl">
+                                <i class="fa-solid fa-gauge-high text-indigo-600 w-5"></i> Dashboard Overview
+                            </a>
+
+                            {% for module in enterprise_modules %}
+                            <!-- Advanced Smart Right-Side Flyout Item -->
+                            <div class="has-submenu" data-module-id="{{ module.id }}">
+                                <div class="menu-trigger w-full flex items-center justify-between px-3 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-xl cursor-pointer transition-colors">
+                                    <span class="flex items-center space-x-3">
+                                        <i class="fa-solid {{ module.icon }} text-{{ module.color }}-600 w-5"></i>
+                                        <span>{{ module.name }}</span>
+                                    </span>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                                </div>
+                                
+                                <!-- Submenu Flyout Box -->
+                                <div class="submenu-flyout">
+                                    <div class="px-4 py-2 border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                        {{ module.name }}
+                                    </div>
+                                    <div class="px-2 py-1 space-y-1 max-h-[60vh] overflow-y-auto">
+                                        {% for app in module.sub_apps %}
+                                        <a href="{{ app.url }}" class="block px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-lg transition-colors">
+                                            {{ app.title }}
+                                        </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 m-0 tracking-tight">Hybrid Marketplace</h1>
+                    <span class="text-[0.65rem] font-bold text-amber-500 uppercase tracking-widest hidden md:block">Enterprise Portal</span>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3 md:space-x-5">
+                <span class="text-sm font-bold text-slate-700 hidden lg:inline border-r border-slate-200 pr-5">
+                    {{ request.user.email|default:"User" }}
+                </span>
+                
+                {% if request.user.is_authenticated %}
+                <form action="{% url 'guests:logout' %}" method="POST" class="inline m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="flex items-center space-x-2 bg-gradient-to-r from-slate-800 to-slate-900 text-amber-400 border border-slate-700 px-5 py-2.5 rounded-xl text-sm font-bold hover:from-slate-900 hover:to-black hover:text-amber-300 transition-all cursor-pointer">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        <span class="hidden sm:inline">Logout</span>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </header>
+
+        {% block body_content %}
+        {% endblock %}
+    </div>
+
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-500 text-sm w-full mt-auto">
+        &copy; 2026 HYBRID MARKETPLACE. All rights reserved.
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const mainMenuBtn = document.getElementById("mainMenuBtn");
+            const zohoLeftDropdown = document.getElementById("zohoLeftDropdown");
+            const submenuItems = document.querySelectorAll(".has-submenu");
+
+            let hideTimer = null;
+
+            // Toggle Main 3-Dot Menu
+            mainMenuBtn.addEventListener("click", function(e) {
+                e.stopPropagation();
+                zohoLeftDropdown.classList.toggle("hidden");
+                if (zohoLeftDropdown.classList.contains("hidden")) {
+                    hideAllFlyouts();
+                }
+            });
+
+            function hideAllFlyouts() {
+                submenuItems.forEach(i => {
+                    const f = i.querySelector(".submenu-flyout");
+                    f.classList.remove("active");
+                    i.querySelector(".menu-trigger").classList.remove("menu-item-active");
+                });
+            }
+
+            // High-Performance Smart Positioning Engine (Right-Up & Right-Down auto-adjust)
+            submenuItems.forEach(item => {
+                const flyout = item.querySelector(".submenu-flyout");
+                const trigger = item.querySelector(".menu-trigger");
+
+                item.addEventListener("mouseenter", function() {
+                    if (hideTimer) {
+                        clearTimeout(hideTimer);
+                        hideTimer = null;
+                    }
+
+                    // Hide other open flyouts immediately
+                    submenuItems.forEach(i => {
+                        if (i !== item) {
+                            i.querySelector(".submenu-flyout").classList.remove("active");
+                            i.querySelector(".menu-trigger").classList.remove("menu-item-active");
+                        }
+                    });
+
+                    trigger.classList.add("menu-item-active");
+                    flyout.classList.add("active");
+
+                    const itemRect = item.getBoundingClientRect();
+                    const flyoutRect = flyout.getBoundingClientRect();
+                    const screenHeight = window.innerHeight;
+
+                    let leftPos = itemRect.right + 2;
+                    let topPos = itemRect.top;
+
+                    // 💡 Dynamic Boundary Intelligence: Automatically switches to Right-UP if bottom overflows
+                    if (topPos + flyoutRect.height > screenHeight - 20) {
+                        topPos = itemRect.bottom - flyoutRect.height;
+                        if (topPos < 10) topPos = 10; // Safety ceiling buffer
+                    }
+
+                    flyout.style.left = `${leftPos}px`;
+                    flyout.style.top = `${topPos}px`;
+                });
+
+                item.addEventListener("mouseleave", function(e) {
+                    if (e.relatedTarget && flyout.contains(e.relatedTarget)) return;
+
+                    hideTimer = setTimeout(() => {
+                        if (!flyout.matches(':hover') && !item.matches(':hover')) {
+                            flyout.classList.remove("active");
+                            trigger.classList.remove("menu-item-active");
+                        }
+                    }, 350); // Generous buffer delay for smooth cursor crossing
+                });
+
+                flyout.addEventListener("mouseenter", function() {
+                    if (hideTimer) {
+                        clearTimeout(hideTimer);
+                        hideTimer = null;
+                    }
+                });
+
+                flyout.addEventListener("mouseleave", function(e) {
+                    if (e.relatedTarget && item.contains(e.relatedTarget)) return;
+
+                    hideTimer = setTimeout(() => {
+                        if (!flyout.matches(':hover') && !item.matches(':hover')) {
+                            flyout.classList.remove("active");
+                            trigger.classList.remove("menu-item-active5");
+                        }
+                    }, 350);
+                });
+            });
+
+            // Close all menus when clicking outside
+            window.addEventListener("click", function(e) {
+                if (!zohoLeftDropdown.contains(e.target) && e.target !== mainMenuBtn && !mainMenuBtn.contains(e.target)) {
+                    zohoLeftDropdown.classList.add("hidden");
+                    hideAllFlyouts();
+                }
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

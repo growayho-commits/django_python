@@ -43,7 +43,7 @@ urlpatterns = [
     path('api/v1/marketing/', include('apps.marketing_leads.urls')),
     
     # தேவையெனில் மற்ற மாடியூல்களை இங்கே அன்-கமெண்ட் செய்து இணைத்துக் கொள்ளலாம்:
-    # path('api/v1/support/', include('apps.customer_supports.urls')),
+    path('api/v1/support/', include('apps.customer_supports.urls')),
     # path('api/v1/finances/', include('apps.finances.urls')),
     # path('api/v1/logistics/', include('apps.logistics.urls')),
     # path('api/v1/systems/', include('apps.systems.urls')),

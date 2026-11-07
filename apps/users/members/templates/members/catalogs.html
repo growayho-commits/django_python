@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Catalogs - Member Portal{% endblock %}
+{% block page_header %}Available Catalogs in Your Pincode{% endblock %}
+
+{% block content %}
+<div class="space-y-6 w-full text-light">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex flex-col justify-between">
+            <div>
+                <h3 class="text-md font-semibold text-white mb-1">Premium CNC Machine Spares</h3>
+                <p class="gold-text font-bold text-lg mb-2">₹12,500</p>
+                <p class="text-slate-400 text-xs mb-4">High durability precision spare parts for industrial automation.</p>
+            </div>
+            <div class="flex gap-2">
+                <button class="flex-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 text-xs font-medium py-2 rounded-xl transition">Add to Cart</button>
+                <button class="px-3 bg-slate-800 hover:bg-red-500/20 text-slate-300 text-xs py-2 rounded-xl border border-slate-700">❤️</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
