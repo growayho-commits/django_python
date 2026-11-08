@@ -1,0 +1,28 @@
+# Query: guests:
+# ContextLines: 1
+
+5 results - 4 files
+
+apps\users\members\templates\members\dashboard.html:
+  129              
+  130:             <!-- FIXED: Updated namespace from superusers:logout to superusers:logout -->
+  131              <form action="{% url 'superusers:logout' %}" method="POST" class="inline m-0">
+
+  173  ### **அடுத்து என்ன செய்ய வேண்டும்?**
+  174: 1. உங்களது மற்ற ரோல் டேஷ்போர்டுகளான `merchant/dashboard.html`, `sellers/dashboard.html`, மற்றும் `executives/dashboard.html` கோப்புகளிலும் இதேபோல் **`{% url 'guests:logout' %}`** உள்ளதா எனச் சரிபார்த்து, அவற்றை **`{% url 'superusers:logout' %}`** என மாற்றவும்[cite: 6, 7].
+  175  2. மாற்றிய பின் சர்வரை ரெஃப்ரெஷ் செய்து லாகின் செய்தால், `KeyError: 'guests'` பிழை முழுமையாக நீங்கி, உங்களது அற்புதமான டேஷ்போர்டு டிசைன் எந்தத் தடங்கலும் இன்றி வேலை செய்யும்!
+
+apps\users\merchant\templates\merchant\dashboard.html:
+  38              <span class="text-sm font-medium text-slate-600 hidden sm:inline">{{ request.user.email }}</span>
+  39:             <!-- FIXED: Updated namespace from superusers:logout to superusers:logout -->
+  40              <form action="{% url 'superusers:logout' %}" method="POST" class="inline">
+
+apps\users\sellers\templates\sellers\dashboard.html:
+  38              <span class="text-sm font-medium text-slate-600 hidden sm:inline">{{ request.user.email }}</span>
+  39:             <!-- FIXED: Updated namespace from superusers:logout to superusers:logout -->
+  40              <form action="{% url 'superusers:logout' %}" method="POST" class="inline">
+
+templates\base.html:
+  128                  {% if request.user.is_authenticated %}
+  129:                 <!-- FIXED: Updated namespace from superusers:logout to superusers:logout -->
+  130                  <form action="{% url 'superusers:logout' %}" method="POST" class="inline m-0">

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.users.guests',
+    
     'apps.users.members',
     'apps.users.merchant',
     'apps.users.executives',
@@ -113,4 +113,7 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'guests.CoreUser'
+
+# இங்கு கவனிக்கவும்: உங்கள் புதிய User Model எந்த ஆப்பில் உள்ளதோ அதன் பெயரை கொடுக்கவும் 
+# (எ.கா: superusers ஆப்பில் உள்ள SuperuserProfile எனில் பின்வருமாறு இருக்க வேண்டும்)
+AUTH_USER_MODEL = 'superusers.CoreUser'

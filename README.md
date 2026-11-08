@@ -13,9 +13,6 @@ graph TD
     marketing_leads -->|depends on| catalogs
     systems -->|depends on| marketing_leads
     systems -->|depends on| catalogs
-    users -->|depends on| guests
-    users -->|depends on| professional_network
-    core -->|depends on| users
     catalogs --- AttributeProfile[Model: AttributeProfile]
     catalogs --- BundlesKitsProfile[Model: BundlesKitsProfile]
     catalogs --- BundleProfile[Model: BundleProfile]
@@ -72,13 +69,13 @@ graph TD
     systems --- AuditLogProfile[Model: AuditLogProfile]
     systems --- IntegrationProfile[Model: IntegrationProfile]
     users --- ExecutiveProfile[Model: ExecutiveProfile]
-    users --- Address[Model: Address]
-    users --- BusinessProfile[Model: BusinessProfile]
-    users --- GuestInquiry[Model: GuestInquiry]
-    users --- OTPVerification[Model: OTPVerification]
     users --- MemberProfile[Model: MemberProfile]
     users --- MerchantProfile[Model: MerchantProfile]
     users --- SellerProfile[Model: SellerProfile]
+    users --- UserAddress[Model: UserAddress]
+    users --- BusinessProfile[Model: BusinessProfile]
+    users --- IndividualProfile[Model: IndividualProfile]
+    users --- UserRoleAssignment[Model: UserRoleAssignment]
     users --- RoleUpgradeRequest[Model: RoleUpgradeRequest]
     users --- RoleRequirement[Model: RoleRequirement]
     users --- SuperuserProfile[Model: SuperuserProfile]

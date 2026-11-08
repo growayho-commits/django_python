@@ -127,8 +127,8 @@
                 <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
             </button>
             
-            <!-- Royal Styled Logout Form placed perfectly on Right Corner -->
-            <form action="{% url 'guests:logout' %}" method="POST" class="inline m-0">
+            <!-- FIXED: Updated namespace from guests:logout to superusers:logout -->
+            <form action="{% url 'superusers:logout' %}" method="POST" class="inline m-0">
                 {% csrf_token %}
                 <button type="submit" class="flex items-center space-x-2 bg-gradient-to-r from-slate-800 to-slate-900 text-amber-400 border border-slate-700 px-5 py-2.5 rounded-xl text-sm font-bold hover:from-slate-900 hover:to-black hover:text-amber-300 hover:shadow-lg hover:shadow-slate-900/20 transition-all duration-300 cursor-pointer" title="Secure Logout">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -168,3 +168,4 @@
     </main>
 </div>
 {% endblock %}
+

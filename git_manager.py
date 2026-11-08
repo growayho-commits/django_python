@@ -1,81 +1,74 @@
-import datetime
+import os
 import subprocess
-import sys
+from datetime import datetime
 
-def run_git_command(command, error_message):
-    """Utility to run git commands safely using Windows Shell"""
-    try:
-        # shell=True சேர்ப்பதன் மூலம் Windows PowerShell/CMD மூலம் Git கட்டளைகள் தடையின்றி இயங்கும்
-        result = subprocess.run(command, capture_output=True, text=True, check=True, shell=True)
-        if result.stdout.strip():
-            print(result.stdout.strip())
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f"[!] Error: {error_message}")
-        if e.stderr:
-            print(e.stderr.strip())
-        return False
-    except Exception as e:
-        print(f"[!] System Error: {e}")
-        return False
+def run_command(command):
+    result = subprocess.run(command, capture_output=True, text=True, shell=True)
+    return result.stdout.strip(), result.stderr.strip(), result.returncode
 
-def do_git_pull():
-    print("\n[!] Fetching and Pulling latest code from GitHub...")
-    if run_git_command("git pull", "Failed to pull updates from remote repository."):
-        print("\n==================================================")
-        print(" SUCCESS: Successfully pulled latest updates!")
-        print("==================================================")
-
-def do_git_push():
-    # 1. Generate CalVer version (yyyy.mm.dd)
-    today_version = datetime.date.today().strftime("%Y.%m.%d")
-    print(f"\n[*] CalVer Version : v{today_version}")
+def git_manager():
+    print("==================================================")
+    print("      GIT AUTOMATION MANAGER (PUSH & PULL)       ")
+    print("==================================================")
     
-    # 2. Get optional commit message
-    custom_msg = input("Enter commit message (or press [ENTER] for default): ").strip()
-    commit_message = f"v{today_version} - {custom_msg}" if custom_msg else f"v{today_version} - Automated project sync"
+    # இன்றைய தேதியை YYYY.MM.DD வடிவத்தில் எடுத்தல்
+    today_version = datetime.now().strftime("%Y.%m.%d")
+    print(f"[*] Today's Version Tag: {today_version}\n")
+    
+    # யூசரிடம் Push அல்லது Pull கேட்கும் முறை
+    print("--- GUIDE ---")
+    print(" 1. 'pull' -> Downloads latest changes from GitHub.")
+    print(" 2. 'push' -> Uploads your local changes to GitHub.")
+    print("--------------------------------------------------")
+    
+    action = input("Do you want to PUSH or PULL? (Enter 'push' or 'pull'): ").strip().lower()
+    
+    if action == 'pull':
+        print("\n[*] [ACTION] Pulling latest changes from GitHub...")
+        out, err, code = run_command("git pull origin main")
+        if code == 0:
+            print("[✓] Successfully pulled latest changes!")
+            print(out)
+        else:
+            print(f"[X] Pull Failed: {err}")
+            
+    elif action == 'push':
+        print(f"\n[*] [ACTION] Pushing local changes to GitHub with version [{today_version}]...")
 
-    # 3. Git Status check
-    print("\n[1/4] Checking git status...")
-    try:
-        status_res = subprocess.run("git status --porcelain", capture_output=True, text=True, shell=True)
-        if not status_res.stdout.strip():
-            print("[!] No changes detected to commit!")
+        # மாற்றங்கள் உள்ளதா என சோதித்தல்
+        status_out, _, _ = run_command("git status --porcelain")
+        if not status_out:
+            print("[!] No changes detected to commit/push.")
             return
-    except Exception as e:
-        print(f"[!] Error checking status: {e}")
-        return
 
-    # 4. Stage, Commit & Push
-    print("[2/4] Staging all files...")
-    if not run_git_command("git add .", "Failed to stage files."): return
+        # வெர்ஷன் உறுதிப்படுத்தல் (YYYY.MM.DD)
+        version_choice = input(f"Use today's version tag [{today_version}]? (y/n): ").strip().lower()
+        if version_choice == 'y':
+            version_tag = today_version
+        else:
+            version_tag = input("Enter custom version (e.g., 2026.11.07): ").strip()
 
-    print(f"[3/4] Committing as '{commit_message}'...")
-    if not run_git_command(f'git commit -m "{commit_message}"', "Failed to commit."): return
+        commit_msg = f"Update: version {version_tag} - Enterprise Dashboard Sync"
 
-    print("[4/4] Pushing to GitHub...")
-    if run_git_command("git push", "Failed to push to GitHub. Check your network or credentials."):
-        print("\n==================================================")
-        print(f" SUCCESS: Pushed to GitHub as v{today_version}!")
-        print("==================================================")
+        # கோப்புகளைச் சேர்த்தல் மற்றும் கமிட் செய்தல்
+        print("[*] Staging and committing changes...")
+        run_command("git add .")
+        out, err, code = run_command(f'git commit -m "{commit_msg}"')
+        
+        if code == 0:
+            print(f"[✓] Committed successfully with version: {version_tag}")
+        else:
+            print(f"[!] Commit info/Notice: {out or err}")
 
-def main():
-    print("==================================================")
-    print("      HYBRID MARKETPLACE - ADVANCED GIT MANAGER     ")
-    print("==================================================\n")
-    print("  [1] Push (Auto Stage + CalVer Commit + Push)")
-    print("  [2] Pull (Get Latest Code from Remote)")
-    print("  [3] Status (Check Modified/Untracked files)")
-    print("==================================================")
-    
-    choice = input("Select option (1 for Push, 2 for Pull, 3 for Status, or press [ENTER] for Push) -> ").strip()
-    
-    if choice == '2' or choice.lower() == 'pull':
-        do_git_pull()
-    elif choice == '3' or choice.lower() == 'status':
-        run_git_command("git status", "Failed to check status.")
+        # GitHub-க்கு புஷ் செய்தல்
+        print("[*] Pushing changes to GitHub (main)...")
+        out, err, code = run_command("git push origin main")
+        if code == 0:
+            print("[✓] Successfully pushed to GitHub!")
+        else:
+            print(f"[X] Push Failed: {err}")
     else:
-        do_git_push()
+        print("[!] Invalid choice. Please type either 'push' or 'pull'.")
 
 if __name__ == "__main__":
-    main()
+    git_manager()

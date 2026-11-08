@@ -45,10 +45,10 @@ def enterprise_navigation_context(request):
             'description': 'FAQs, Tickets, Live Chats & Refund Complaints',
             'main_url': '/api/v1/support/',
             'sub_apps': sorted([
-                {'title': 'FAQs', 'url': '/api/v1/support/'},
-                {'title': 'Helpdesk Tickets', 'url': '/api/v1/support/'},
-                {'title': 'Live Chats', 'url': '/api/v1/support/'},
-                {'title': 'Refunds & Complaints', 'url': '/api/v1/support/'},
+                {'title': 'FAQs', 'url': '/api/v1/support/faqs/'},
+                {'title': 'Helpdesk Tickets', 'url': '/api/v1/support/helpdesk-tickets/'},
+                {'title': 'Live Chats', 'url': '/api/v1/support/live-chats/'},
+                {'title': 'Refunds & Complaints', 'url': '/api/v1/support/return-refunds/'},
             ], key=lambda x: x['title'])
         },
         {

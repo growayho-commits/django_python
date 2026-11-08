@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logged Out | HYBRID MARKETPLACE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --gold-primary: #C5A059;
+            --gold-gradient: linear-gradient(135deg, #DFBD6D 0%, #F5E6BE 50%, #C5A059 100%);
+            --bg-light: #F8F6F0;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-dark: #1A202C;
+        }
+        body {
+            margin: 0; padding: 0;
+            background: var(--bg-light);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            background-image: radial-gradient(circle at 50% 10%, rgba(197, 160, 89, 0.12), transparent 70%);
+        }
+        .royalty-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            border-radius: 16px;
+            padding: 40px; width: 100%; max-width: 420px;
+            box-shadow: 0 15px 35px rgba(26, 32, 44, 0.08), 0 0 20px rgba(197, 160, 89, 0.1);
+            text-align: center;
+        }
+        .royalty-title {
+            font-family: 'Cinzel', serif;
+            font-size: 24px; font-weight: 700;
+            color: #8C6D23; margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+        .royalty-btn {
+            display: inline-block; width: 100%; padding: 14px;
+            background: var(--gold-gradient);
+            border: none; border-radius: 8px;
+            color: #1A202C; font-weight: 600; font-size: 15px;
+            text-decoration: none; letter-spacing: 1px;
+            text-transform: uppercase; margin-top: 20px;
+            transition: transform 0.2s ease;
+        }
+        .royalty-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="royalty-card">
+        <h1 class="royalty-title">HYBRID MARKETPLACE</h1>
+        <p class="text-slate-600 text-sm mb-6">You have been successfully logged out of your session.</p>
+        <a href="{% url 'superusers:login' %}" class="royalty-btn">Login Again</a>
+        <div class="mt-4">
+            <a href="{% url 'superusers:guest_home' %}" class="text-xs text-amber-700 hover:underline">&larr; Return to Home</a>
+        </div>
+    </div>
+</body>
+</html>
