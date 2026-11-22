@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models.merchant_profile import MerchantProfile
+from .models import MerchantProfile
 
+# --- Auto-Generated Model Registrations ---
 @admin.register(MerchantProfile)
-class MerchantAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'business_name', 'created_at')
-    search_fields = ('business_name', 'user__email')
-    list_filter = ('created_at',)
+class MerchantProfileAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in MerchantProfile._meta.fields]
+    search_fields = [f.name for f in MerchantProfile._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]

@@ -1,1 +1,2 @@
-from .order_views import OrderViewSet, OrderItemViewSet
+# Auto-generated views exports
+from .order_views import *

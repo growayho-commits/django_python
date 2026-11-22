@@ -1,95 +1,109 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
-from apps.users.superusers.forms.core_users_forms import GuestLoginForm, GuestRegisterForm
-from django.views.generic import TemplateView
+﻿from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.urls import NoReverseMatch, reverse
+from django.views.generic import TemplateView
 
-def guest_home_view(request):
-    """
-    Renders the public/guest landing page.
-    """
-    return render(request, 'superusers/guest_home.html')
+from apps.users.superusers.models import RoleUpgradeRequest
 
-def register_view(request):
-    """
-    Handles user registration and redirects to role router.
-    """
-    if request.method == 'POST':
-        form = GuestRegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('superusers:role-redirect')
-    else:
-        form = GuestRegisterForm()
-    return render(request, 'superusers/register.html', {'form': form})
 
-def login_view(request):
-    """
-    Handles secure authentication and redirects to role router.
-    """
-    if request.method == 'POST':
-        form = GuestLoginForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('superusers:role-redirect')
-            else:
-                form.add_error(None, 'Invalid email or password')
-    else:
-        form = GuestLoginForm()
-    return render(request, 'superusers/login.html', {'form': form})
+def _has_profile(user, attr_name):
+    try:
+        return getattr(user, attr_name) is not None
+    except Exception:
+        return False
 
-def logout_view(request):
-    """
-    Handles user session termination and redirects to guest home.
-    """
-    logout(request)
-    return redirect('superusers:guest_home')
+
+def _get_latest_approved_role(user):
+    latest = (
+        RoleUpgradeRequest.objects.filter(user=user, status='approved')
+        .order_by('-updated_at', '-id')
+        .first()
+    )
+    return latest.requested_role.lower() if latest and latest.requested_role else None
+
+
+def _safe_reverse(url_candidates, fallback_url):
+    for url_name in url_candidates:
+        try:
+            return reverse(url_name)
+        except NoReverseMatch:
+            continue
+    return fallback_url
+
+
+def get_user_dashboard_url(user):
+    if user.is_superuser or user.is_staff or _has_profile(user, 'superuser_profile'):
+        return _safe_reverse(['users:dashboard', 'users:users:dashboard'], '/api/v1/users/superusers/dashboard/')
+
+    latest_role = _get_latest_approved_role(user)
+    if latest_role == 'executive' and _has_profile(user, 'executive_profile'):
+        return _safe_reverse(['executives:executive_dashboard', 'users:executives:overview'], '/api/v1/users/executives/executive-dashboard/')
+    if latest_role == 'merchant' and _has_profile(user, 'merchant_profile'):
+        return _safe_reverse(['merchant:overview', 'users:merchant:overview'], '/api/v1/users/merchant/overview/')
+    if latest_role == 'seller' and _has_profile(user, 'seller_profile'):
+        return _safe_reverse(['sellers:overview', 'users:sellers:overview'], '/api/v1/users/sellers/overview/')
+    if latest_role == 'member':
+        return _safe_reverse(['members:dashboard', 'users:members:dashboard'], '/api/v1/users/members/dashboard/')
+
+    if _has_profile(user, 'executive_profile'):
+        return _safe_reverse(['executives:executive_dashboard', 'users:executives:overview'], '/api/v1/users/executives/executive-dashboard/')
+    if _has_profile(user, 'merchant_profile'):
+        return _safe_reverse(['merchant:overview', 'users:merchant:overview'], '/api/v1/users/merchant/overview/')
+    if _has_profile(user, 'seller_profile'):
+        return _safe_reverse(['sellers:overview', 'users:sellers:overview'], '/api/v1/users/sellers/overview/')
+
+    return _safe_reverse(['members:dashboard', 'users:members:dashboard'], '/api/v1/users/members/dashboard/')
+
 
 @login_required
 def role_dashboard_redirect(request):
-    """
-    Robust role-based dashboard redirection handling Superusers, 
-    Executives, Merchants, Sellers, and Members.
-    """
-    user = request.user
-    
-    # 1. Highest Priority: Superuser Status Check
-    if user.is_superuser or getattr(user, 'role', '') == 'superuser' or hasattr(user, 'superuserprofile'):
-        return redirect('superusers:dashboard')
-    
-    # 2. Check by explicit role attribute or associated profiles/groups
-    role = getattr(user, 'role', '').lower()
-    
-    if role == 'executive' or hasattr(user, 'executiveprofile'):
-        return redirect('executives:dashboard')
-    elif role == 'merchant' or hasattr(user, 'merchantprofile'):
-        return redirect('merchant:dashboard')
-    elif role == 'seller' or hasattr(user, 'sellerprofile'):
-        return redirect('sellers:dashboard')
-    elif role == 'member' or hasattr(user, 'memberprofile'):
-        return redirect('members:dashboard')
-    
-    # 3. Fallback to Superuser dashboard if user has admin/staff privileges, else member dashboard
-    if user.is_staff:
-        return redirect('superusers:dashboard')
-        
-    return redirect('members:dashboard')
+    return redirect(get_user_dashboard_url(request.user))
+
 
 @login_required
-def superuser_dashboard_view(request):
-    """
-    Renders the superuser dashboard.
-    """
+def dashboard_view(request):
     return render(request, 'superusers/dashboard.html')
 
+
 class SuperuserProfileCreateOrUpdateView(LoginRequiredMixin, TemplateView):
-    """
-    Handles superuser profile creation and updates.
-    """
     template_name = 'superusers/dashboard.html'
+
+
+def _render_tab(request, tab_name):
+    return render(request, 'superusers/dashboard.html', {'active_tab': tab_name})
+
+
+@login_required
+def overview_view(request):
+    return _render_tab(request, 'overview')
+
+
+@login_required
+def products_view(request):
+    return _render_tab(request, 'products')
+
+
+@login_required
+def inventory_view(request):
+    return _render_tab(request, 'inventory')
+
+
+@login_required
+def orders_view(request):
+    return _render_tab(request, 'orders')
+
+
+@login_required
+def payouts_view(request):
+    return _render_tab(request, 'payouts')
+
+
+@login_required
+def support_view(request):
+    return _render_tab(request, 'support')
+
+
+@login_required
+def profile_view(request):
+    return _render_tab(request, 'profile')

@@ -1,63 +1,12 @@
-{% extends 'base.html' %}
-{% block title %}Dashboard - Merchant Portal{% endblock %}
+﻿{% extends 'base.html' %}
+
+{% block title %}HYBRID MARKETPLACE — Merchant Workspace{% endblock %}
 
 {% block body_content %}
-<div class="flex flex-col w-full min-h-screen bg-slate-50 relative">
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
-        <div class="flex items-center space-x-4 relative">
-            <div class="relative">
-                <button onclick="toggleZohoLeftMenu(event)" class="p-2.5 text-slate-600 hover:text-cyan-600 hover:bg-slate-100 rounded-lg transition cursor-pointer border border-slate-200 bg-white shadow-sm flex items-center justify-center w-10 h-10">
-                    <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
-                </button>
-                <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-slate-200 py-2 z-50">
-                    <div class="px-4 py-3 border-b border-slate-100 text-center bg-slate-50/50 mx-2 rounded-lg mb-2">
-                        <span class="text-xs text-slate-400 block">Signed in as</span>
-                        <strong class="text-slate-800 text-xs truncate block">{{ request.user.email }}</strong>
-                        <div class="mt-1"><span class="bg-cyan-100 text-cyan-700 role-badge">Merchant</span></div>
-                    </div>
-                    <div class="px-2 space-y-1">
-                        <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm text-slate-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition">
-                            <i class="fa-solid fa-chart-pie w-5 text-center text-slate-400"></i><span>Merchant Overview</span>
-                        </a>
-                        <div>
-                            <button onclick="toggleSubmenu('bulkOrdersSub', event)" class="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 hover:bg-cyan-50 hover:text-cyan-600 rounded-lg transition cursor-pointer">
-                                <span class="flex items-center space-x-3"><i class="fa-solid fa-truck-ramp-box w-5 text-center text-slate-400"></i><span>பல்க் விற்பனை (Bulk)</span></span>
-                                <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
-                            </button>
-                            <div id="bulkOrdersSub" class="hidden pl-9 pr-2 py-1 space-y-1">
-                                <a href="#" class="block py-1.5 text-xs text-slate-600 hover:text-cyan-600">Bulk Orders</a>
-                                <a href="#" class="block py-1.5 text-xs text-slate-600 hover:text-cyan-600">Wholesale Pricing</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <h1 class="text-xl font-bold text-slate-900 m-0">Merchant Portal</h1>
-        </div>
-        <div class="flex items-center space-x-4">
-            <span class="text-sm font-medium text-slate-600 hidden sm:inline">{{ request.user.email }}</span>
-            <!-- FIXED: Updated namespace from guests:logout to superusers:logout -->
-            <form action="{% url 'superusers:logout' %}" method="POST" class="inline">
-                {% csrf_token %}
-                <button type="submit" class="flex items-center space-x-2 bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition cursor-pointer">
-                    <i class="fa-solid fa-power-off"></i><span>Logout</span>
-                </button>
-            </form>
-        </div>
-    </header>
-    <main class="p-6 md:p-10 flex-grow max-w-7xl mx-auto w-full">
-        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 md:p-8 border-t-4 border-cyan-500">
-            <h2 class="text-2xl font-extrabold text-slate-900 mb-2">Merchant Dashboard</h2>
-            <p class="text-slate-500 text-sm">Manage your wholesale orders, bulk sales, and inventory efficiently.</p>
-        </div>
+<div class="w-full">
+    <!-- Main Merchant Content -->
+    <main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {% block merchant_content %}{% endblock %}
     </main>
 </div>
 {% endblock %}
-```[cite: 7]
-
----
-
-### **இறுதிச் சரிபார்ப்பு (Final Verification):**
-நீங்கள் அனுப்பிய அனைத்து முக்கிய கோப்புகளும் (`base.html`, `dashboard.html`, `dashboard_2.html`, `dashboard_3.html`, மற்றும் `superuser_views.py`) இப்போது `guests` நேம்ஸ்பேஸிலிருந்து முழுமையாக விடுவிக்கப்பட்டு `superusers` நேம்ஸ்பேஸுக்கு மாற்றப்பட்டுவிட்டன[cite: 2, 5, 6, 7]. 
-
-இப்போது சர்வரை இயக்கி லாகின் செய்து பார்த்தால், எந்தவிதப் பிழையும் இல்லாமல் உங்களது அனைத்துப் பக்கங்களும் மிகச் சரியாக வேலை செய்யும்!

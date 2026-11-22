@@ -1,1 +1,2 @@
-from .search_views import directory_home_view, professional_search_view
+# Auto-generated views exports
+from .search_views import *

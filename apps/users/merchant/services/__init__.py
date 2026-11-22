@@ -1,1 +1,2 @@
-from .merchant_service import MerchantService
+# Auto-generated services exports
+from .merchant_service import *

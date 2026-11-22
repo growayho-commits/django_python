@@ -1,1 +1,2 @@
-from .wishlist_views import WishlistViewSet
+# Auto-generated views exports
+from .wishlist_views import *

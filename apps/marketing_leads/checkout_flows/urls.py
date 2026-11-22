@@ -1,12 +1,8 @@
-# apps/marketing_leads/checkout_flows/urls.py
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.checkout_views import CheckoutViewSet
 
-router = DefaultRouter()
-router.register(r'checkouts', CheckoutViewSet, basename='checkouts')
+app_name = 'checkout_flows'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('checkout/', CheckoutViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='checkout'),
 ]

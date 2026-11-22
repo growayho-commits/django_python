@@ -1,1 +1,2 @@
-from .rating_views import create_rating_view
+# Auto-generated views exports
+from .rating_views import *

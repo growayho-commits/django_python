@@ -1,6 +1,2 @@
-from .service_categries_serializer import (
-    ServiceCategorySerializer,
-    ServiceAttributeSerializer,
-    ServiceListingSerializer,
-    ServiceVariationPlanSerializer,
-)
+# Auto-generated serializers exports
+from .service_categries_serializer import *

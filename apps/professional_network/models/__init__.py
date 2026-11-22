@@ -1,2 +1,2 @@
-from .professional_profile import ProfessionalProfile
+from apps.professional_network.profiles.models.skill_profile import ProfessionalProfile
 from .service_request import ServiceRequest

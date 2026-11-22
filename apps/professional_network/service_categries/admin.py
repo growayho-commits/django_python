@@ -1,38 +1,23 @@
 from django.contrib import admin
-from apps.professional_network.service_categries.models import (
-    ServiceCategory, ServiceAttribute, ServiceListing, ServiceVariationPlan
-)
+from .models import ServiceCategory, ServiceAttribute, ServiceListing, ServiceVariationPlan
 
-class ServiceAttributeInline(admin.TabularInline):
-    model = ServiceAttribute
-    extra = 1
-
+# --- Auto-Generated Model Registrations ---
 @admin.register(ServiceCategory)
 class ServiceCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent', 'sac_code', 'google_business_category', 'is_active')
-    search_fields = ('name', 'sac_code', 'google_business_category')
-    list_filter = ('is_active',)
-    inlines = [ServiceAttributeInline]
+    list_display = [f.name for f in ServiceCategory._meta.fields]
+    search_fields = [f.name for f in ServiceCategory._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]
 
 @admin.register(ServiceAttribute)
 class ServiceAttributeAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category')
-    search_fields = ('title', 'category__name')
-    list_filter = ('category',)
-
-class ServiceVariationPlanInline(admin.TabularInline):
-    model = ServiceVariationPlan
-    extra = 1
+    list_display = [f.name for f in ServiceAttribute._meta.fields]
+    search_fields = [f.name for f in ServiceAttribute._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]
 
 @admin.register(ServiceListing)
 class ServiceListingAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'created_at')
-    search_fields = ('title', 'description')
-    list_filter = ('category',)
-    inlines = [ServiceVariationPlanInline]
+    list_display = [f.name for f in ServiceListing._meta.fields]
+    search_fields = [f.name for f in ServiceListing._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]
 
 @admin.register(ServiceVariationPlan)
 class ServiceVariationPlanAdmin(admin.ModelAdmin):
-    list_display = ('plan_name', 'service', 'price', 'estimated_duration')
-    search_fields = ('plan_name', 'service__title')
-    list_filter = ('price',)
+    list_display = [f.name for f in ServiceVariationPlan._meta.fields]
+    search_fields = [f.name for f in ServiceVariationPlan._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]

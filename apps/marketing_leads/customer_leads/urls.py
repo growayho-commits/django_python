@@ -1,12 +1,8 @@
-# apps/marketing_leads/customer_leads/urls.py
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.lead_views import CustomerLeadViewSet
 
-router = DefaultRouter()
-router.register(r'leads', CustomerLeadViewSet, basename='customer-leads')
+app_name = 'customer_leads'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('customer-lead/', CustomerLeadViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='customer_lead'),
 ]

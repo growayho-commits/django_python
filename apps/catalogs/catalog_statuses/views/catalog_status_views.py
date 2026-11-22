@@ -1,18 +1,22 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from apps.catalogs.catalog_statuses.serializers.catalog_status_serializer import CatalogStatusProfileSerializer
-from apps.catalogs.catalog_statuses.dtos.catalog_status_dtos import CatalogStatusUpdateDTO
+from apps.catalogs.catalog_statuses.models.catalog_status_profile import CatalogStatusProfile
+from apps.catalogs.catalog_statuses.serializers.catalog_status_serializer import CatalogStatusSerializer
 from apps.catalogs.catalog_statuses.services.catalog_status_service import CatalogStatusApplicationService
 
-class CatalogStatusUpdateAPIView(APIView):
+class CatalogStatusListCreateAPIView(APIView):
+    def get(self, request):
+        statuses = CatalogStatusApplicationService.get_all_statuses()
+        serializer = CatalogStatusSerializer(statuses, many=True)
+        return Response({
+            "status": "success",
+            "data": serializer.data
+        }, status=status.HTTP_200_OK)
+
     def post(self, request):
-        serializer = CatalogStatusProfileSerializer(data=request.data)
+        serializer = CatalogStatusSerializer(data=request.data)
         if serializer.is_valid():
-            dto = CatalogStatusUpdateDTO(**serializer.validated_data)
-            try:
-                status_obj = CatalogStatusApplicationService.update_catalog_status(dto)
-                return Response(CatalogStatusProfileSerializer(status_obj).data, status=status.HTTP_200_OK)
-            except ValueError as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            status_obj = CatalogStatusApplicationService.create_status(serializer.validated_data)
+            return Response(CatalogStatusSerializer(status_obj).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

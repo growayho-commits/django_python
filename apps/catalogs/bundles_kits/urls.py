@@ -1,7 +1,8 @@
 from django.urls import path
-from apps.catalogs.bundles_kits.views.bundles_kits_views import BundleKitAddAPIView
+from .views.bundle_kit_views import BundleKitListCreateAPIView
 
 app_name = 'bundles_kits'
+
 urlpatterns = [
-    path('add/', BundleKitAddAPIView.as_view(), name='bundle-add'),
+    path('bundle-kit-list-create-a-p-i/', BundleKitListCreateAPIView.as_view(), name='bundle_kit_list_create_a_p_i'),
 ]

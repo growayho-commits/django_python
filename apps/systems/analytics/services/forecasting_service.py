@@ -1,7 +1,7 @@
 import numpy as np
 from django.db.models import Sum
-from apps.catalogs.inventories.models import InventoryProfile[cite: 1]
-from apps.marketing_leads.orders.models import OrderItem[cite: 1]
+from apps.catalogs.inventories.models import InventoryProfile
+from apps.marketing_leads.orders.models import OrderItem
 
 class DemandForecastingService:
     @staticmethod

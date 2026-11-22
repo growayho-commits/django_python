@@ -1,7 +1,8 @@
 from django.urls import path
-from apps.catalogs.catalog_medias.views.catalog_media_views import CatalogMediaSaveAPIView
+from .views.catalog_media_views import CatalogMediaListCreateAPIView
 
 app_name = 'catalog_medias'
+
 urlpatterns = [
-    path('save/', CatalogMediaSaveAPIView.as_view(), name='media-save'),
+    path('catalog-media-list-create-a-p-i/', CatalogMediaListCreateAPIView.as_view(), name='catalog_media_list_create_a_p_i'),
 ]

@@ -1,1 +1,2 @@
-from .notification_serializer import PushNotificationSerializer
+# Auto-generated serializers exports
+from .notification_serializer import *

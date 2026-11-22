@@ -1,1 +1,2 @@
-from .cart_serializer import CartProfileSerializer, CartItemSerializer
+# Auto-generated serializers exports
+from .cart_serializer import *

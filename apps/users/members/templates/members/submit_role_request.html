@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+<div class="container mt-4 px-6 py-8 max-w-6xl mx-auto">
+    <div class="row mb-4">
+        <div class="col-12 flex items-center justify-between flex-wrap gap-3">
+            <a href="{{ dashboard_url }}" class="inline-flex items-center px-4 py-2 bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-300 transition-all">
+                &larr; Back to Dashboard
+            </a>
+            {% if current_role %}
+                <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                    Current Role: {{ current_role|title }}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2 class="text-2xl font-black text-slate-800 mb-6">Role Upgrade Request</h2>
+
+    {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+                <div class="p-4 rounded-xl {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h5 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Request a New Role</h5>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="{{ form.requested_role.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-2">
+                        Select Role to Request
+                    </label>
+                    {{ form.requested_role }}
+                </div>
+                <div class="mb-4">
+                    <label for="{{ form.business_name.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-2">
+                        Business Name (Optional)
+                    </label>
+                    {{ form.business_name }}
+                </div>
+                <div class="mb-4">
+                    <label for="{{ form.gst_number.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-2">
+                        GST Number (Optional)
+                    </label>
+                    {{ form.gst_number }}
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-md cursor-pointer">
+                    Submit Request
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <h5 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">My Requests Status</h5>
+            <ul class="divide-y divide-slate-100">
+                {% for req in my_requests %}
+                    <li class="py-3">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="font-semibold text-slate-700">{{ req.requested_role|title }}</span>
+                                <span class="block text-xs text-slate-400">{{ req.created_at|date:"M d, Y H:i" }}</span>
+                            </div>
+                            <span class="px-3 py-1 text-xs font-bold rounded-full
+                                {% if req.status == 'approved' %}bg-green-100 text-green-700
+                                {% elif req.status == 'rejected' %}bg-red-100 text-red-700
+                                {% elif req.status == 'reconsidered' %}bg-blue-100 text-blue-700
+                                {% else %}bg-amber-100 text-amber-700{% endif %}">
+                                {{ req.status|title }}
+                            </span>
+                        </div>
+                        {% if req.admin_remarks %}
+                            <p class="mt-1.5 text-xs text-slate-500 bg-slate-50 p-2 rounded-lg">
+                                <strong>Remarks:</strong> {{ req.admin_remarks }}
+                            </p>
+                        {% endif %}
+                    </li>
+                {% empty %}
+                    <li class="py-3 text-slate-400 text-center">No requests found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

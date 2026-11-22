@@ -2,8 +2,8 @@ import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from apps.logistics.shipments.models import ShipmentProfile[cite: 1]
-from apps.logistics.warehouse_transfers.models import WarehouseTransferProfile[cite: 1]
+from apps.logistics.shipments.models import ShipmentProfile
+from apps.logistics.warehouse_transfers.models import WarehouseTransferProfile
 
 class LiveShipmentTrackingAPIView(APIView):
     def get(self, request, shipment_id):

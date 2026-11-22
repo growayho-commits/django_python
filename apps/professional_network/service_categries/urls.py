@@ -1,18 +1,11 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from apps.professional_network.service_categries.views.service_categries_views import (
-    ServiceCategoryViewSet,
-    ServiceAttributeViewSet,
-    ServiceListingViewSet,
-    ServiceVariationPlanViewSet,
-)
+from django.urls import path
+from .views.service_categries_views import ServiceCategoryViewSet, ServiceAttributeViewSet, ServiceListingViewSet, ServiceVariationPlanViewSet
 
-router = DefaultRouter()
-router.register(r'categories', ServiceCategoryViewSet)
-router.register(r'attributes', ServiceAttributeViewSet)
-router.register(r'listings', ServiceListingViewSet)
-router.register(r'plans', ServiceVariationPlanViewSet)
+app_name = 'service_categries'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('service-category/', ServiceCategoryViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='service_category'),
+    path('service-attribute/', ServiceAttributeViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='service_attribute'),
+    path('service-listing/', ServiceListingViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='service_listing'),
+    path('service-variation-plan/', ServiceVariationPlanViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='service_variation_plan'),
 ]

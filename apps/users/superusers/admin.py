@@ -1,14 +1,10 @@
-from django.contrib import admin
-from .models.role_request import RoleUpgradeRequest
-from .models.role_requirement import RoleRequirement
+# E:\django_python\apps\users\superusers\admin.py
 
+from django.contrib import admin
+from .models import RoleUpgradeRequest
+
+# --- Auto-Generated Model Registrations ---
 @admin.register(RoleUpgradeRequest)
 class RoleUpgradeRequestAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'requested_role', 'status', 'created_at')
-    search_fields = ('user__email', 'requested_role', 'status')
-    list_filter = ('status', 'requested_role', 'created_at')
-
-@admin.register(RoleRequirement)
-class RoleRequirementAdmin(admin.ModelAdmin):
-    list_display = ('id', 'role_name')
-    search_fields = ('role_name',)
+    list_display = [f.name for f in RoleUpgradeRequest._meta.fields]
+    search_fields = [f.name for f in RoleUpgradeRequest._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]

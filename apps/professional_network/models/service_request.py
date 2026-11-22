@@ -1,8 +1,6 @@
+from django.conf import settings
 from django.db import models
-from django.contrib.auth import get_user_model
-from apps.professional_network.models.professional_profile import ProfessionalProfile
-
-User = get_user_model()
+from apps.professional_network.profiles.models.skill_profile import ProfessionalProfile
 
 class ServiceRequest(models.Model):
     STATUS_CHOICES = [
@@ -12,8 +10,16 @@ class ServiceRequest(models.Model):
         ('CANCELLED', 'Cancelled'),
     ]
 
-    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client_service_requests')
-    professional = models.ForeignKey(ProfessionalProfile, on_delete=models.CASCADE, related_name='received_service_requests')
+    client = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='client_service_requests'
+    )
+    professional = models.ForeignKey(
+        ProfessionalProfile, 
+        on_delete=models.CASCADE, 
+        related_name='received_service_requests'
+    )
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     budget = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
@@ -21,4 +27,6 @@ class ServiceRequest(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Request by {self.client.username} to {self.professional.user.username} [{self.status}]"
+        client_name = getattr(self.client, 'email', 'Client')
+        prof_name = getattr(self.professional.user, 'email', 'Professional')
+        return f"Request by {client_name} to {prof_name} [{self.status}]"

@@ -1,1 +1,2 @@
-from .member_views import member_dashboard_view, MemberProfileCreateOrUpdateView
+# Auto-generated views exports
+from .member_views import *

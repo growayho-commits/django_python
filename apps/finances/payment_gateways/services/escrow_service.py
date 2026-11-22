@@ -1,7 +1,7 @@
 import razorpay
 from django.conf import settings
-from apps.finances.payment_gateways.models import PaymentGatewayConfig[cite: 1]
-from apps.marketing_leads.orders.models import OrderProfile[cite: 1]
+from apps.finances.payment_gateways.models import PaymentGatewayConfig
+from apps.marketing_leads.orders.models import OrderProfile
 
 class EscrowPaymentService:
     def __init__(self):

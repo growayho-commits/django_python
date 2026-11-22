@@ -1,0 +1,50 @@
+<div class="relative inline-block text-left" id="merchant-nav-container">
+    <button type="button" onclick="toggleMerchantMenu()" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none">
+        <svg class="w-6 h-6 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+    </button>
+
+    <div id="merchant-nav-drawer" class="hidden absolute right-0 mt-2 w-64 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+        <div class="py-1 flex flex-col space-y-0.5 text-sm">
+            <a href="{% url 'merchant:overview' %}" class="px-3 py-1.5 hover:bg-emerald-50 {% if active_tab == 'overview' %}bg-emerald-50 text-emerald-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Merchant Overview
+            </a>
+            <a href="{% url 'merchant:catalogs' %}" class="px-3 py-1.5 hover:bg-emerald-50 {% if active_tab == 'catalogs' %}bg-emerald-50 text-emerald-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Catalogs & Pricing
+            </a>
+            <a href="{% url 'merchant:bundles' %}" class="px-3 py-1.5 hover:bg-emerald-50 {% if active_tab == 'bundles' %}bg-emerald-50 text-emerald-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Bundles & Kits
+            </a>
+            <a href="{% url 'merchant:orders' %}" class="px-3 py-1.5 hover:bg-emerald-50 {% if active_tab == 'orders' %}bg-emerald-50 text-emerald-700 font-semibold{% else %}text-gray-700{% endif %}">
+                B2B Orders
+            </a>
+            <a href="{% url 'merchant:logistics' %}" class="px-3 py-1.5 hover:bg-emerald-50 {% if active_tab == 'logistics' %}bg-emerald-50 text-emerald-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Warehouse & Logistics
+            </a>
+            <a href="{% url 'merchant:finances' %}" class="px-3 py-1.5 hover:bg-emerald-50 {% if active_tab == 'finances' %}bg-emerald-50 text-emerald-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Finances & Taxes
+            </a>
+            <a href="{% url 'merchant:profile' %}" class="px-3 py-1.5 hover:bg-emerald-50 {% if active_tab == 'profile' %}bg-emerald-50 text-emerald-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Merchant Profile
+            </a>
+            <div class="border-t border-gray-100 my-1"></div>
+            <a href="{% url 'users:submit_role_request' %}" class="px-3 py-1.5 hover:bg-emerald-50 text-emerald-700 font-medium">
+                Role Upgrade Request
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleMerchantMenu() {
+        document.getElementById('merchant-nav-drawer').classList.toggle('hidden');
+    }
+    document.addEventListener('click', function(event) {
+        const container = document.getElementById('merchant-nav-container');
+        const drawer = document.getElementById('merchant-nav-drawer');
+        if (container && !container.contains(event.target)) {
+            drawer.classList.add('hidden');
+        }
+    });
+</script>

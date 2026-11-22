@@ -1,5 +1,7 @@
+import uuid
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+
 
 class CoreUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -23,17 +25,32 @@ class CoreUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+
 class CoreUser(AbstractUser):
     username = models.CharField(max_length=150, unique=True, null=True, blank=True)
     email = models.EmailField(unique=True)
-    
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
+
+    referral_code = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    referred_by = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='referred_users',
+    )
+    must_change_password = models.BooleanField(default=False)
 
     objects = CoreUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    def save(self, *args, **kwargs):
+        if not self.referral_code:
+            self.referral_code = f"HM{uuid.uuid4().hex[:6].upper()}"
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.email

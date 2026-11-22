@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
-from apps.logistics.warehouse_transfers.models import WarehouseTransferProfile[cite: 1]
+from apps.logistics.warehouse_transfers.models import WarehouseTransferProfile
 
 class FieldInspectionUploadView(APIView):
     parser_classes = (MultiPartParser, FormParser)

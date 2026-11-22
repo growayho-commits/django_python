@@ -1,31 +1,37 @@
-from rest_framework import generics, permissions
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from apps.users.merchant.models import MerchantProfile
-from apps.users.merchant.serializers import MerchantProfileSerializer
 
-class MerchantProfileCreateOrUpdateView(generics.RetrieveUpdateAPIView):
-    serializer_class = MerchantProfileSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
-    def get_object(self):
-        profile, created = MerchantProfile.objects.get_or_create(user=self.request.user)
-        return profile
+@login_required
+def overview_view(request):
+    return render(request, 'merchant/overview.html', {'active_tab': 'overview'})
 
-@api_view(['GET'])
-@permission_classes([permissions.IsAuthenticated])
-def merchant_dashboard(request):
-    profile, created = MerchantProfile.objects.get_or_create(user=request.user)
-    
-    # பிரவுசரில் திறக்கும்போது HTML பக்கத்தைக் காண்பிக்க:
-    if 'text/html' in request.META.get('HTTP_ACCEPT', ''):
-        return render(request, 'merchant/dashboard.html', {'profile': profile})
-        
-    # API / Postman மூலம் அழைத்தால் JSON தரவு கிடைக்கும்:
-    serializer = MerchantProfileSerializer(profile)
-    return Response({
-        "status": "success",
-        "message": "Welcome to the Merchant Dashboard",
-        "profile": serializer.data
-    })
+
+@login_required
+def catalogs_view(request):
+    return render(request, 'merchant/catalogs.html', {'active_tab': 'catalogs'})
+
+
+@login_required
+def bundles_view(request):
+    return render(request, 'merchant/bundles.html', {'active_tab': 'bundles'})
+
+
+@login_required
+def orders_view(request):
+    return render(request, 'merchant/orders.html', {'active_tab': 'orders'})
+
+
+@login_required
+def logistics_view(request):
+    return render(request, 'merchant/logistics.html', {'active_tab': 'logistics'})
+
+
+@login_required
+def finances_view(request):
+    return render(request, 'merchant/finances.html', {'active_tab': 'finances'})
+
+
+@login_required
+def profile_view(request):
+    return render(request, 'merchant/profile.html', {'active_tab': 'profile'})

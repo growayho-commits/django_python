@@ -1,1 +1,2 @@
-from .member_service import MemberService
+# Auto-generated services exports
+from .member_service import *

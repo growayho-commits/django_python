@@ -1,5 +1,8 @@
-from django.urls import path
+from django.urls import path, include
+
+app_name = 'logistics'
 
 urlpatterns = [
-    # லாஜிஸ்டிக்ஸ் மாடியூல் URLகள்
+    path('shipments/', include('apps.logistics.shipments.urls')),
+    path('warehouse_transfers/', include('apps.logistics.warehouse_transfers.urls')),
 ]

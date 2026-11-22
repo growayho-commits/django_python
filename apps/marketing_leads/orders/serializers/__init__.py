@@ -1,1 +1,2 @@
-from .order_serializer import OrderProfileSerializer, OrderItemSerializer
+# Auto-generated serializers exports
+from .order_serializer import *

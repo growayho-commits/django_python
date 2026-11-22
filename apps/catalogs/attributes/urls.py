@@ -1,6 +1,8 @@
 from django.urls import path
-from apps.catalogs.attributes.views import attribute_views # அல்லது பொருத்தமான வியூ
+from .views.attribute_views import AttributeListCreateAPIView
+
+app_name = 'attributes'
 
 urlpatterns = [
-    path('', attribute_views.attribute_list_view, name='attribute_list'),
+    path('attribute-list-create-a-p-i/', AttributeListCreateAPIView.as_view(), name='attribute_list_create_a_p_i'),
 ]

@@ -1,10 +1,8 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from apps.marketing_leads.wishlists.views import WishlistViewSet
+from django.urls import path
+from .views.wishlist_views import WishlistViewSet
 
-router = DefaultRouter()
-router.register(r'wishlists', WishlistViewSet, basename='marketing-wishlist')
+app_name = 'wishlists'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('wishlist/', WishlistViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='wishlist'),
 ]

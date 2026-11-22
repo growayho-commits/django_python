@@ -1,2 +1,3 @@
-from .profile_create import create_profile_view
-from .leave_management import update_availability_view
+# Auto-generated views exports
+from .leave_management import *
+from .profile_create import *

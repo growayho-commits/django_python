@@ -1,1 +1,2 @@
-from .seller_views import SellerProfileCreateOrUpdateView
+# Auto-generated views exports
+from .seller_views import *

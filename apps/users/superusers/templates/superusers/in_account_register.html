@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Register New User — HYBRID MARKETPLACE{% endblock %}
+
+{% block body_content %}
+<div class="max-w-xl mx-auto px-4 py-8">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-black text-slate-900">Register User From Your Account</h1>
+        <a href="{{ dashboard_url }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold hover:bg-slate-300">
+            &larr; Back
+        </a>
+    </div>
+
+    <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs">
+        <form method="POST" class="space-y-4 text-sm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="w-full py-2.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 cursor-pointer">
+                Register User
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,83 +1,354 @@
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MLM Network Tree View - HYBRID MARKETPLACE</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Tree structure styling */
-        .tree ul {
-            position: relative; padding-top: 20px; transition: all 0.5s;
-        }
-        .tree li {
-            float: left; text-align: center; list-style-type: none;
-            position: relative; padding: 20px 5px 0 5px; transition: all 0.5s;
-        }
-        .tree li::before, .tree li::after {
-            content: ''; position: absolute; top: 0; right: 50%;
-            border-top: 2px solid #cbd5e1; width: 50%; height: 20px;
-        }
-        .tree li::after {
-            right: auto; left: 50%; border-left: 2px solid #cbd5e1;
-        }
-        .tree li:only-child::after, .tree li:only-child::before {
-            display: none;
-        }
-        .tree li:only-child { padding-top: 0; }
-        .tree li:first-child::before, .tree li:last-child::after {
-            border: 0;
-        }
-        .tree li:last-child::before {
-            border-right: 2px solid #cbd5e1; border-radius: 0 5px 0 0;
-        }
-        .tree li:first-child::after {
-            border-left: 2px solid #cbd5e1; border-radius: 5px 0 0 0;
-        }
-        .tree ul ul::before {
-            content: ''; position: absolute; top: 0; left: 50%;
-            border-left: 2px solid #cbd5e1; width: 0; height: 20px;
-        }
-        .tree li div {
-            border: 2px solid #cbd5e1; padding: 10px 15px; text-decoration: none;
-            display: inline-block; border-radius: 12px; background: white;
-            color: #1e293b; font-family: arial, verdana, sans-serif; font-size: 14px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            transition: all 0.3s;
-        }
-        .tree li div:hover {
-            background: #e0e7ff; border-color: #6366f1; color: #4338ca;
-        }
-    </style>
-</head>
-<body class="bg-slate-50 min-h-screen p-6">
+﻿{% extends "base.html" %}
 
-    <!-- Top Navigation -->
-    <div class="max-w-7xl mx-auto mb-8 flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-        <h1 class="text-xl font-black text-indigo-600 tracking-wider">HYBRID MARKETPLACE - MLM HIERARCHY TREE</h1>
-        <a href="{% url 'superusers:dashboard' %}" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-slate-200 transition">Back to Dashboard</a>
+{% block title %}Network &amp; Hierarchy Tree | Hybrid Marketplace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .org-tree ul {
+        position: relative;
+        padding-top: 24px;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+    }
+    .org-tree li {
+        text-align: center;
+        list-style-type: none;
+        position: relative;
+        padding: 24px 8px 0 8px;
+    }
+    .org-tree li::before,
+    .org-tree li::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 50%;
+        border-top: 2px solid #cbd5e1;
+        width: 50%;
+        height: 24px;
+    }
+    .org-tree li::after {
+        right: auto;
+        left: 50%;
+        border-left: 2px solid #cbd5e1;
+    }
+    .org-tree li:only-child::after,
+    .org-tree li:only-child::before {
+        display: none;
+    }
+    .org-tree li:only-child {
+        padding-top: 0;
+    }
+    .org-tree li:first-child::before,
+    .org-tree li:last-child::after {
+        border: 0 none;
+    }
+    .org-tree li:last-child::before {
+        border-right: 2px solid #cbd5e1;
+        border-radius: 0 8px 0 0;
+    }
+    .org-tree li:first-child::after {
+        border-left: 2px solid #cbd5e1;
+        border-radius: 8px 0 0 0;
+    }
+    .org-tree ul ul::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        border-left: 2px solid #cbd5e1;
+        width: 0;
+        height: 24px;
+    }
+    .tree-node-card {
+        display: inline-block;
+        min-width: 190px;
+        max-width: 240px;
+        background: #ffffff;
+        border: 2px solid #e2e8f0;
+        border-radius: 14px;
+        padding: 12px 14px;
+        box-shadow: 0 6px 16px -6px rgba(15, 23, 42, 0.1);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .tree-node-card:hover {
+        border-color: #d97706;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px -6px rgba(217, 119, 6, 0.2);
+    }
+</style>
+{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <div>
+            <div class="flex items-center gap-3">
+                <h2 class="text-2xl font-extrabold text-slate-900">Network &amp; Hierarchy Tree</h2>
+                <span class="px-3 py-1 text-xs font-bold uppercase rounded-full bg-amber-100 text-amber-800">
+                    {{ current_role }}
+                </span>
+            </div>
+            <p class="text-sm text-slate-500 mt-1">
+                Click any user card in the tree to view full contact, role, and referral details.
+            </p>
+        </div>
+
+        <a href="{% url 'users:role_dashboard_redirect' %}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
     </div>
 
-    <!-- Tree Container -->
-    <div class="max-w-7xl mx-auto bg-white p-8 rounded-3xl shadow-sm border border-slate-200 overflow-x-auto">
-        <h2 class="text-lg font-bold text-slate-800 mb-6 text-center">Network Tree Structure</h2>
-        
-        <div class="tree flex justify-center">
+    <!-- Referral Link Card -->
+    {% if referral_link %}
+    <div class="bg-gradient-to-r from-amber-50 to-white p-5 rounded-2xl border border-amber-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-amber-700">Your Personal Referral Link (Code: {{ referral_code }})</p>
+            <p id="referralLinkText" class="text-sm font-medium text-slate-700 break-all mt-1">{{ referral_link }}</p>
+        </div>
+        <button type="button" onclick="copyReferralLink()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold rounded-xl shadow-sm transition cursor-pointer shrink-0">
+            <i class="fa-regular fa-copy mr-1.5"></i> Copy Referral Link
+        </button>
+    </div>
+    {% endif %}
+
+    <!-- Upward Reporting Card -->
+    {% if upward_user %}
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 mb-3">Upward Reporting Manager</h3>
+        <div onclick="openUserModal(this)"
+             data-email="{{ upward_user.email }}"
+             data-name="{{ upward_user.full_name }}"
+             data-phone="{{ upward_user.phone_number }}"
+             data-role="{{ upward_user.role }}"
+             data-refcode="{{ upward_user.referral_code }}"
+             data-refby="{{ upward_user.referred_by }}"
+             data-verified="{{ upward_user.is_verified }}"
+             data-joined="{{ upward_user.date_joined }}"
+             data-extra="{{ upward_user.extra_info }}"
+             class="inline-flex items-center gap-4 p-4 rounded-xl border border-slate-200 hover:border-amber-400 bg-slate-50 cursor-pointer transition">
+            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
+                <i class="fa-solid fa-user-tie"></i>
+            </div>
+            <div>
+                <p class="font-bold text-slate-800 text-sm">{{ upward_user.email }}</p>
+                <p class="text-xs text-slate-500">{{ upward_user.role }} &middot; {{ upward_user.extra_info }}</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Interactive Org-Chart Tree (Superuser, Executive, Seller) -->
+    {% if tree_roots %}
+    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
+        <h3 class="text-lg font-bold text-slate-800 mb-6 text-center">Assigned Organization Tree</h3>
+
+        <div class="org-tree min-w-max flex justify-center pb-6">
             <ul>
-                {% for user in root_users %}
+                {% for node in tree_roots %}
                     <li>
-                        <div>
-                            <p class="font-bold text-indigo-600">{{ user.email|default:user.username }}</p>
-                            <p class="text-xs text-slate-500">Role: {{ user.role|default:"Member" }}</p>
+                        <div class="tree-node-card"
+                             onclick="openUserModal(this)"
+                             data-email="{{ node.email }}"
+                             data-name="{{ node.full_name }}"
+                             data-phone="{{ node.phone_number }}"
+                             data-role="{{ node.role }}"
+                             data-refcode="{{ node.referral_code }}"
+                             data-refby="{{ node.referred_by }}"
+                             data-verified="{{ node.is_verified }}"
+                             data-joined="{{ node.date_joined }}"
+                             data-extra="{{ node.extra_info }}">
+                            <span class="inline-block px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-indigo-50 text-indigo-700 mb-1">
+                                {{ node.role }}
+                            </span>
+                            <p class="font-bold text-slate-800 text-xs truncate">{{ node.email }}</p>
+                            <p class="text-[11px] text-slate-500 truncate mt-0.5">{{ node.extra_info }}</p>
                         </div>
-                        <!-- கீழ்நிலை (Downline) பயனர்களை இங்கே ரெகர்சிவ் (Recursive) முறையில் இணைக்கலாம் -->
+
+                        {% if node.children %}
+                        <ul>
+                            {% for child in node.children %}
+                                <li>
+                                    <div class="tree-node-card"
+                                         onclick="openUserModal(this)"
+                                         data-email="{{ child.email }}"
+                                         data-name="{{ child.full_name }}"
+                                         data-phone="{{ child.phone_number }}"
+                                         data-role="{{ child.role }}"
+                                         data-refcode="{{ child.referral_code }}"
+                                         data-refby="{{ child.referred_by }}"
+                                         data-verified="{{ child.is_verified }}"
+                                         data-joined="{{ child.date_joined }}"
+                                         data-extra="{{ child.extra_info }}">
+                                        <span class="inline-block px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-amber-50 text-amber-700 mb-1">
+                                            {{ child.role }}
+                                        </span>
+                                        <p class="font-bold text-slate-800 text-xs truncate">{{ child.email }}</p>
+                                        <p class="text-[11px] text-slate-500 truncate mt-0.5">{{ child.extra_info }}</p>
+                                    </div>
+
+                                    {% if child.children %}
+                                    <ul>
+                                        {% for grandchild in child.children %}
+                                            <li>
+                                                <div class="tree-node-card"
+                                                     onclick="openUserModal(this)"
+                                                     data-email="{{ grandchild.email }}"
+                                                     data-name="{{ grandchild.full_name }}"
+                                                     data-phone="{{ grandchild.phone_number }}"
+                                                     data-role="{{ grandchild.role }}"
+                                                     data-refcode="{{ grandchild.referral_code }}"
+                                                     data-refby="{{ grandchild.referred_by }}"
+                                                     data-verified="{{ grandchild.is_verified }}"
+                                                     data-joined="{{ grandchild.date_joined }}"
+                                                     data-extra="{{ grandchild.extra_info }}">
+                                                    <span class="inline-block px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-emerald-50 text-emerald-700 mb-1">
+                                                        {{ grandchild.role }}
+                                                    </span>
+                                                    <p class="font-bold text-slate-800 text-xs truncate">{{ grandchild.email }}</p>
+                                                    <p class="text-[11px] text-slate-500 truncate mt-0.5">{{ grandchild.extra_info }}</p>
+                                                </div>
+
+                                                {% if grandchild.children %}
+                                                <ul>
+                                                    {% for leaf in grandchild.children %}
+                                                        <li>
+                                                            <div class="tree-node-card"
+                                                                 onclick="openUserModal(this)"
+                                                                 data-email="{{ leaf.email }}"
+                                                                 data-name="{{ leaf.full_name }}"
+                                                                 data-phone="{{ leaf.phone_number }}"
+                                                                 data-role="{{ leaf.role }}"
+                                                                 data-refcode="{{ leaf.referral_code }}"
+                                                                 data-refby="{{ leaf.referred_by }}"
+                                                                 data-verified="{{ leaf.is_verified }}"
+                                                                 data-joined="{{ leaf.date_joined }}"
+                                                                 data-extra="{{ leaf.extra_info }}">
+                                                                <span class="inline-block px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-slate-100 text-slate-700 mb-1">
+                                                                    {{ leaf.role }}
+                                                                </span>
+                                                                <p class="font-bold text-slate-800 text-xs truncate">{{ leaf.email }}</p>
+                                                                <p class="text-[11px] text-slate-500 truncate mt-0.5">{{ leaf.extra_info }}</p>
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
                     </li>
-                {% empty %}
-                    <p class="text-slate-500 text-center py-4">No network users found in the hierarchy.</p>
                 {% endfor %}
             </ul>
         </div>
     </div>
+    {% endif %}
 
-</body>
-</html>
+    <!-- Referred By List -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <h3 class="text-lg font-bold text-slate-800 mb-4">Users Referred By You ({{ referred_users|length }})</h3>
+
+        {% if referred_users %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                    <tr class="border-b border-slate-200 text-slate-500 text-xs uppercase">
+                        <th class="py-3 px-4">Email</th>
+                        <th class="py-3 px-4">Current Role</th>
+                        <th class="py-3 px-4">Phone</th>
+                        <th class="py-3 px-4">Status</th>
+                        <th class="py-3 px-4">Joined</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    {% for ref_user in referred_users %}
+                    <tr class="hover:bg-slate-50">
+                        <td class="py-3 px-4 font-semibold text-slate-800">{{ ref_user.email }}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-2.5 py-0.5 text-xs font-bold rounded-full bg-indigo-50 text-indigo-700">{{ ref_user.role }}</span>
+                        </td>
+                        <td class="py-3 px-4 text-slate-600">{{ ref_user.phone_number }}</td>
+                        <td class="py-3 px-4 text-slate-600">{{ ref_user.is_verified }}</td>
+                        <td class="py-3 px-4 text-slate-500">{{ ref_user.date_joined }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-sm text-slate-500">You have not referred any users yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- User Details Modal -->
+<div id="userDetailModal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 relative">
+        <button type="button" onclick="closeUserModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 cursor-pointer">
+            <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+
+        <div class="mb-4">
+            <span id="modalRole" class="px-3 py-1 text-xs font-bold uppercase rounded-full bg-amber-100 text-amber-800">Role</span>
+            <h3 id="modalEmail" class="text-lg font-extrabold text-slate-900 mt-2 break-all">user@example.com</h3>
+            <p id="modalName" class="text-sm text-slate-500"></p>
+        </div>
+
+        <div class="space-y-2.5 text-sm border-t border-slate-100 pt-4">
+            <div class="flex justify-between"><span class="text-slate-500">Phone:</span><span id="modalPhone" class="font-semibold text-slate-800"></span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Status:</span><span id="modalVerified" class="font-semibold text-slate-800"></span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Referral Code:</span><span id="modalRefCode" class="font-semibold text-slate-800"></span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Referred By:</span><span id="modalRefBy" class="font-semibold text-slate-800"></span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Joined:</span><span id="modalJoined" class="font-semibold text-slate-800"></span></div>
+            <div class="pt-2 border-t border-slate-100">
+                <span class="text-slate-500 block text-xs uppercase font-bold mb-1">Details</span>
+                <p id="modalExtra" class="text-slate-700 font-medium"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function openUserModal(el) {
+        document.getElementById("modalEmail").textContent = el.dataset.email || "";
+        document.getElementById("modalName").textContent = el.dataset.name || "";
+        document.getElementById("modalPhone").textContent = el.dataset.phone || "N/A";
+        document.getElementById("modalRole").textContent = el.dataset.role || "Member";
+        document.getElementById("modalRefCode").textContent = el.dataset.refcode || "N/A";
+        document.getElementById("modalRefBy").textContent = el.dataset.refby || "Direct / None";
+        document.getElementById("modalVerified").textContent = el.dataset.verified || "Pending";
+        document.getElementById("modalJoined").textContent = el.dataset.joined || "N/A";
+        document.getElementById("modalExtra").textContent = el.dataset.extra || "No additional details";
+        document.getElementById("userDetailModal").classList.remove("hidden");
+    }
+
+    function closeUserModal() {
+        document.getElementById("userDetailModal").classList.add("hidden");
+    }
+
+    function copyReferralLink() {
+        const text = document.getElementById("referralLinkText").textContent.trim();
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Referral link copied!");
+        });
+    }
+
+    window.addEventListener("click", function(e) {
+        const modal = document.getElementById("userDetailModal");
+        if (e.target === modal) {
+            closeUserModal();
+        }
+    });
+</script>
+{% endblock %}

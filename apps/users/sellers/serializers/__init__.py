@@ -1,1 +1,2 @@
-from .seller_serializer import SellerProfileSerializer
+# Auto-generated serializers exports
+from .seller_serializer import *

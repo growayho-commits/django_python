@@ -1,7 +1,7 @@
 import requests
 from django.conf import settings
-from apps.finances.taxes.models import TaxProfile[cite: 1]
-from apps.marketing_leads.orders.models import OrderProfile[cite: 1]
+from apps.finances.taxes.models import TaxProfile
+from apps.marketing_leads.orders.models import OrderProfile
 
 class ZohoBooksService:
     def __init__(self):

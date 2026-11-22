@@ -1,7 +1,9 @@
 from django.urls import path
-from apps.customer_supports.faqs.views.faq_views import faq_list_view, faq_create_view
+from .views.faq_views import faq_list_view, faq_create_view
+
+app_name = 'faqs'
 
 urlpatterns = [
-    path('', faq_list_view, name='faq_list'),
-    path('add/', faq_create_view, name='faq_add'),
+    path('faq-list/', faq_list_view, name='faq_list'),
+    path('faq-create/', faq_create_view, name='faq_create'),
 ]

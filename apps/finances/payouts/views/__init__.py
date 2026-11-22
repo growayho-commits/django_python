@@ -1,1 +1,2 @@
-from .payout_views import PayoutViewSet
+# Auto-generated views exports
+from .payout_views import *

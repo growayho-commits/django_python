@@ -1,1 +1,2 @@
-from .tax_serializer import TaxSerializer
+# Auto-generated serializers exports
+from .tax_serializer import *

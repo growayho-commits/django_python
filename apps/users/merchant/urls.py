@@ -1,9 +1,15 @@
 from django.urls import path
-from .views import merchant_views
+from . import views
 
 app_name = 'merchant'
 
 urlpatterns = [
-    path('dashboard/', merchant_views.merchant_dashboard, name='dashboard'),  
-    path('profile/', merchant_views.MerchantProfileCreateOrUpdateView.as_view(), name='profile'),  # .as_view() சேர்க்கப்பட்டுள்ளது
+    path('', views.overview_view, name='overview'),
+    path('overview/', views.overview_view, name='overview'),
+    path('catalogs/', views.catalogs_view, name='catalogs'),
+    path('bundles/', views.bundles_view, name='bundles'),
+    path('orders/', views.orders_view, name='orders'),
+    path('logistics/', views.logistics_view, name='logistics'),
+    path('finances/', views.finances_view, name='finances'),
+    path('profile/', views.profile_view, name='profile'),
 ]

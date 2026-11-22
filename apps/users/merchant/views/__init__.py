@@ -1,1 +1,2 @@
-from .merchant_views import MerchantProfileCreateOrUpdateView
+# Auto-generated views exports
+from .merchant_views import *

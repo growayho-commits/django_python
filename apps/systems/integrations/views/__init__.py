@@ -1,1 +1,2 @@
-from .integration_views import IntegrationProfileViewSet
+# Auto-generated views exports
+from .integration_views import *

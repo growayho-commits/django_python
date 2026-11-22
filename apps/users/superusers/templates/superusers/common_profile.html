@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+            <h1 class="text-2xl font-black text-slate-900">Account &amp; Profile Settings</h1>
+            <p class="text-sm text-slate-500">Manage your individual profile, business details, and saved addresses</p>
+        </div>
+        <a href="{{ dashboard_url }}" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold hover:bg-slate-300 transition">
+            &larr; Back to Dashboard
+        </a>
+    </div>
+
+    {% if messages %}
+        <div class="space-y-2">
+            {% for message in messages %}
+                <div class="p-4 rounded-xl text-sm font-medium {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Individual Profile -->
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Individual Profile</h2>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="individual">
+                {{ individual_form.as_p }}
+                <button type="submit" class="w-full py-2.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition cursor-pointer">
+                    Save Individual Profile
+                </button>
+            </form>
+        </div>
+
+        <!-- Business Profile -->
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Business Profile</h2>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="business">
+                {{ business_form.as_p }}
+                <button type="submit" class="w-full py-2.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition cursor-pointer">
+                    Save Business Profile
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Addresses -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Add New Address</h2>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="address">
+                {{ address_form.as_p }}
+                <button type="submit" class="w-full py-2.5 bg-slate-900 text-white font-bold rounded-xl hover:bg-black transition cursor-pointer">
+                    Add Address
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-6">
+            <h2 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Saved Addresses</h2>
+            <div class="space-y-3">
+                {% for addr in addresses %}
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/70">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-slate-800">{{ addr.address_title }}</span>
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-indigo-100 text-indigo-700">
+                                    {{ addr.get_address_type_display }}
+                                </span>
+                                {% if addr.is_default %}
+                                    <span class="px-2 py-0.5 text-[11px] font-semibold rounded-full bg-emerald-100 text-emerald-700">Default</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600">{{ addr.address_line1 }}{% if addr.address_line2 %}, {{ addr.address_line2 }}{% endif %}</p>
+                        <p class="text-xs text-slate-600">{{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}</p>
+                        <p class="text-xs text-slate-500 mt-1">Phone: {{ addr.phone_number }}{% if addr.gstin_number %} &middot; GSTIN: {{ addr.gstin_number }}{% endif %}</p>
+                    </div>
+                {% empty %}
+                    <p class="text-sm text-slate-400 text-center py-6">No saved addresses yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

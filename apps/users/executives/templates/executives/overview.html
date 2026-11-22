@@ -1,0 +1,87 @@
+﻿{% extends 'executives/dashboard.html' %}
+{% block executive_content %}
+<div class="space-y-6">
+ <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+ <div>
+ <h1 class="text-2xl font-bold text-slate-900">Executive Overview</h1>
+ <p class="text-sm text-slate-500">Summary of leads, field inspections, and commission activities</p>
+ </div>
+ <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 w-fit">
+ ● Active Field Portal
+ </span>
+ </div>
+
+ <!-- KPI Cards -->
+ <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+ <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/70">
+ <div class="flex items-center justify-between">
+ <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Active Leads</span>
+ <span class="p-2 rounded-lg bg-blue-50 text-blue-600 text-xs font-bold">LEADS</span>
+ </div>
+ <p class="text-3xl font-extrabold text-slate-900 mt-3">24</p>
+ <p class="text-xs text-emerald-600 mt-1 font-medium">+12% this week</p>
+ </div>
+
+ <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/70">
+ <div class="flex items-center justify-between">
+ <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Field Inspections</span>
+ <span class="p-2 rounded-lg bg-indigo-50 text-indigo-600 text-xs font-bold">FIELD</span>
+ </div>
+ <p class="text-3xl font-extrabold text-slate-900 mt-3">08</p>
+ <p class="text-xs text-slate-500 mt-1">3 pending</p>
+ </div>
+
+ <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/70">
+ <div class="flex items-center justify-between">
+ <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Earned Commissions</span>
+ <span class="p-2 rounded-lg bg-emerald-50 text-emerald-600 text-xs font-bold">PAYOUT</span>
+ </div>
+ <p class="text-3xl font-extrabold text-slate-900 mt-3">₹18,500</p>
+ <p class="text-xs text-slate-500 mt-1">Current month</p>
+ </div>
+ </div>
+
+ <!-- Quick Actions & Recent Activity -->
+ <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+ <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-xs border border-slate-200/70">
+ <h2 class="text-base font-bold text-slate-800 mb-4">Recent Activity</h2>
+ <div class="overflow-x-auto">
+ <table class="w-full text-left border-collapse text-sm">
+ <thead>
+ <tr class="border-b border-slate-100 text-xs uppercase text-slate-400">
+ <th class="py-2.5 pr-4">Task</th>
+ <th class="py-2.5 px-4">Category</th>
+ <th class="py-2.5 pl-4">Status</th>
+ </tr>
+ </thead>
+ <tbody class="divide-y divide-slate-100">
+ <tr>
+ <td class="py-3 pr-4 font-medium text-slate-800">Warehouse Stock Audit - Zone A</td>
+ <td class="py-3 px-4 text-slate-500">Inspection</td>
+ <td class="py-3 pl-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Pending</span></td>
+ </tr>
+ <tr>
+ <td class="py-3 pr-4 font-medium text-slate-800">New Merchant KYC Verification</td>
+ <td class="py-3 px-4 text-slate-500">Onboarding</td>
+ <td class="py-3 pl-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Completed</span></td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ </div>
+
+ <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/70 space-y-3">
+ <h2 class="text-base font-bold text-slate-800">Quick Links</h2>
+ <a href="{% url 'users:executives:leads' %}" class="block w-full text-left px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 text-sm font-medium text-slate-700 hover:text-blue-700 transition">
+ → Customer Leads 
+ </a>
+ <a href="{% url 'users:executives:inspections' %}" class="block w-full text-left px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 text-sm font-medium text-slate-700 hover:text-blue-700 transition">
+ -> Manage Field Inspections
+ </a>
+ <a href="{% url 'users:executives:commissions' %}" class="block w-full text-left px-4 py-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 text-sm font-medium text-slate-700 hover:text-blue-700 transition">
+ -> View Commissions
+ </a>
+ </div>
+ </div>
+</div>
+{% endblock %}

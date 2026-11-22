@@ -1,13 +1,36 @@
 from django import forms
-from ..models import RoleRequirement
+from ..models import RoleUpgradeRequest
 
-class RoleRequirementForm(forms.ModelForm):
+
+class RoleUpgradeRequestForm(forms.ModelForm):
+    """
+    Form for Members, Sellers, Merchants, and Executives to submit a role upgrade request.
+    """
     class Meta:
-        model = RoleRequirement
-        fields = ['role_name', 'require_basic_profile', 'require_business_profile', 'require_gst']
+        model = RoleUpgradeRequest
+        fields = ['requested_role', 'business_name', 'gst_number']
         widgets = {
-            'role_name': forms.Select(attrs={'class': 'form-select'}),
-            'require_basic_profile': forms.Select(attrs={'class': 'form-select'}),
-            'require_business_profile': forms.Select(attrs={'class': 'form-select'}),
-            'require_gst': forms.Select(attrs={'class': 'form-select'}),
+            'requested_role': forms.Select(attrs={
+                'class': 'form-select w-full rounded-xl border border-slate-300 px-3 py-2 text-sm',
+            }),
+            'business_name': forms.TextInput(attrs={
+                'class': 'form-control w-full rounded-xl border border-slate-300 px-3 py-2 text-sm',
+                'placeholder': 'Business Name (for Seller / Merchant)',
+            }),
+            'gst_number': forms.TextInput(attrs={
+                'class': 'form-control w-full rounded-xl border border-slate-300 px-3 py-2 text-sm',
+                'placeholder': 'GST Number (Optional)',
+            }),
         }
+
+    def __init__(self, *args, **kwargs):
+        excluded_roles = kwargs.pop('excluded_roles', None)
+        super().__init__(*args, **kwargs)
+
+        if excluded_roles and 'requested_role' in self.fields:
+            current_choices = self.fields['requested_role'].choices
+            self.fields['requested_role'].choices = [
+                (choice_value, choice_label)
+                for choice_value, choice_label in current_choices
+                if choice_value.lower() not in [r.lower() for r in excluded_roles]
+            ]

@@ -1,0 +1,66 @@
+﻿<div class="relative inline-block text-left" id="executive-nav-container">
+    <button type="button" onclick="toggleExecutiveMenu()" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-xs transition focus:outline-none">
+        <span class="text-xs font-semibold tracking-wide uppercase">Menu</span>
+        <svg class="w-5 h-5 text-slate-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+    </button>
+
+    <div id="executive-nav-drawer" class="hidden absolute right-0 mt-2 w-64 rounded-2xl shadow-xl bg-white border border-slate-200/80 ring-1 ring-black/5 z-50 overflow-hidden">
+        <div class="px-3 py-2 bg-slate-50 border-b border-slate-100">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">Executive Pages</p>
+        </div>
+        <div class="p-1.5 flex flex-col space-y-0.5 text-sm">
+            <a href="{% url 'users:executives:overview' %}" class="flex items-center justify-between px-3 py-1.5 rounded-lg transition {% if active_tab == 'overview' %}bg-blue-600 text-white font-semibold shadow-xs{% else %}text-slate-700 hover:bg-blue-50 hover:text-blue-700{% endif %}">
+                <span>Dashboard Overview</span>
+            </a>
+
+            {% if 'marketing' in profile.assigned_activities %}
+            <a href="{% url 'users:executives:leads' %}" class="flex items-center justify-between px-3 py-1.5 rounded-lg transition {% if active_tab == 'leads' %}bg-blue-600 text-white font-semibold shadow-xs{% else %}text-slate-700 hover:bg-blue-50 hover:text-blue-700{% endif %}">
+                <span>Marketing &amp; Leads</span>
+            </a>
+            {% endif %}
+
+            {% if 'logistics' in profile.assigned_activities or 'inspections' in profile.assigned_activities %}
+            <a href="{% url 'users:executives:inspections' %}" class="flex items-center justify-between px-3 py-1.5 rounded-lg transition {% if active_tab == 'inspections' %}bg-blue-600 text-white font-semibold shadow-xs{% else %}text-slate-700 hover:bg-blue-50 hover:text-blue-700{% endif %}">
+                <span>Logistics &amp; Inspections</span>
+            </a>
+            {% endif %}
+
+            {% if 'onboarding' in profile.assigned_activities %}
+            <a href="{% url 'users:executives:onboarding' %}" class="flex items-center justify-between px-3 py-1.5 rounded-lg transition {% if active_tab == 'onboarding' %}bg-blue-600 text-white font-semibold shadow-xs{% else %}text-slate-700 hover:bg-blue-50 hover:text-blue-700{% endif %}">
+                <span>Vendor Onboarding</span>
+            </a>
+            {% endif %}
+
+            {% if 'accounts' in profile.assigned_activities %}
+            <a href="{% url 'users:executives:commissions' %}" class="flex items-center justify-between px-3 py-1.5 rounded-lg transition {% if active_tab == 'commissions' %}bg-blue-600 text-white font-semibold shadow-xs{% else %}text-slate-700 hover:bg-blue-50 hover:text-blue-700{% endif %}">
+                <span>Accounts &amp; Commissions</span>
+            </a>
+            {% endif %}
+
+            <a href="{% url 'users:common_profile' %}" class="flex items-center justify-between px-3 py-1.5 rounded-lg transition text-slate-700 hover:bg-blue-50 hover:text-blue-700">
+                <span>Profile &amp; Address</span>
+            </a>
+            <div class="border-t border-slate-100 my-1"></div>
+            <a href="{% url 'users:submit_role_request' %}" class="flex items-center justify-between px-3 py-1.5 rounded-lg transition text-blue-700 font-medium hover:bg-blue-50">
+                <span>Role Upgrade Request</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleExecutiveMenu() {
+        const drawer = document.getElementById('executive-nav-drawer');
+        if (drawer) drawer.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', function(event) {
+        const container = document.getElementById('executive-nav-container');
+        const drawer = document.getElementById('executive-nav-drawer');
+        if (container && drawer && !container.contains(event.target)) {
+            drawer.classList.add('hidden');
+        }
+    });
+</script>

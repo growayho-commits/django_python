@@ -1,1 +1,2 @@
-from .lead_service import CustomerLeadService
+# Auto-generated services exports
+from .lead_service import *

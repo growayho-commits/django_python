@@ -1,12 +1,8 @@
-# apps/marketing_leads/push_notifications/urls.py
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.notification_views import PushNotificationViewSet
 
-router = DefaultRouter()
-router.register(r'notifications', PushNotificationViewSet, basename='push-notifications')
+app_name = 'push_notifications'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('push-notification/', PushNotificationViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='push_notification'),
 ]

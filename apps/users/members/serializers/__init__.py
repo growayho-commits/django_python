@@ -1,1 +1,2 @@
-from .member_serializer import MemberProfileSerializer
+# Auto-generated serializers exports
+from .member_serializer import *

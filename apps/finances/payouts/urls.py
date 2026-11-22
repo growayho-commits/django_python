@@ -1,10 +1,8 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.payout_views import PayoutViewSet
 
-router = DefaultRouter()
-router.register(r'payouts', PayoutViewSet, basename='payouts')
+app_name = 'payouts'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('payout/', PayoutViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='payout'),
 ]

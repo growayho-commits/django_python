@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from apps.catalogs.catalog_statuses.models.catalog_status_profile import CatalogStatusProfile
 
-class CatalogStatusProfileSerializer(serializers.ModelSerializer):
+class CatalogStatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = CatalogStatusProfile
-        fields = '__all__'
+        fields = ['id', 'status_name', 'status_code', 'description', 'is_default', 'created_at', 'updated_at']

@@ -1,8 +1,8 @@
 from django.urls import path
-from apps.catalogs.pricing_tiers.views.pricing_views import PricingCreateOrUpdateAPIView
+from .views.pricing_tier_views import PricingTierListCreateAPIView
 
 app_name = 'pricing_tiers'
 
 urlpatterns = [
-    path('configure/', PricingCreateOrUpdateAPIView.as_view(), name='pricing-configure'),
+    path('pricing-tier-list-create-a-p-i/', PricingTierListCreateAPIView.as_view(), name='pricing_tier_list_create_a_p_i'),
 ]

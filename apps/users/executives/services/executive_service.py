@@ -14,7 +14,7 @@ class ExecutiveService:
         try:
             executive = ExecutiveProfile.objects.get(id=executive_id)
             executive.is_active_agent = not executive.is_active_agent
-            executive.save()
+            executive.save
             return executive
         except ExecutiveProfile.DoesNotExist:
             raise ValueError("Executive profile does not exist.")

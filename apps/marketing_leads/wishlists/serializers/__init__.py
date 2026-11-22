@@ -1,1 +1,2 @@
-from .wishlist_serializer import WishlistSerializer
+# Auto-generated serializers exports
+from .wishlist_serializer import *

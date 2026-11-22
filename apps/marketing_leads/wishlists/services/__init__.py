@@ -1,1 +1,2 @@
-from .wishlists_service import WishlistService
+# Auto-generated services exports
+from .wishlists_service import *

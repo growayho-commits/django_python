@@ -1,1 +1,2 @@
-from .cart_views import CartViewSet, CartItemViewSet
+# Auto-generated views exports
+from .cart_views import *

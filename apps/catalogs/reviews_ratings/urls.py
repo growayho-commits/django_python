@@ -1,7 +1,8 @@
 from django.urls import path
-from apps.catalogs.reviews_ratings.views.reviews_ratings_views import ReviewCreateAPIView
+from .views.review_rating_views import ReviewRatingListCreateAPIView
 
 app_name = 'reviews_ratings'
+
 urlpatterns = [
-    path('post/', ReviewCreateAPIView.as_view(), name='review-post'),
+    path('review-rating-list-create-a-p-i/', ReviewRatingListCreateAPIView.as_view(), name='review_rating_list_create_a_p_i'),
 ]

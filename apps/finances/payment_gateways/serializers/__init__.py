@@ -1,1 +1,2 @@
-from .gateway_serializer import PaymentGatewayConfigSerializer
+# Auto-generated serializers exports
+from .gateway_serializer import *

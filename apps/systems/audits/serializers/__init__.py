@@ -1,1 +1,2 @@
-from .audit_serializer import AuditLogSerializer
+# Auto-generated serializers exports
+from .audit_serializer import *

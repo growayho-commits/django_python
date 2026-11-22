@@ -1,0 +1,49 @@
+﻿<section id="view-overview" class="view-section active">
+    <div class="bg-white border-b border-slate-200 py-10 px-4 shadow-sm">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">Verified Member Workspace</span>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 text-slate-900">
+                        Welcome back, <span class="gold-text">{{ request.user.first_name|default:"Member" }}</span>
+                    </h1>
+                    <p class="text-sm text-slate-600 mt-1">
+                        Browse marketplace products, offer your professional services, track orders, and manage role upgrades.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="switchView('services')" class="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 text-xs font-bold px-4 py-2.5 rounded-xl shadow-md hover:opacity-95 transition">
+                        + Add Professional Service
+                    </button>
+                    <a href="{% url 'users:role_request_view' %}" class="bg-slate-900 text-amber-400 border border-amber-500/30 text-xs font-bold px-4 py-2.5 rounded-xl shadow-md hover:bg-slate-800 transition inline-flex items-center">
+                        Upgrade to Seller / Merchant
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Quick Stats Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div onclick="switchView('catalogs')" class="cursor-pointer bg-slate-50 hover:bg-amber-50/50 border border-slate-200 hover:border-amber-400 p-5 rounded-2xl shadow-sm transition">
+                    <p class="text-xs text-amber-600 uppercase tracking-widest font-semibold">Browse Catalogs</p>
+                    <p class="text-3xl font-extrabold text-slate-900 mt-1">Shop</p>
+                    <p class="text-xs text-slate-500 mt-1">Explore local products &rarr;</p>
+                </div>
+                <div onclick="switchView('cart')" class="cursor-pointer bg-slate-50 hover:bg-amber-50/50 border border-slate-200 hover:border-amber-400 p-5 rounded-2xl shadow-sm transition">
+                    <p class="text-xs text-amber-600 uppercase tracking-widest font-semibold">Cart & Wishlist</p>
+                    <p class="text-3xl font-extrabold text-slate-900 mt-1">3</p>
+                    <p class="text-xs text-slate-500 mt-1">â‚¹4,497 ready for checkout &rarr;</p>
+                </div>
+                <div onclick="switchView('orders')" class="cursor-pointer bg-slate-50 hover:bg-amber-50/50 border border-slate-200 hover:border-amber-400 p-5 rounded-2xl shadow-sm transition">
+                    <p class="text-xs text-amber-600 uppercase tracking-widest font-semibold">Total Orders</p>
+                    <p class="text-3xl font-extrabold text-slate-900 mt-1">8</p>
+                    <p class="text-xs text-green-600 font-medium mt-1">1 order in transit &rarr;</p>
+                </div>
+                <div onclick="switchView('services')" class="cursor-pointer bg-slate-50 hover:bg-amber-50/50 border border-slate-200 hover:border-amber-400 p-5 rounded-2xl shadow-sm transition">
+                    <p class="text-xs text-amber-600 uppercase tracking-widest font-semibold">My Services</p>
+                    <p class="text-3xl font-extrabold text-amber-600 mt-1">Active</p>
+                    <p class="text-xs text-slate-500 mt-1">Manage skills & requests &rarr;</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,13 @@
+{% extends 'merchant/dashboard.html' %}
+{% block merchant_content %}
+<div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/70">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+        <div>
+            <h1 class="text-xl font-bold text-slate-900">Merchant Profile</h1>
+            <p class="text-sm text-slate-500">மெர்ச்சன்ட் கணக்கு மற்றும் ஹப் விவரங்கள்</p>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">Profile</span>
+    </div>
+    <p class="text-sm text-slate-700"><span class="font-semibold">Email:</span> {{ request.user.email|default:"merchant@gmail.com" }}</p>
+</div>
+{% endblock %}

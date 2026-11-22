@@ -1,12 +1,8 @@
-# apps/marketing_leads/coupons_discounts/urls.py
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.coupon_views import CouponDiscountViewSet
 
-router = DefaultRouter()
-router.register(r'coupons', CouponDiscountViewSet, basename='coupons')
+app_name = 'coupons_discounts'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('coupon-discount/', CouponDiscountViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='coupon_discount'),
 ]

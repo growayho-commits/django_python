@@ -1,30 +1,35 @@
-from django.urls import path
-from apps.users.superusers.views import role_views, superuser_views
-from apps.users.superusers.views.superuser_views import (
-    guest_home_view, 
-    login_view, 
-    register_view, 
-    logout_view, 
-    role_dashboard_redirect, 
-    superuser_dashboard_view
-)
-
-app_name = 'superusers'
+﻿from django.urls import path
+from . import views
+from .views import assignment_views, common_profile_views, role_request_views
 
 urlpatterns = [
-    # முகப்பு மற்றும் அங்கீகாரம் (Auth & Home)
-    path('', guest_home_view, name='guest_home'),
-    path('register/', register_view, name='register'),
-    path('login/', login_view, name='login'),
-    path('logout/', logout_view, name='logout'),
-    path('role-redirect/', role_dashboard_redirect, name='role-redirect'),
+    path('guest-home/', views.guest_home_view, name='guest_home'),
+    path('login/', views.login_view, name='login'),
+    path('register/', views.register_view, name='register'),
+    path('in-account-register/', views.in_account_register_view, name='in_account_register'),
+    path('role-dashboard-redirect/', views.role_dashboard_redirect, name='role_dashboard_redirect'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('logout/', views.logout_view, name='logout_view'),
 
-    # சூப்பர்யூசர் சுயவிவரம் மற்றும் டேஷ்போர்ட்
-    path('profile/', superuser_views.SuperuserProfileCreateOrUpdateView.as_view(), name='profile'),
-    path('dashboard/', superuser_dashboard_view, name='dashboard'), # அல்லது சூப்பர்யூசர் வியூ தேவைக்கேற்ப
+    # Centralized Common Features (All Users)
+    path('common-profile/', common_profile_views.common_profile_view, name='common_profile'),
+    path('network-tree/', views.network_tree_view, name='network_tree'),
 
-    # ரோல் மேனேஜ்மென்ட் (Role Management)
-    path('roles/manage/', role_views.manage_roles_view, name='manage_roles'),
-    path('roles/assign/', role_views.assign_role_view, name='assign_role'),
-    path('roles/toggle/<int:assignment_id>/', role_views.toggle_role_status_view, name='toggle_role_status'),
+    # Centralized Role Request & Approval
+    path('role-request/', role_request_views.submit_role_request_view, name='role_request_view'),
+    path('role-request/submit/', role_request_views.submit_role_request_view, name='submit_role_request'),
+    path('manage-roles/', role_request_views.manage_roles_view, name='manage_roles'),
+    path('manage-roles/<int:pk>/', role_request_views.handle_role_request, name='handle_role_request'),
+
+    # Superuser Assignments
+    path('manage-assignments/', assignment_views.manage_assignments_view, name='manage_assignments'),
+
+    path('', views.overview_view, name='overview'),
+    path('overview/', views.overview_view, name='overview'),
+    path('products/', views.products_view, name='products'),
+    path('inventory/', views.inventory_view, name='inventory'),
+    path('orders/', views.orders_view, name='orders'),
+    path('payouts/', views.payouts_view, name='payouts'),
+    path('support/', views.support_view, name='support'),
+    path('profile/', views.profile_view, name='profile'),
 ]

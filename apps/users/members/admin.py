@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models.member_profile import MemberProfile
+from .models import MemberProfile
 
+# --- Auto-Generated Model Registrations ---
 @admin.register(MemberProfile)
-class MemberAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'created_at')
-    search_fields = ('user__email',)
-    list_filter = ('created_at',)
+class MemberProfileAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in MemberProfile._meta.fields]
+    search_fields = [f.name for f in MemberProfile._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]

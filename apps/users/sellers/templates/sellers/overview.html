@@ -1,0 +1,81 @@
+{% extends 'sellers/dashboard.html' %}
+{% block seller_content %}
+<div class="space-y-6">
+    <!-- Header & Store Status -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">Seller Overview</h1>
+            <p class="text-sm text-slate-500">Summary of listings, orders, settlements, and store performance</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                <span class="h-2 w-2 rounded-full bg-emerald-600"></span>
+                Active Seller Store
+            </span>
+        </div>
+    </div>
+
+    <!-- Primary KPI Row (Amazon / Flipkart / Alibaba Standard) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/70">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Active Listings</span>
+            <p class="text-3xl font-extrabold text-indigo-700 mt-2">0</p>
+            <p class="text-xs text-slate-500 mt-1">Catalog QC & Live Products</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/70">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Orders to Fulfill</span>
+            <p class="text-3xl font-extrabold text-emerald-700 mt-2">0</p>
+            <p class="text-xs text-slate-500 mt-1">Pending & Ready to Dispatch</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/70">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Pending Payouts</span>
+            <p class="text-3xl font-extrabold text-amber-700 mt-2">&#8377;0.00</p>
+            <p class="text-xs text-slate-500 mt-1">Next Settlement Cycle</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow-xs border border-slate-200/70">
+            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Store Health</span>
+            <p class="text-3xl font-extrabold text-slate-800 mt-2">100%</p>
+            <p class="text-xs text-slate-500 mt-1">0 Policy Warnings &middot; 0 Returns</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions & Operational Alerts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/70">
+            <h2 class="text-base font-bold text-slate-900 mb-3">Quick Actions</h2>
+            <div class="grid grid-cols-2 gap-3 text-sm">
+                <a href="{% url 'users:sellers:products' %}" class="px-4 py-2.5 rounded-xl bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100 transition text-center">
+                    Manage Products
+                </a>
+                <a href="{% url 'users:sellers:inventory' %}" class="px-4 py-2.5 rounded-xl bg-emerald-50 text-emerald-700 font-semibold hover:bg-emerald-100 transition text-center">
+                    Update Stock
+                </a>
+                <a href="{% url 'users:sellers:orders' %}" class="px-4 py-2.5 rounded-xl bg-blue-50 text-blue-700 font-semibold hover:bg-blue-100 transition text-center">
+                    View Orders
+                </a>
+                <a href="{% url 'users:sellers:payouts' %}" class="px-4 py-2.5 rounded-xl bg-amber-50 text-amber-700 font-semibold hover:bg-amber-100 transition text-center">
+                    Check Payouts
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/70">
+            <h2 class="text-base font-bold text-slate-900 mb-3">Action Required</h2>
+            <ul class="space-y-2 text-sm text-slate-600">
+                <li class="flex justify-between items-center py-1.5 border-b border-slate-100">
+                    <span>Low-Stock Alerts</span>
+                    <span class="font-bold text-slate-800">0 SKUs</span>
+                </li>
+                <li class="flex justify-between items-center py-1.5 border-b border-slate-100">
+                    <span>Pending Return Requests</span>
+                    <span class="font-bold text-slate-800">0</span>
+                </li>
+                <li class="flex justify-between items-center py-1.5">
+                    <span>Open Support Tickets</span>
+                    <span class="font-bold text-slate-800">0</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,1 +1,2 @@
-from .audit_views import AuditLogViewSet
+# Auto-generated views exports
+from .audit_views import *

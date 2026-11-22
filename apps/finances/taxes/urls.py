@@ -1,10 +1,8 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.tax_views import TaxViewSet
 
-router = DefaultRouter()
-router.register(r'taxes', TaxViewSet, basename='taxes')
+app_name = 'taxes'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('tax/', TaxViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='tax'),
 ]

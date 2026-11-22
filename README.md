@@ -8,26 +8,25 @@ Hybrid Marketplace
 graph TD
     classDef appStyle fill:#f9f,stroke:#333,stroke-width:2px;
     classDef modelStyle fill:#bbf,stroke:#333,stroke-width:1px;
-    catalogs -->|depends on| catalog
     finances -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
     systems -->|depends on| marketing_leads
     systems -->|depends on| catalogs
+    users -->|depends on| catalogs
+    users -->|depends on| marketing_leads
     catalogs --- AttributeProfile[Model: AttributeProfile]
-    catalogs --- BundlesKitsProfile[Model: BundlesKitsProfile]
-    catalogs --- BundleProfile[Model: BundleProfile]
-    catalogs --- CatalogMediaProfile[Model: CatalogMediaProfile]
+    catalogs --- BundleKitProfile[Model: BundleKitProfile]
     catalogs --- CatalogMediaProfile[Model: CatalogMediaProfile]
     catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
-    catalogs --- CatalogStatusProfile[Model: CatalogStatusProfile]
-    catalogs --- CoreCatalog[Model: CoreCatalog]
+    catalogs --- CatalogWishlistProfile[Model: CatalogWishlistProfile]
+    catalogs --- CategoryProfile[Model: CategoryProfile]
+    catalogs --- CoreCatalogProfile[Model: CoreCatalogProfile]
     catalogs --- InventoryProfile[Model: InventoryProfile]
-    catalogs --- PricingProfile[Model: PricingProfile]
-    catalogs --- ReviewsRatingsProfile[Model: ReviewsRatingsProfile]
-    catalogs --- CatalogReviewProfile[Model: CatalogReviewProfile]
+    catalogs --- PricingExtraProfile[Model: PricingExtraProfile]
+    catalogs --- PricingTierProfile[Model: PricingTierProfile]
+    catalogs --- ReviewRatingProfile[Model: ReviewRatingProfile]
     catalogs --- SearchFilterProfile[Model: SearchFilterProfile]
-    catalogs --- SearchFiltersProfile[Model: SearchFiltersProfile]
-    catalogs --- SpecificationsProfile[Model: SpecificationsProfile]
+    catalogs --- SpecificationProfile[Model: SpecificationProfile]
     catalogs --- CatalogVariantProfile[Model: CatalogVariantProfile]
     customer_supports --- FAQProfile[Model: FAQProfile]
     customer_supports --- HelpdeskTicket[Model: HelpdeskTicket]
@@ -75,8 +74,7 @@ graph TD
     users --- UserAddress[Model: UserAddress]
     users --- BusinessProfile[Model: BusinessProfile]
     users --- IndividualProfile[Model: IndividualProfile]
-    users --- UserRoleAssignment[Model: UserRoleAssignment]
+    users --- InternalMail[Model: InternalMail]
     users --- RoleUpgradeRequest[Model: RoleUpgradeRequest]
-    users --- RoleRequirement[Model: RoleRequirement]
     users --- SuperuserProfile[Model: SuperuserProfile]
 ```

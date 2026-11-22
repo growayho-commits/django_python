@@ -1,12 +1,8 @@
-# apps/systems/audits/urls.py
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.audit_views import AuditLogViewSet
 
-router = DefaultRouter()
-router.register(r'logs', AuditLogViewSet, basename='audit-logs')
+app_name = 'audits'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('audit-log/', AuditLogViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='audit_log'),
 ]

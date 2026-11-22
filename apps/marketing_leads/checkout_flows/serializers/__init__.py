@@ -1,1 +1,2 @@
-from .checkout_serializer import CheckoutProfileSerializer
+# Auto-generated serializers exports
+from .checkout_serializer import *

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from apps.catalogs.catalog_medias.models.catalog_media_profile import CatalogMediaProfile
 
-class CatalogMediaProfileSerializer(serializers.ModelSerializer):
+class CatalogMediaSerializer(serializers.ModelSerializer):
     class Meta:
         model = CatalogMediaProfile
-        fields = '__all__'
+        fields = ['id', 'title', 'media_url', 'media_type', 'is_primary', 'created_at', 'updated_at']

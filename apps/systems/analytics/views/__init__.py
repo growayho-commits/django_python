@@ -1,1 +1,2 @@
-from .analytics_views import AnalyticsProfileViewSet
+# Auto-generated views exports
+from .analytics_views import *

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <div class="mb-6 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div>
+            <h2 class="text-2xl font-black text-slate-800">Manage Role Upgrade Requests</h2>
+            <p class="text-sm text-slate-500 mt-1">Review and approve, reject, or reconsider role upgrade requests from Members, Sellers, Merchants, and Executives.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+            <form method="GET" class="flex items-center gap-2">
+                <input type="hidden" name="status" value="{{ current_status }}">
+                <select name="role" onchange="this.form.submit()" class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700">
+                    <option value="all" {% if role_filter == 'all' %}selected{% endif %}>All Current Roles</option>
+                    <option value="member" {% if role_filter == 'member' %}selected{% endif %}>Member</option>
+                    <option value="seller" {% if role_filter == 'seller' %}selected{% endif %}>Seller</option>
+                    <option value="merchant" {% if role_filter == 'merchant' %}selected{% endif %}>Merchant</option>
+                    <option value="executive" {% if role_filter == 'executive' %}selected{% endif %}>Executive</option>
+                </select>
+            </form>
+
+            <div class="flex flex-wrap bg-slate-200 p-1 rounded-xl gap-1">
+                <a href="?status=pending&role={{ role_filter }}" class="px-3 py-2 text-xs font-bold rounded-lg transition-all {% if current_status == 'pending' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">Pending</a>
+                <a href="?status=approved&role={{ role_filter }}" class="px-3 py-2 text-xs font-bold rounded-lg transition-all {% if current_status == 'approved' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">Approved</a>
+                <a href="?status=rejected&role={{ role_filter }}" class="px-3 py-2 text-xs font-bold rounded-lg transition-all {% if current_status == 'rejected' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">Rejected</a>
+                <a href="?status=reconsidered&role={{ role_filter }}" class="px-3 py-2 text-xs font-bold rounded-lg transition-all {% if current_status == 'reconsidered' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">Reconsidered</a>
+                <a href="?status=all&role={{ role_filter }}" class="px-3 py-2 text-xs font-bold rounded-lg transition-all {% if current_status == 'all' %}bg-white text-slate-900 shadow-sm{% else %}text-slate-600 hover:text-slate-900{% endif %}">All</a>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+                <div class="p-4 rounded-xl {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 bg-slate-50">
+            <h3 class="text-base font-bold text-slate-800">User Upgrade Requests ({{ current_status|title }})</h3>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-slate-100 text-xs font-bold text-slate-400 uppercase bg-slate-50/50">
+                        <th class="px-6 py-3">User Email</th>
+                        <th class="px-6 py-3">Business / GST</th>
+                        <th class="px-6 py-3">Current Role</th>
+                        <th class="px-6 py-3">Requested Role</th>
+                        <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Date</th>
+                        <th class="px-6 py-3 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-sm">
+                    {% for req in role_requests %}
+                        <tr class="hover:bg-slate-50/50 transition-colors">
+                            <td class="px-6 py-4 font-semibold text-slate-700">{{ req.user.email }}</td>
+                            <td class="px-6 py-4 text-xs text-slate-600">
+                                <div>{{ req.business_name|default:"—" }}</div>
+                                <div class="text-slate-400">{{ req.gst_number|default:"" }}</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-2.5 py-1 text-xs font-bold bg-slate-100 text-slate-700 rounded-lg">
+                                    {{ req.current_role_display|title }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 text-xs font-bold bg-indigo-50 text-indigo-600 rounded-lg">
+                                    {{ req.requested_role|title }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 text-xs font-bold rounded-full
+                                    {% if req.status == 'approved' %}bg-green-100 text-green-700
+                                    {% elif req.status == 'rejected' %}bg-red-100 text-red-700
+                                    {% elif req.status == 'reconsidered' %}bg-blue-100 text-blue-700
+                                    {% else %}bg-amber-100 text-amber-700{% endif %}">
+                                    {{ req.status|title }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-slate-500 text-xs">{{ req.created_at|date:"M d, Y H:i" }}</td>
+                            <td class="px-6 py-4 text-right">
+                                {% if req.status == 'pending' or req.status == 'reconsidered' %}
+                                <form method="POST" class="inline-flex items-center space-x-2">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="request_id" value="{{ req.id }}">
+                                    <input type="text" name="admin_remarks" placeholder="Remarks..." class="px-2.5 py-1.5 text-xs border border-slate-300 rounded-lg w-32 focus:outline-none focus:border-indigo-500">
+                                    <button type="submit" name="action" value="approve" class="px-3 py-1.5 bg-green-600 text-white font-bold text-xs rounded-lg hover:bg-green-700 transition-all cursor-pointer shadow-sm">
+                                        Approve
+                                    </button>
+                                    <button type="submit" name="action" value="reject" class="px-3 py-1.5 bg-red-600 text-white font-bold text-xs rounded-lg hover:bg-red-700 transition-all cursor-pointer shadow-sm">
+                                        Reject
+                                    </button>
+                                    <button type="submit" name="action" value="reconsider" class="px-3 py-1.5 bg-blue-600 text-white font-bold text-xs rounded-lg hover:bg-blue-700 transition-all cursor-pointer shadow-sm">
+                                        Reconsider
+                                    </button>
+                                </form>
+                                {% else %}
+                                <span class="text-xs font-semibold text-slate-400">
+                                    {{ req.admin_remarks|default:"Processed" }}
+                                </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7" class="px-6 py-8 text-center text-slate-400">No {{ current_status }} role upgrade requests found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,1 +1,2 @@
-from .coupon_service import CouponService
+# Auto-generated services exports
+from .coupon_service import *

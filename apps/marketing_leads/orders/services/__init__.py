@@ -1,1 +1,2 @@
-from .order_service import OrderService
+# Auto-generated services exports
+from .order_service import *

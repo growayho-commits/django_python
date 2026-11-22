@@ -1,12 +1,8 @@
-# apps/systems/analytics/urls.py
-
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views.analytics_views import AnalyticsProfileViewSet
 
-router = DefaultRouter()
-router.register(r'metrics', AnalyticsProfileViewSet, basename='analytics-metrics')
+app_name = 'analytics'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('profile/', AnalyticsProfileViewSet.as_view({'get': 'list', 'post': 'create', 'put': 'update', 'delete': 'destroy'}), name='profile'),
 ]

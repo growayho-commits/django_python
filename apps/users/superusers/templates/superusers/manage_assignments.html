@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}User Hierarchy &amp; Activity Assignments | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-8">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <div>
+            <h2 class="text-2xl font-extrabold text-slate-900">User Hierarchy &amp; Activity Assignments</h2>
+            <p class="text-sm text-slate-500 mt-1">
+                Add, edit, or remove Executive departments, and assign Sellers, Merchants, and Members.
+            </p>
+        </div>
+        <a href="{% url 'users:role_dashboard_redirect' %}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-4 rounded-xl text-sm font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- 1. Executive Department Permissions (Add / Edit / Remove) -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+        <div>
+            <h3 class="text-lg font-bold text-slate-900">Executive Department Permissions (Multi-Select)</h3>
+            <p class="text-xs text-slate-500 mt-0.5">Check or uncheck departments anytime and click Save Activities to add, edit, or remove.</p>
+        </div>
+
+        {% for exec in executives %}
+        <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                    <span class="font-bold text-slate-900">{{ exec.user.email }}</span>
+                    <span class="ml-2 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-700">
+                        {{ exec.get_executive_type_display }}
+                    </span>
+                </div>
+                <span class="text-xs text-slate-500">
+                    Assigned: {{ exec.current_activities|length }} department(s)
+                </span>
+            </div>
+
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="assign_executive_activities">
+                <input type="hidden" name="executive_id" value="{{ exec.id }}">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {% for dept_key, dept_label in departments %}
+                    <label class="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-slate-200 hover:border-amber-400 cursor-pointer text-sm">
+                        <input type="checkbox"
+                               name="activities"
+                               value="{{ dept_key }}"
+                               {% if dept_key in exec.current_activities %}checked{% endif %}
+                               class="w-4 h-4 text-amber-600 rounded border-slate-300 focus:ring-amber-500">
+                        <span class="font-medium text-slate-700">{{ dept_label }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <button type="submit" class="px-5 py-2 bg-slate-900 hover:bg-black text-amber-400 text-sm font-bold rounded-xl transition cursor-pointer">
+                        Save Activities
+                    </button>
+                    <button type="submit"
+                            name="action"
+                            value="clear_executive_activities"
+                            class="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-sm font-semibold rounded-xl transition cursor-pointer">
+                        Remove All
+                    </button>
+                </div>
+            </form>
+        </div>
+        {% empty %}
+        <p class="text-sm text-slate-500">No active executives found.</p>
+        {% endfor %}
+    </div>
+
+    <!-- 2. Assign Seller to Executive -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+        <h3 class="text-lg font-bold text-slate-900">Assign Seller to Executive</h3>
+        {% for seller in sellers %}
+        <form method="POST" class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="assign_seller_executive">
+            <input type="hidden" name="seller_id" value="{{ seller.id }}">
+            <div>
+                <p class="font-bold text-slate-800 text-sm">{{ seller.user.email }}</p>
+                <p class="text-xs text-slate-500">{{ seller.store_name|default:"Seller Store" }}</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <select name="executive_id" class="px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-700">
+                    <option value="">-- Unassigned --</option>
+                    {% for exec in executives %}
+                    <option value="{{ exec.id }}" {% if seller.assigned_executive_id == exec.id %}selected{% endif %}>
+                        {{ exec.user.email }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition cursor-pointer">
+                    Save
+                </button>
+            </div>
+        </form>
+        {% empty %}
+        <p class="text-sm text-slate-500">No active sellers found.</p>
+        {% endfor %}
+    </div>
+
+    <!-- 3. Assign Merchant to Executive -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+        <h3 class="text-lg font-bold text-slate-900">Assign Merchant to Executive</h3>
+        {% for merchant in merchants %}
+        <form method="POST" class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="assign_merchant_executive">
+            <input type="hidden" name="merchant_id" value="{{ merchant.id }}">
+            <div>
+                <p class="font-bold text-slate-800 text-sm">{{ merchant.user.email }}</p>
+                <p class="text-xs text-slate-500">{{ merchant.business_name|default:"Merchant Hub" }}</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <select name="executive_id" class="px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-700">
+                    <option value="">-- Unassigned --</option>
+                    {% for exec in executives %}
+                    <option value="{{ exec.id }}" {% if merchant.assigned_executive_id == exec.id %}selected{% endif %}>
+                        {{ exec.user.email }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition cursor-pointer">
+                    Save
+                </button>
+            </div>
+        </form>
+        {% empty %}
+        <p class="text-sm text-slate-500">No active merchants found.</p>
+        {% endfor %}
+    </div>
+
+    <!-- 4. Assign Member to Seller -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+        <h3 class="text-lg font-bold text-slate-900">Assign Member to Seller</h3>
+        {% for member in members %}
+        <form method="POST" class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="assign_member_seller">
+            <input type="hidden" name="member_id" value="{{ member.id }}">
+            <div>
+                <p class="font-bold text-slate-800 text-sm">{{ member.user.email }}</p>
+                <p class="text-xs text-slate-500">{{ member.get_membership_tier_display }}</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <select name="seller_id" class="px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm text-slate-700">
+                    <option value="">-- Unassigned --</option>
+                    {% for seller in sellers %}
+                    <option value="{{ seller.id }}" {% if member.assigned_seller_id == seller.id %}selected{% endif %}>
+                        {{ seller.user.email }}
+                    </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition cursor-pointer">
+                    Save
+                </button>
+            </div>
+        </form>
+        {% empty %}
+        <p class="text-sm text-slate-500">No active members found.</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,17 +1,18 @@
-{% extends 'base.html' %}
-{% block title %}My Services - Member Portal{% endblock %}
-{% block page_header %}My Professional Services & Listings{% endblock %}
-
-{% block content %}
-<div class="space-y-6 w-full text-light">
-    <div class="flex justify-between items-center">
-        <p class="text-slate-300 text-sm">List your professional expertise (Electrician, Doctor, Consultant) to receive local service requests.</p>
-        <a href="#" class="bg-gradient-to-r from-amber-500 to-yellow-600 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs">+ Add Service</a>
-    </div>
-    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center">
-        <div class="border border-dashed border-slate-700 rounded-xl p-6">
-            <p class="text-slate-400 text-sm">No professional links added yet. Click above to list your service.</p>
+<section id="view-services" class="view-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-3">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900">Professional Services, Radius & Enquiries</h2>
+            <p class="text-xs text-slate-500 mt-1">Configure your pincode service radius, availability schedule, and respond to customer leads.</p>
         </div>
     </div>
-</div>
-{% endblock %}
+    <div class="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm">
+        <h3 class="text-lg font-bold text-slate-900 mb-4">Recent Service Enquiries (Inbox)</h3>
+        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+            <div>
+                <span class="text-xs font-bold text-amber-600">Enquiry #ENQ-409 &bull; Coimbatore</span>
+                <h4 class="text-sm font-bold text-slate-900">Looking for Digital Storefront Setup & Consulting</h4>
+            </div>
+            <button onclick="alert('Reply sent!')" class="bg-slate-900 text-amber-400 text-xs font-semibold px-4 py-2 rounded-xl">Send Proposal</button>
+        </div>
+    </div>
+</section>

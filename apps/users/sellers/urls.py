@@ -1,9 +1,15 @@
-from django.urls import path
-from apps.users.sellers.views import seller_views  # அல்லது உங்கள் வியூஸ் இம்போர்ட் முறைக்கேற்ப
+﻿from django.urls import path
+from . import views
 
 app_name = 'sellers'
 
 urlpatterns = [
-    path('dashboard/', seller_views.seller_dashboard, name='dashboard'), # இங்கு name='dashboard' அவசியம்!
-    path('profile/', seller_views.SellerProfileCreateOrUpdateView.as_view(), name='profile'),
+    path('', views.overview_view, name='overview'),
+    path('overview/', views.overview_view, name='overview'),
+    path('products/', views.products_view, name='products'),
+    path('inventory/', views.inventory_view, name='inventory'),
+    path('orders/', views.orders_view, name='orders'),
+    path('payouts/', views.payouts_view, name='payouts'),
+    path('support/', views.support_view, name='support'),
+    path('profile/', views.profile_view, name='profile'),
 ]

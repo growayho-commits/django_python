@@ -1,1 +1,2 @@
-from .core_catalog_serializers import CoreCatalogSerializer
+# Auto-generated serializers exports
+from .core_catalog_serializer import *

@@ -1,7 +1,8 @@
 from django.urls import path
-from apps.catalogs.search_filters.views.search_filters_views import SearchFiltersSaveAPIView
+from .views.search_filter_views import SearchFilterListCreateAPIView
 
 app_name = 'search_filters'
+
 urlpatterns = [
-    path('save/', SearchFiltersSaveAPIView.as_view(), name='search-filters-save'),
+    path('search-filter-list-create-a-p-i/', SearchFilterListCreateAPIView.as_view(), name='search_filter_list_create_a_p_i'),
 ]

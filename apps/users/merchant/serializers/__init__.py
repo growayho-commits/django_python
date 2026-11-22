@@ -1,1 +1,2 @@
-from .merchant_serializer import MerchantProfileSerializer
+# Auto-generated serializers exports
+from .merchant_serializer import *

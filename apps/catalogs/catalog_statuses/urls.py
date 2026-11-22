@@ -1,7 +1,8 @@
 from django.urls import path
-from apps.catalogs.catalog_statuses.views.catalog_status_views import CatalogStatusUpdateAPIView
+from .views.catalog_status_views import CatalogStatusListCreateAPIView
 
 app_name = 'catalog_statuses'
+
 urlpatterns = [
-    path('update/', CatalogStatusUpdateAPIView.as_view(), name='status-update'),
+    path('catalog-status-list-create-a-p-i/', CatalogStatusListCreateAPIView.as_view(), name='catalog_status_list_create_a_p_i'),
 ]

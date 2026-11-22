@@ -1,0 +1,286 @@
+{
+    "timestamp": "2026-11-14T21:13:38.067540",
+    "flow": "Tier-7 Views -> Tier-4 Subapps -> Tier-3 Groups -> Tier-2 Master (apps/urls.py) -> Tier-1 Core (core/urls.py) -> Tier-8 Templates",
+    "synced_groups": [
+        {
+            "group": "catalogs",
+            "sub_apps": [
+                {
+                    "sub_name": "attributes",
+                    "module": "apps.catalogs.attributes.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "bundles_kits",
+                    "module": "apps.catalogs.bundles_kits.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "catalog_medias",
+                    "module": "apps.catalogs.catalog_medias.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "catalog_statuses",
+                    "module": "apps.catalogs.catalog_statuses.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "catalog_wishlist",
+                    "module": "apps.catalogs.catalog_wishlist.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "categories",
+                    "module": "apps.catalogs.categories.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "core_catalogs",
+                    "module": "apps.catalogs.core_catalogs.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "inventories",
+                    "module": "apps.catalogs.inventories.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "pricing_extras",
+                    "module": "apps.catalogs.pricing_extras.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "pricing_tiers",
+                    "module": "apps.catalogs.pricing_tiers.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "reviews_ratings",
+                    "module": "apps.catalogs.reviews_ratings.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "search_filters",
+                    "module": "apps.catalogs.search_filters.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "specifications",
+                    "module": "apps.catalogs.specifications.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "variants",
+                    "module": "apps.catalogs.variants.urls",
+                    "routes": 1
+                }
+            ]
+        },
+        {
+            "group": "customer_supports",
+            "sub_apps": [
+                {
+                    "sub_name": "faqs",
+                    "module": "apps.customer_supports.faqs.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "helpdesk_tickets",
+                    "module": "apps.customer_supports.helpdesk_tickets.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "live_chats",
+                    "module": "apps.customer_supports.live_chats.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "return_refunds",
+                    "module": "apps.customer_supports.return_refunds.urls",
+                    "routes": 2
+                }
+            ]
+        },
+        {
+            "group": "finances",
+            "sub_apps": [
+                {
+                    "sub_name": "bank_accounts",
+                    "module": "apps.finances.bank_accounts.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "commissions",
+                    "module": "apps.finances.commissions.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "payment_gateways",
+                    "module": "apps.finances.payment_gateways.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "payouts",
+                    "module": "apps.finances.payouts.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "taxes",
+                    "module": "apps.finances.taxes.urls",
+                    "routes": 0
+                }
+            ]
+        },
+        {
+            "group": "logistics",
+            "sub_apps": [
+                {
+                    "sub_name": "logistics_partners",
+                    "module": "apps.logistics.logistics_partners.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "returns",
+                    "module": "apps.logistics.returns.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "shipments",
+                    "module": "apps.logistics.shipments.urls",
+                    "routes": 3
+                },
+                {
+                    "sub_name": "warehouse_transfers",
+                    "module": "apps.logistics.warehouse_transfers.urls",
+                    "routes": 3
+                }
+            ]
+        },
+        {
+            "group": "marketing_leads",
+            "sub_apps": [
+                {
+                    "sub_name": "ads_campaigns",
+                    "module": "apps.marketing_leads.ads_campaigns.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "carts",
+                    "module": "apps.marketing_leads.carts.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "checkout_flows",
+                    "module": "apps.marketing_leads.checkout_flows.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "coupons_discounts",
+                    "module": "apps.marketing_leads.coupons_discounts.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "customer_leads",
+                    "module": "apps.marketing_leads.customer_leads.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "orders",
+                    "module": "apps.marketing_leads.orders.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "push_notifications",
+                    "module": "apps.marketing_leads.push_notifications.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "wishlists",
+                    "module": "apps.marketing_leads.wishlists.urls",
+                    "routes": 0
+                }
+            ]
+        },
+        {
+            "group": "professional_network",
+            "sub_apps": [
+                {
+                    "sub_name": "enquiries",
+                    "module": "apps.professional_network.enquiries.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "profiles",
+                    "module": "apps.professional_network.profiles.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "ratings",
+                    "module": "apps.professional_network.ratings.urls",
+                    "routes": 1
+                },
+                {
+                    "sub_name": "search_engine",
+                    "module": "apps.professional_network.search_engine.urls",
+                    "routes": 3
+                },
+                {
+                    "sub_name": "service_categries",
+                    "module": "apps.professional_network.service_categries.urls",
+                    "routes": 0
+                }
+            ]
+        },
+        {
+            "group": "systems",
+            "sub_apps": [
+                {
+                    "sub_name": "analytics",
+                    "module": "apps.systems.analytics.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "audits",
+                    "module": "apps.systems.audits.urls",
+                    "routes": 0
+                },
+                {
+                    "sub_name": "integrations",
+                    "module": "apps.systems.integrations.urls",
+                    "routes": 0
+                }
+            ]
+        },
+        {
+            "group": "users",
+            "sub_apps": [
+                {
+                    "sub_name": "executives",
+                    "module": "apps.users.executives.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "members",
+                    "module": "apps.users.members.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "merchant",
+                    "module": "apps.users.merchant.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "sellers",
+                    "module": "apps.users.sellers.urls",
+                    "routes": 2
+                },
+                {
+                    "sub_name": "superusers",
+                    "module": "apps.users.superusers.urls",
+                    "routes": 18
+                }
+            ]
+        }
+    ]
+}

@@ -1,9 +1,10 @@
 from django.urls import path
-from apps.professional_network.profiles.views import create_profile_view, update_availability_view
+from .views.leave_management import update_availability_view
+from .views.profile_create import create_profile_view
 
 app_name = 'profiles'
 
 urlpatterns = [
-    path('create/', create_profile_view, name='create_profile'),
-    path('schedule/<int:profile_id>/', update_availability_view, name='update_schedule'),
+    path('update-availability/', update_availability_view, name='update_availability'),
+    path('create-profile/', create_profile_view, name='create_profile'),
 ]

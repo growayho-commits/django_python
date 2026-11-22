@@ -1,2 +1,3 @@
-from .role_forms import RoleRequirementForm
-from .core_users_forms import GuestRegisterForm, GuestLoginForm
+# Auto-generated forms exports
+from .core_users_forms import *
+from .role_forms import *

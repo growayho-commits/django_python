@@ -1,1 +1,2 @@
-from .checkout_views import CheckoutViewSet
+# Auto-generated views exports
+from .checkout_views import *

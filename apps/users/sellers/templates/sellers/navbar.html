@@ -1,0 +1,50 @@
+<div class="relative inline-block text-left" id="seller-nav-container">
+    <button type="button" onclick="toggleSellerMenu()" class="p-2 rounded-full hover:bg-gray-100 focus:outline-none">
+        <svg class="w-6 h-6 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </svg>
+    </button>
+
+    <div id="seller-nav-drawer" class="hidden absolute right-0 mt-2 w-60 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+        <div class="py-1 flex flex-col space-y-0.5 text-sm">
+            <a href="{% url 'sellers:overview' %}" class="px-3 py-1.5 hover:bg-indigo-50 {% if active_tab == 'overview' %}bg-indigo-50 text-indigo-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Dashboard Overview
+            </a>
+            <a href="{% url 'sellers:products' %}" class="px-3 py-1.5 hover:bg-indigo-50 {% if active_tab == 'products' %}bg-indigo-50 text-indigo-700 font-semibold{% else %}text-gray-700{% endif %}">
+                My Products
+            </a>
+            <a href="{% url 'sellers:inventory' %}" class="px-3 py-1.5 hover:bg-indigo-50 {% if active_tab == 'inventory' %}bg-indigo-50 text-indigo-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Inventory & Stock
+            </a>
+            <a href="{% url 'sellers:orders' %}" class="px-3 py-1.5 hover:bg-indigo-50 {% if active_tab == 'orders' %}bg-indigo-50 text-indigo-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Seller Orders
+            </a>
+            <a href="{% url 'sellers:payouts' %}" class="px-3 py-1.5 hover:bg-indigo-50 {% if active_tab == 'payouts' %}bg-indigo-50 text-indigo-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Payouts & Finances
+            </a>
+            <a href="{% url 'sellers:support' %}" class="px-3 py-1.5 hover:bg-indigo-50 {% if active_tab == 'support' %}bg-indigo-50 text-indigo-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Support & Tickets
+            </a>
+            <a href="{% url 'sellers:profile' %}" class="px-3 py-1.5 hover:bg-indigo-50 {% if active_tab == 'profile' %}bg-indigo-50 text-indigo-700 font-semibold{% else %}text-gray-700{% endif %}">
+                Seller Profile
+            </a>
+            <div class="border-t border-gray-100 my-1"></div>
+            <a href="{% url 'users:submit_role_request' %}" class="px-3 py-1.5 hover:bg-indigo-50 text-indigo-700 font-medium">
+                Role Upgrade Request
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleSellerMenu() {
+        document.getElementById('seller-nav-drawer').classList.toggle('hidden');
+    }
+    document.addEventListener('click', function(event) {
+        const container = document.getElementById('seller-nav-container');
+        const drawer = document.getElementById('seller-nav-drawer');
+        if (container && !container.contains(event.target)) {
+            drawer.classList.add('hidden');
+        }
+    });
+</script>

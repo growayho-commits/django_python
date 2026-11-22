@@ -1,2 +1,3 @@
-from .send_enquiry import send_enquiry_view
-from .inbox_views import inbox_view
+# Auto-generated views exports
+from .inbox_views import *
+from .send_enquiry import *

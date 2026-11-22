@@ -1,9 +1,8 @@
-# apps/catalogs/variants/admin.py
 from django.contrib import admin
-from apps.catalogs.variants.models.variant_profile import CatalogVariantProfile
+from .models import CatalogVariantProfile
 
+# --- Auto-Generated Model Registrations ---
 @admin.register(CatalogVariantProfile)
 class CatalogVariantProfileAdmin(admin.ModelAdmin):
-    list_display = ['id', 'catalog', 'variant_name', 'sku', 'stock_quantity', 'is_active']
-    search_fields = ['variant_name', 'sku']
-    list_filter = ['is_active']
+    list_display = [f.name for f in CatalogVariantProfile._meta.fields]
+    search_fields = [f.name for f in CatalogVariantProfile._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]

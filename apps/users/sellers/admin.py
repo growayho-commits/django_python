@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models.seller_profile import SellerProfile
+from .models import SellerProfile
 
+# --- Auto-Generated Model Registrations ---
 @admin.register(SellerProfile)
-class SellerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'store_name', 'created_at')
-    search_fields = ('store_name', 'user__email')
-    list_filter = ('created_at',)
+class SellerProfileAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in SellerProfile._meta.fields]
+    search_fields = [f.name for f in SellerProfile._meta.fields if f.get_internal_type() in ('CharField', 'TextField')]

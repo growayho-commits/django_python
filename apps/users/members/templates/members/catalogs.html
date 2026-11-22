@@ -1,21 +1,86 @@
-{% extends 'base.html' %}
-{% block title %}Catalogs - Member Portal{% endblock %}
-{% block page_header %}Available Catalogs in Your Pincode{% endblock %}
-
-{% block content %}
-<div class="space-y-6 w-full text-light">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-xl flex flex-col justify-between">
-            <div>
-                <h3 class="text-md font-semibold text-white mb-1">Premium CNC Machine Spares</h3>
-                <p class="gold-text font-bold text-lg mb-2">₹12,500</p>
-                <p class="text-slate-400 text-xs mb-4">High durability precision spare parts for industrial automation.</p>
-            </div>
-            <div class="flex gap-2">
-                <button class="flex-1 bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 text-xs font-medium py-2 rounded-xl transition">Add to Cart</button>
-                <button class="px-3 bg-slate-800 hover:bg-red-500/20 text-slate-300 text-xs py-2 rounded-xl border border-slate-700">❤️</button>
-            </div>
+<section id="view-catalogs" class="view-section {% if force_active %}active{% endif %} max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-slate-200 pb-4">
+        <div>
+            <h2 class="text-2xl font-bold text-slate-900">Marketplace Catalogs</h2>
+            <p class="text-xs text-slate-500 mt-1">Browse active products, filter by category, add to cart, or save to wishlist.</p>
         </div>
+
+        <form method="GET" action="{% url 'users:members:catalogs' %}" class="flex flex-wrap items-center gap-2">
+            <select name="category" onchange="this.form.submit()" class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-700">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>
+                        {{ cat.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <input type="text" name="q" value="{{ search_query }}" placeholder="Search products..."
+                class="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs focus:border-amber-500 focus:outline-none">
+
+            <button type="submit" class="bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-black transition cursor-pointer">
+                Search
+            </button>
+        </form>
     </div>
-</div>
-{% endblock %}
+
+    {% if messages %}
+        <div class="mb-6 space-y-2">
+            {% for message in messages %}
+                <div class="p-3.5 rounded-xl text-sm font-medium {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for product in catalog_products %}
+            {% with product_key="PROD-"|add:product.id|stringformat:"s" %}
+            <div class="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm hover:border-amber-500 transition flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700">
+                            {{ product.category.name|default:"General" }}
+                        </span>
+                        <span class="text-[10px] font-semibold text-slate-400">
+                            {{ product.get_unit_display }}
+                        </span>
+                    </div>
+
+                    <h3 class="text-base font-bold text-slate-900 mb-1">{{ product.name }}</h3>
+                    <p class="text-amber-600 font-extrabold text-xl mb-2">
+                        &#8377;{{ product.base_price }}
+                        <span class="text-xs text-slate-400 font-normal">/ {{ product.unit }}</span>
+                    </p>
+                    <p class="text-slate-600 text-xs mb-4 line-clamp-2">
+                        {{ product.description|default:"No description provided." }}
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex items-center gap-2">
+                    <form method="POST" action="{% url 'users:members:add_to_cart' product.id %}" class="flex-1 flex items-center gap-1.5">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="1" min="1" class="w-12 border border-slate-300 rounded-lg px-2 py-1.5 text-xs text-center">
+                        <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold py-2 px-3 rounded-xl transition cursor-pointer">
+                            Add to Cart
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{% url 'users:members:toggle_wishlist' product.id %}">
+                        {% csrf_token %}
+                        <button type="submit" title="Toggle Wishlist"
+                            class="px-3 py-2 rounded-xl text-xs font-bold border transition cursor-pointer {% if product_key in wishlist_skus %}bg-rose-50 text-rose-600 border-rose-200{% else %}bg-slate-50 text-slate-600 border-slate-200 hover:bg-rose-50 hover:text-rose-600{% endif %}">
+                            &#9829;
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% endwith %}
+        {% empty %}
+            <div class="col-span-full bg-white border border-slate-200 rounded-2xl p-10 text-center text-slate-400 text-sm">
+                No active products found.
+            </div>
+        {% endfor %}
+    </div>
+</section>

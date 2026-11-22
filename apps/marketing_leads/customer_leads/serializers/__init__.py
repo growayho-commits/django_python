@@ -1,1 +1,2 @@
-from .lead_serializer import CustomerLeadSerializer
+# Auto-generated serializers exports
+from .lead_serializer import *

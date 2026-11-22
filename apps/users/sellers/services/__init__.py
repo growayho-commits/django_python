@@ -1,1 +1,2 @@
-from .seller_service import SellerService
+# Auto-generated services exports
+from .seller_service import *

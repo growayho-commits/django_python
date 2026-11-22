@@ -1,1 +1,2 @@
-from . import attribute_views
+# Auto-generated views exports
+from .attribute_views import *
