@@ -17,7 +17,11 @@ sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport 443 -j ACCEPT
 sudo mkdir -p /etc/iptables && sudo iptables-save | sudo tee /etc/iptables/rules.v4 > /dev/null
 
 cd /home/ubuntu/django_python
-python3 -m venv venv
+sudo DEBIAN_FRONTEND=noninteractive apt install -y software-properties-common
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y python3.12 python3.12-venv python3.12-dev
+rm -rf venv
+python3.12 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
