@@ -84,7 +84,7 @@ def member_dashboard_view(request):
 @login_required
 def member_catalogs_view(request):
     """Shared Marketplace Catalog view accessible by all authenticated user roles."""
-    return render(request, 'members/catalogs_page.html', _get_catalog_context(request))
+    return render(request, 'members/catalogs.html', _get_catalog_context(request))
 
 
 @login_required

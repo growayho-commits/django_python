@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Categories | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-5xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 dark:text-slate-100">Catalogue Categories</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Organize B2B and B2C catalogues under clean categories.</p>
+        </div>
+        <a href="{% url 'catalogs:core_catalogs:catalogue_workspace' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl">Back to Workspace</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-4">Add Category</h3>
+        <form method="POST" class="grid grid-cols-1 md:grid-cols-12 gap-3 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_category">
+            <input type="text" name="name" required placeholder="Category Name (e.g., Electronics, Hardware)" class="md:col-span-4 px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="description" placeholder="Short description (optional)" class="md:col-span-6 px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <button type="submit" class="md:col-span-2 py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Create</button>
+        </form>
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-4">All Categories ({{ categories|length }})</h3>
+        <div class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+            {% for cat in categories %}
+            <div class="py-3 flex items-center justify-between gap-4">
+                <div>
+                    <p class="font-bold">{{ cat.name }} <span class="text-xs font-mono text-slate-400">/{{ cat.slug }}</span></p>
+                    <p class="text-xs text-slate-500">{{ cat.description|default:"No description" }}</p>
+                </div>
+                <form method="POST" class="inline m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="toggle_category">
+                    <input type="hidden" name="category_id" value="{{ cat.pk }}">
+                    <button type="submit" class="px-3 py-1 rounded-full text-xs font-bold cursor-pointer {% if cat.is_active %}bg-emerald-100 text-emerald-700{% else %}bg-slate-200 text-slate-600{% endif %}">
+                        {% if cat.is_active %}Active{% else %}Inactive{% endif %}
+                    </button>
+                </form>
+            </div>
+            {% empty %}
+            <p class="text-sm text-slate-500">No categories created yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

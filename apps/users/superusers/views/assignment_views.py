@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.users.executives.models import ExecutiveProfile
 from apps.users.members.models import MemberProfile
-from apps.users.merchant.models import MerchantProfile
+from apps.users.merchants.models import MerchantProfile
 from apps.users.sellers.models import SellerProfile
 from apps.users.superusers.constants import EXECUTIVE_DEPARTMENTS
 from apps.users.superusers.permissions import superuser_required
@@ -60,10 +60,10 @@ def manage_assignments_view(request):
         elif action == 'assign_merchant_executive':
             merchant_id = request.POST.get('merchant_id')
             executive_profile_id = request.POST.get('executive_id') or None
-            merchant_profile = get_object_or_404(MerchantProfile, pk=merchant_id)
-            merchant_profile.assigned_executive_id = executive_profile_id
-            merchant_profile.save(update_fields=['assigned_executive'])
-            messages.success(request, f'Updated assigned executive for merchant {merchant_profile.user.email}.')
+            merchants_profile = get_object_or_404(MerchantProfile, pk=merchant_id)
+            merchants_profile.assigned_executive_id = executive_profile_id
+            merchants_profile.save(update_fields=['assigned_executive'])
+            messages.success(request, f'Updated assigned executive for merchant {merchants_profile.user.email}.')
 
         elif action == 'assign_member_seller':
             member_id = request.POST.get('member_id')

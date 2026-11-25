@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-8">
+    <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">Orders Dashboard</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Track your purchases and manage incoming supplier orders.</p>
+        </div>
+        <a href="{% url 'catalogs:core_catalogs:catalogue_marketplace' %}" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs rounded-xl">Marketplace</a>
+    </div>
+
+    <!-- My Purchases -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-x-auto">
+        <h3 class="text-lg font-extrabold mb-4">My Placed Orders ({{ my_orders|length }})</h3>
+        {% if my_orders %}
+        <table class="w-full text-left text-sm border-collapse">
+            <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-700 text-xs uppercase text-slate-500">
+                    <th class="py-2.5 px-3">Order #</th>
+                    <th class="py-2.5 px-3">Date</th>
+                    <th class="py-2.5 px-3">Total</th>
+                    <th class="py-2.5 px-3">Status</th>
+                    <th class="py-2.5 px-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% for ord in my_orders %}
+                <tr>
+                    <td class="py-3 px-3 font-mono font-bold">{{ ord.order_number }}</td>
+                    <td class="py-3 px-3 text-xs text-slate-500">{{ ord.created_at|date:"d M Y, H:i" }}</td>
+                    <td class="py-3 px-3 font-bold text-emerald-600">&#8377;{{ ord.total_amount }}</td>
+                    <td class="py-3 px-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-indigo-50 text-indigo-700">{{ ord.get_status_display }}</span></td>
+                    <td class="py-3 px-3"><a href="{% url 'orders:order_detail' ord.pk %}" class="text-xs font-bold text-amber-600 hover:underline">View Receipt</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-sm text-slate-500">You have not placed any orders yet.</p>
+        {% endif %}
+    </div>
+
+    {% if incoming_orders %}
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-x-auto">
+        <h3 class="text-lg font-extrabold mb-4">Incoming Orders to Fulfill ({{ incoming_orders|length }})</h3>
+        <table class="w-full text-left text-sm border-collapse">
+            <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-700 text-xs uppercase text-slate-500">
+                    <th class="py-2.5 px-3">Order #</th>
+                    <th class="py-2.5 px-3">Buyer</th>
+                    <th class="py-2.5 px-3">Total</th>
+                    <th class="py-2.5 px-3">Status</th>
+                    <th class="py-2.5 px-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% for ord in incoming_orders %}
+                <tr>
+                    <td class="py-3 px-3 font-mono font-bold">{{ ord.order_number }}</td>
+                    <td class="py-3 px-3 text-xs">{{ ord.user.email }}</td>
+                    <td class="py-3 px-3 font-bold text-emerald-600">&#8377;{{ ord.total_amount }}</td>
+                    <td class="py-3 px-3"><span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase bg-amber-50 text-amber-700">{{ ord.get_status_display }}</span></td>
+                    <td class="py-3 px-3"><a href="{% url 'orders:order_detail' ord.pk %}" class="text-xs font-bold text-indigo-600 hover:underline">Manage Order</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

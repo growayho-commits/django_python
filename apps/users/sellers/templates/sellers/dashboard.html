@@ -1,70 +1,9 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 
-{% block title %}Hybrid Marketplace — Seller Workspace{% endblock %}
+{% block title %}Hybrid Marketplace ? Seller Workspace{% endblock %}
 
 {% block body_content %}
 <div class="flex flex-1 relative">
-    <!-- Left Sidebar -->
-    <aside id="sellerSidebar" class="w-64 bg-slate-900 text-slate-200 border-r border-slate-800 hidden lg:flex flex-col justify-between shrink-0">
-        <div class="p-4 space-y-1">
-            <p class="px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2">
-                Seller Menu
-            </p>
-
-            <a href="{% url 'users:sellers:overview' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition {% if active_tab == 'overview' %}bg-indigo-600/25 text-indigo-300 border border-indigo-500/30 font-semibold{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
-                Overview
-            </a>
-
-            <a href="{% url 'users:sellers:products' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition {% if active_tab == 'products' %}bg-indigo-600/25 text-indigo-300 border border-indigo-500/30 font-semibold{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
-                Products
-            </a>
-
-            <a href="{% url 'users:sellers:inventory' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition {% if active_tab == 'inventory' %}bg-indigo-600/25 text-indigo-300 border border-indigo-500/30 font-semibold{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
-                Inventory
-            </a>
-
-            <a href="{% url 'users:sellers:orders' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition {% if active_tab == 'orders' %}bg-indigo-600/25 text-indigo-300 border border-indigo-500/30 font-semibold{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
-                Orders
-            </a>
-
-            <a href="{% url 'users:sellers:payouts' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition {% if active_tab == 'payouts' %}bg-indigo-600/25 text-indigo-300 border border-indigo-500/30 font-semibold{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
-                Payouts
-            </a>
-
-            <a href="{% url 'users:sellers:support' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition {% if active_tab == 'support' %}bg-indigo-600/25 text-indigo-300 border border-indigo-500/30 font-semibold{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
-                Support
-            </a>
-
-            <a href="{% url 'users:sellers:profile' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition {% if active_tab == 'profile' %}bg-indigo-600/25 text-indigo-300 border border-indigo-500/30 font-semibold{% else %}text-slate-300 hover:bg-slate-800 hover:text-white{% endif %}">
-                Profile
-            </a>
-
-            <div class="border-t border-slate-800 my-2"></div>
-
-            <a href="{% url 'users:common_profile' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition text-slate-300 hover:bg-slate-800 hover:text-white">
-                Account &amp; Address
-            </a>
-
-            <a href="{% url 'users:submit_role_request' %}"
-                class="block px-3 py-2.5 rounded-lg text-sm transition text-indigo-300 hover:bg-slate-800 hover:text-white font-medium">
-                Role Upgrade Request
-            </a>
-        </div>
-
-        <div class="p-4 border-t border-slate-800 bg-slate-950 shrink-0">
-            <p class="text-xs font-medium text-white truncate">{{ request.user.get_full_name|default:request.user.username|default:"Seller" }}</p>
-            <p class="text-[11px] text-slate-400 truncate">{{ request.user.email }}</p>
-        </div>
-    </aside>
-
     <!-- Main Seller Content -->
     <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {% block seller_content %}{% endblock %}

@@ -267,7 +267,7 @@
                 },
                 {
                     "sub_name": "merchant",
-                    "module": "apps.users.merchant.urls",
+                    "module": "apps.users.merchants.urls",
                     "routes": 7
                 },
                 {

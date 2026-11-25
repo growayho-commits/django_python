@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Warehouse Transfers | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-6xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h2 class="text-2xl font-extrabold">Warehouse Transfers</h2>
+        <a href="{% url 'logistics:logistics_dashboard' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl">Back to Logistics</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if can_manage %}
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-3">Initiate Stock Transfer</h3>
+        <form method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_transfer">
+            <input type="text" name="transfer_reference" placeholder="Reference (auto if blank)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="source_warehouse" required placeholder="Source Warehouse" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="destination_warehouse" required placeholder="Destination Warehouse" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Initiate</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3">
+        <h3 class="text-lg font-bold">Transfer Logs ({{ transfers|length }})</h3>
+        {% for t in transfers %}
+        <div class="p-4 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs">
+            <div>
+                <p class="font-mono font-bold text-sm">{{ t.transfer_reference }}</p>
+                <p class="text-slate-500">{{ t.source_warehouse }} &rarr; {{ t.destination_warehouse }}</p>
+            </div>
+            {% if can_manage %}
+            <form method="POST" class="flex gap-2 m-0">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_transfer">
+                <input type="hidden" name="transfer_id" value="{{ t.pk }}">
+                <select name="status" class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    {% for val, label in status_choices %}
+                    <option value="{{ val }}" {% if t.status == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="px-3 py-1 bg-indigo-600 text-white font-bold rounded-lg cursor-pointer">Update</button>
+            </form>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p class="text-sm text-slate-500">No warehouse transfers yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

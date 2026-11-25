@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Logistics & Live Tracking | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">Logistics &amp; Live Tracking</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Dispatch orders, track shipments, and manage courier partners.</p>
+        </div>
+        <div class="flex gap-2">
+            <a href="{% url 'logistics:warehouse_transfers_portal' %}" class="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-xl">Warehouse Transfers</a>
+            <a href="{% url 'logistics:logistics_returns_portal' %}" class="px-4 py-2 bg-rose-50 text-rose-700 font-bold text-xs rounded-xl">Return Pickups</a>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Live Tracking Search -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3">
+        <h3 class="text-lg font-bold">Live Shipment Tracking</h3>
+        <form method="GET" class="flex flex-wrap gap-3 text-sm">
+            <input type="text" name="track" value="{{ track_query }}" placeholder="Enter Tracking # or Order # (e.g. TRK-... or ORD-...)" class="flex-grow px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <button type="submit" class="px-5 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Track Now</button>
+        </form>
+        {% if track_query %}
+            {% if tracked_shipment %}
+            <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs flex flex-wrap justify-between items-center gap-3">
+                <div>
+                    <p class="font-bold text-sm">Tracking: {{ tracked_shipment.tracking_number }} (Order: {{ tracked_shipment.order_id }})</p>
+                    <p>Partner: {{ tracked_shipment.partner.partner_name|default:"Direct" }} &middot; Status: <strong>{{ tracked_shipment.get_status_display }}</strong></p>
+                </div>
+                {% if tracked_shipment.partner and tracked_shipment.partner.tracking_url_template %}
+                <a href="{{ tracked_shipment.partner.tracking_url_template }}" target="_blank" class="px-3 py-1.5 bg-indigo-600 text-white font-bold rounded-lg">Open Carrier Tracker</a>
+                {% endif %}
+            </div>
+            {% else %}
+            <p class="text-xs font-bold text-rose-600">No shipment found for "{{ track_query }}".</p>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% if can_manage %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+            <h3 class="text-lg font-bold mb-3">Dispatch Order Shipment</h3>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="create_shipment">
+                <select name="order_id" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <option value="">Select Order to Ship...</option>
+                    {% for ord in orders %}
+                    <option value="{{ ord.order_number }}">{{ ord.order_number }} - &#8377;{{ ord.total_amount }} ({{ ord.get_status_display }})</option>
+                    {% endfor %}
+                </select>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <select name="partner_id" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                        <option value="">Self / Direct Delivery</option>
+                        {% for p in partners %}
+                        <option value="{{ p.pk }}">{{ p.partner_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" name="tracking_number" placeholder="Tracking # (auto if blank)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                </div>
+                <button type="submit" class="px-5 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Create Shipment</button>
+            </form>
+        </div>
+
+        {% if is_admin %}
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+            <h3 class="text-lg font-bold mb-3">Add Logistics Partner</h3>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_partner">
+                <input type="text" name="partner_name" required placeholder="Partner Name (e.g., BlueDart, Delhivery)" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <input type="url" name="tracking_url_template" placeholder="Tracking URL (optional)" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white font-bold rounded-xl cursor-pointer">Add Partner</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-x-auto">
+        <h3 class="text-lg font-bold mb-3">Shipments ({{ shipments|length }})</h3>
+        <table class="w-full text-left text-xs border-collapse">
+            <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-700 uppercase text-slate-500">
+                    <th class="py-2 px-3">Tracking #</th>
+                    <th class="py-2 px-3">Order #</th>
+                    <th class="py-2 px-3">Partner</th>
+                    <th class="py-2 px-3">Status</th>
+                    {% if can_manage %}<th class="py-2 px-3">Update</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% for s in shipments %}
+                <tr>
+                    <td class="py-3 px-3 font-mono font-bold">{{ s.tracking_number }}</td>
+                    <td class="py-3 px-3 font-mono">{{ s.order_id }}</td>
+                    <td class="py-3 px-3">{{ s.partner.partner_name|default:"Direct" }}</td>
+                    <td class="py-3 px-3 font-bold uppercase">{{ s.get_status_display }}</td>
+                    {% if can_manage %}
+                    <td class="py-3 px-3">
+                        <form method="POST" class="flex gap-2 m-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="update_shipment_status">
+                            <input type="hidden" name="shipment_id" value="{{ s.pk }}">
+                            <select name="status" class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                                {% for val, label in status_choices %}
+                                <option value="{{ val }}" {% if s.status == val %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="px-3 py-1 bg-indigo-600 text-white font-bold rounded-lg cursor-pointer">Save</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="py-4 text-center text-slate-400">No shipments recorded yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

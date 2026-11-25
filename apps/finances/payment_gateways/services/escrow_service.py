@@ -1,61 +1,55 @@
-import razorpay
-from django.conf import settings
-from apps.finances.payment_gateways.models import PaymentGatewayConfig
-from apps.marketing_leads.orders.models import OrderProfile
+import uuid
 
-class EscrowPaymentService:
-    def __init__(self):
-        self.client = razorpay.Client(
-            auth=(
-                getattr(settings, 'RAZORPAY_KEY_ID', ''),
-                getattr(settings, 'RAZORPAY_KEY_SECRET', '')
-            )
-        )
-
-    def create_b2b_escrow_order(self, order_id, credit_period_days=30):
-        order = OrderProfile.objects.get(id=order_id)
-        amount_in_paisa = int(order.total_amount * 100)
-        
-        data = {
-            "amount": amount_in_paisa,
-            "currency": "INR",
-            "receipt": f"order_rcpt_{order.id}",
-            "notes": {
-                "order_id": str(order.id),
-                "escrow": "TRUE",
-                "credit_period_days": str(credit_period_days)
-            }
-        }
-        razorpay_order = self.client.order.create(data=data)
-        return razorpay_order
-
-    def release_escrow_funds(self, razorpay_payment_id):
-        # Escrow நிதியை விற்பனையாளருக்கு விடுவிக்கும் செயல்பாடு
-        capture_response = self.client.payment.capture(razorpay_payment_id)
-        return capture_response
-
-
-# apps/finances/payment_gateways/services/escrow_service.py
 from django.core.exceptions import ValidationError
-from apps.marketing_leads.orders.models import OrderProfile
+from django.db import transaction
+from django.utils import timezone
+
+from apps.finances.commissions.services.commission_split_service import CommissionSplitService
+from apps.finances.payment_gateways.models.gateway_profile import EscrowTransaction
+from apps.marketing_leads.orders.models.order_profile import OrderProfile
+
 
 class EscrowPaymentService:
     @staticmethod
-    def hold_payment_in_escrow(order_id, amount):
-        order = OrderProfile.objects.filter(id=order_id).first()
+    @transaction.atomic
+    def hold_payment_in_escrow(order_id, gateway_name="Escrow / UPI"):
+        order = OrderProfile.objects.filter(pk=order_id).first()
         if not order:
-            raise ValidationError("குறிப்பிட்ட ஆர்டர் கிடைக்கவில்லை.")
-        
-        order.payment_status = "ESCROW_HELD"
-        order.save()
-        return {"status": "HELD", "order_id": order_id, "amount": amount}
+            raise ValidationError("Order not found.")
+
+        escrow, created = EscrowTransaction.objects.get_or_create(
+            order=order,
+            defaults={
+                "buyer": order.user,
+                "amount": order.total_amount,
+                "gateway_name": gateway_name,
+                "gateway_reference": f"ESC-{uuid.uuid4().hex[:10].upper()}",
+                "escrow_status": "held",
+            },
+        )
+        if not created and escrow.escrow_status != "held":
+            escrow.escrow_status = "held"
+            escrow.save(update_fields=["escrow_status"])
+
+        if order.status == "pending":
+            order.status = "confirmed"
+            order.save(update_fields=["status"])
+        return escrow
 
     @staticmethod
+    @transaction.atomic
     def release_escrow_to_seller(order_id):
-        order = OrderProfile.objects.filter(id=order_id).first()
+        order = OrderProfile.objects.filter(pk=order_id).first()
         if not order:
-            raise ValidationError("குறிப்பிட்ட ஆர்டர் கிடைக்கவில்லை.")
-        
-        order.payment_status = "RELEASED_TO_SELLER"
-        order.save()
-        return {"status": "RELEASED", "order_id": order_id}
+            raise ValidationError("Order not found.")
+
+        escrow = getattr(order, "escrow_transaction", None)
+        if not escrow:
+            escrow = EscrowPaymentService.hold_payment_in_escrow(order.pk)
+
+        escrow.escrow_status = "released"
+        escrow.released_at = timezone.now()
+        escrow.save(update_fields=["escrow_status", "released_at"])
+
+        splits = CommissionSplitService.generate_splits_for_order(order)
+        return {"escrow": escrow, "splits": splits}

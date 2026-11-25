@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-5xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">Notifications Inbox</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Order alerts, RFQ updates, and platform announcements.</p>
+        </div>
+        <form method="POST" class="m-0">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="mark_all_read">
+            <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs rounded-xl cursor-pointer">Mark All Read</button>
+        </form>
+    </div>
+
+    {% if can_broadcast %}
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-3">Send Notification / Broadcast</h3>
+        <form method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="send_notification">
+            <input type="text" name="title" required placeholder="Notification Title" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="email" name="recipient_email" placeholder="User Email (leave blank for All Users)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <div class="flex gap-2">
+                <input type="text" name="message" required placeholder="Message body..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl shrink-0 cursor-pointer">Send</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <div class="space-y-3">
+        {% for n in notifications %}
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border {% if not n.is_read and n.user %}border-amber-400{% else %}border-slate-200 dark:border-slate-800{% endif %} flex items-center justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h4 class="font-bold text-sm">{{ n.title }}</h4>
+                    {% if not n.user %}<span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-indigo-50 text-indigo-700">Broadcast</span>{% endif %}
+                    {% if not n.is_read and n.user %}<span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full bg-amber-100 text-amber-800">New</span>{% endif %}
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">{{ n.message }}</p>
+                <p class="text-[11px] text-slate-400 mt-1">{{ n.sent_at|date:"d M Y, H:i" }}</p>
+            </div>
+            {% if not n.is_read and n.user %}
+            <form method="POST" class="m-0 shrink-0">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="mark_read">
+                <input type="hidden" name="notif_id" value="{{ n.pk }}">
+                <button type="submit" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl cursor-pointer">Mark Read</button>
+            </form>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500">
+            No notifications yet.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

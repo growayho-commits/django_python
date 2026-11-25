@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Escrow & Commission Split | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">Escrow &amp; Settlement Portal</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Hold buyer funds in Escrow and release with automatic commission splits.</p>
+        </div>
+        <div class="flex gap-2">
+            <a href="{% url 'finances:bank_portal' %}" class="px-4 py-2 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-xl">Bank Accounts</a>
+            <a href="{% url 'finances:payout_portal' %}" class="px-4 py-2 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-xl">Commissions &amp; Payouts</a>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-x-auto">
+        <h3 class="text-lg font-extrabold mb-4">Orders &amp; Escrow Control</h3>
+        <table class="w-full text-left text-sm border-collapse">
+            <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-700 text-xs uppercase text-slate-500">
+                    <th class="py-2 px-3">Order #</th>
+                    <th class="py-2 px-3">Buyer</th>
+                    <th class="py-2 px-3">Amount</th>
+                    <th class="py-2 px-3">Escrow Status</th>
+                    {% if is_admin %}<th class="py-2 px-3">Actions</th>{% endif %}
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% for ord in orders %}
+                <tr>
+                    <td class="py-3 px-3 font-mono font-bold">{{ ord.order_number }}</td>
+                    <td class="py-3 px-3 text-xs">{{ ord.user.email }}</td>
+                    <td class="py-3 px-3 font-bold text-emerald-600">&#8377;{{ ord.total_amount }}</td>
+                    <td class="py-3 px-3 text-xs font-bold uppercase">
+                        {% if ord.escrow_transaction %}
+                            {{ ord.escrow_transaction.get_escrow_status_display }}
+                        {% else %}
+                            Not Held Yet
+                        {% endif %}
+                    </td>
+                    {% if is_admin %}
+                    <td class="py-3 px-3 flex gap-2">
+                        <form method="POST" class="m-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="hold_escrow">
+                            <input type="hidden" name="order_id" value="{{ ord.pk }}">
+                            <button type="submit" class="px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-lg cursor-pointer">Hold Escrow</button>
+                        </form>
+                        <form method="POST" class="m-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="release_escrow">
+                            <input type="hidden" name="order_id" value="{{ ord.pk }}">
+                            <button type="submit" class="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-lg cursor-pointer">Release &amp; Split</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

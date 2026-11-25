@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -5,11 +7,27 @@ from django.urls import reverse
 
 from apps.users.executives.models import ExecutiveProfile
 from apps.users.members.models import MemberProfile
-from apps.users.merchant.models import MerchantProfile
+from apps.users.merchants.models import MerchantProfile
 from apps.users.sellers.models import SellerProfile
 from apps.users.superusers.services.role_request_service import get_user_current_role
 
 CoreUser = get_user_model()
+
+
+def _ensure_user_referral_code(user):
+    """Auto-generate a unique HM... referral code for legacy users if missing."""
+    if not user or not hasattr(user, "referral_code"):
+        return ""
+    existing_code = (getattr(user, "referral_code", "") or "").strip()
+    if existing_code:
+        return existing_code
+
+    while True:
+        candidate = f"HM{uuid.uuid4().hex[:8].upper()}"
+        if not CoreUser.objects.filter(referral_code__iexact=candidate).exists():
+            user.referral_code = candidate
+            user.save(update_fields=["referral_code"])
+            return candidate
 
 
 def _serialize_user_node(user, role_label=None, extra_info="", children=None):
@@ -20,6 +38,8 @@ def _serialize_user_node(user, role_label=None, extra_info="", children=None):
     if ind_profile:
         full_name = f"{getattr(ind_profile, 'first_name', '')} {getattr(ind_profile, 'last_name', '')}".strip()
 
+    ref_code = _ensure_user_referral_code(user) or "N/A"
+
     return {
         "id": user.id,
         "email": user.email,
@@ -27,7 +47,7 @@ def _serialize_user_node(user, role_label=None, extra_info="", children=None):
         "phone_number": getattr(user, "phone_number", "") or "N/A",
         "role": resolved_role.title(),
         "role_key": resolved_role.lower(),
-        "referral_code": getattr(user, "referral_code", "") or "N/A",
+        "referral_code": ref_code,
         "referred_by": user.referred_by.email if getattr(user, "referred_by", None) else "Direct / None",
         "is_verified": "Verified" if getattr(user, "is_verified", False) else "Pending Verification",
         "date_joined": user.date_joined.strftime("%d %b %Y") if getattr(user, "date_joined", None) else "N/A",
@@ -198,10 +218,10 @@ def network_tree_view(request):
         ]
 
     elif current_role == "merchant":
-        merchant_profile = MerchantProfile.objects.select_related("assigned_executive__user").filter(user=current_user).first()
-        if merchant_profile and merchant_profile.assigned_executive:
+        merchants_profile = MerchantProfile.objects.select_related("assigned_executive__user").filter(user=current_user).first()
+        if merchants_profile and merchants_profile.assigned_executive:
             upward_user = _serialize_user_node(
-                merchant_profile.assigned_executive.user,
+                merchants_profile.assigned_executive.user,
                 "executive",
                 "Assigned Executive",
             )
@@ -218,7 +238,7 @@ def network_tree_view(request):
     referred_users_qs = CoreUser.objects.filter(referred_by=current_user).order_by("-date_joined")
     referred_users = [_serialize_user_node(u) for u in referred_users_qs]
 
-    referral_code = getattr(current_user, "referral_code", "") or ""
+    referral_code = _ensure_user_referral_code(current_user)
     referral_link = (
         request.build_absolute_uri(f"{reverse('users:register')}?ref={referral_code}")
         if referral_code

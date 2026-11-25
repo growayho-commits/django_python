@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}My Wishlist | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 dark:text-slate-100">My Catalogue Wishlist</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Saved catalogues ready for quick pricing review and checkout.</p>
+        </div>
+        <a href="{% url 'catalogs:core_catalogs:catalogue_marketplace' %}" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs rounded-xl">Browse Marketplace</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for entry in wishlist_cards %}
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4">
+            <div>
+                <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
+                    {{ entry.catalogue.get_trade_channel_display }}
+                </span>
+                <h3 class="text-lg font-extrabold mt-2">{{ entry.catalogue.name }}</h3>
+                <p class="text-xs font-mono text-slate-400">{{ entry.catalogue.sku }}</p>
+            </div>
+            <div class="space-y-3 border-t border-slate-100 dark:border-slate-800 pt-3">
+                <p class="text-2xl font-black text-emerald-600">&#8377;{{ entry.pricing.final_total }}</p>
+                <div class="flex gap-2">
+                    <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}" class="flex-grow text-center py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl">View &amp; Buy</a>
+                    <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' entry.catalogue.pk %}" method="POST" class="inline m-0">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <button type="submit" class="px-3 py-2 bg-rose-50 text-rose-600 font-bold text-xs rounded-xl cursor-pointer">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 text-center text-slate-500 text-sm">
+            Your wishlist is empty. Click the heart icon on any catalogue in the marketplace to save it here!
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

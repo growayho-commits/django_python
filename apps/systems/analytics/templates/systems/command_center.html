@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Systems Command Center | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">Systems Command Center &amp; AI Copilot</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Live Analytics, Demand Forecasting, Fraud Alerts, External Sync &amp; PWA.</p>
+        </div>
+        <a href="{% url 'users:role_dashboard_redirect' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl">Dashboard</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-400 uppercase font-bold">Total Revenue</p>
+            <p class="text-2xl font-black text-emerald-600 mt-1">&#8377;{{ metrics.total_revenue }}</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-400 uppercase font-bold">Escrow Held</p>
+            <p class="text-2xl font-black text-amber-500 mt-1">&#8377;{{ metrics.escrow_held }}</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-400 uppercase font-bold">Approved Catalogues / Services</p>
+            <p class="text-2xl font-black text-indigo-600 mt-1">{{ metrics.approved_catalogues }} / {{ metrics.approved_services }}</p>
+        </div>
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
+            <p class="text-xs text-slate-400 uppercase font-bold">High-Value Alerts</p>
+            <p class="text-2xl font-black text-rose-600 mt-1">{{ metrics.high_value_orders }}</p>
+        </div>
+    </div>
+
+    <!-- AI Copilot -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3">
+        <h3 class="text-lg font-bold">AI Operations Copilot</h3>
+        <form method="GET" class="flex gap-3 text-sm">
+            <input type="text" name="copilot_q" value="{{ copilot_query }}" placeholder="Ask about revenue, pending approvals, or fraud alerts..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <button type="submit" class="px-5 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl shrink-0 cursor-pointer">Ask Copilot</button>
+        </form>
+        {% if copilot_answer %}
+        <div class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-800 text-sm font-semibold text-indigo-900 dark:text-indigo-200">
+            {{ copilot_answer }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Demand Forecasting & External Sync -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+            <h3 class="text-lg font-bold mb-3">30-Day Demand Forecast</h3>
+            {% if forecast_rows %}
+            <table class="w-full text-left text-xs">
+                <thead>
+                    <tr class="border-b border-slate-200 dark:border-slate-700 text-slate-500 uppercase">
+                        <th class="py-2">Catalogue</th>
+                        <th class="py-2">30d Sold</th>
+                        <th class="py-2">Next 30d Est.</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    {% for r in forecast_rows %}
+                    <tr>
+                        <td class="py-2 font-bold">{{ r.name }}</td>
+                        <td class="py-2">{{ r.units_30d }}</td>
+                        <td class="py-2 font-bold text-emerald-600">{{ r.projected_next_30d }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-xs text-slate-400">Order data will populate demand forecasts automatically.</p>
+            {% endif %}
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3 text-xs">
+            <h3 class="text-lg font-bold">External Website Sync &amp; Escrow Widget</h3>
+            <p><strong>Catalogue Feed JSON:</strong> <code class="block p-2 rounded bg-slate-100 dark:bg-slate-800 mt-1 select-all">{{ feed_url }}</code></p>
+            <p><strong>External Enquiry Webhook (POST):</strong> <code class="block p-2 rounded bg-slate-100 dark:bg-slate-800 mt-1 select-all">{{ enquiry_url }}</code></p>
+            <form method="POST" class="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_integration">
+                <input type="text" name="service_name" required placeholder="Integration Name" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <input type="url" name="webhook_url" placeholder="Webhook URL" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <button type="submit" class="px-3 py-2 bg-indigo-600 text-white font-bold rounded-xl cursor-pointer">Add Integration</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Audit Logs -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-3">Recent Audit &amp; Security Logs</h3>
+        <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+            {% for log in audit_logs %}
+            <div class="py-2 flex justify-between gap-4">
+                <span><strong>[{{ log.module_name }}]</strong> {{ log.action }} &mdash; {{ log.description }}</span>
+                <span class="text-slate-400 shrink-0">{{ log.created_at|date:"d M Y, H:i" }}</span>
+            </div>
+            {% empty %}
+            <p class="text-slate-400">No audit logs recorded yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

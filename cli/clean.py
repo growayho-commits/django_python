@@ -1,72 +1,57 @@
-# Project Cache, Database & Migration Cleanup Utility (clean.py)
-
 import os
 import shutil
 from pathlib import Path
 
+try:
+    from cli.common import PROJECT_ROOT, SKIP_DIRS, ask_dry_run
+except ImportError:
+    from common import PROJECT_ROOT, SKIP_DIRS, ask_dry_run
+
+
 def clean_project_files():
     print("=" * 65)
-    print("   HYBRID MARKETPLACE - ADVANCED PROJECT CLEANUP (clean.py)")
+    print("   HYBRID MARKETPLACE - SAFE CACHE CLEANER (cli/clean.py)")
     print("=" * 65)
-    
-    deleted_folders_count = 0
-    deleted_files_count = 0
-    
-    confirm = input("Are you sure you want to clean cache, temporary files, DB, and migration init files? [y/N]: ").strip().lower()
-    if confirm != 'y':
-        print("❌ Cleanup cancelled.")
+
+    dry_run = ask_dry_run(default_yes=True)
+    cache_dirs, temp_files = [], []
+
+    for root, dirs, files in os.walk(PROJECT_ROOT):
+        if any(skip in Path(root).parts for skip in SKIP_DIRS):
+            continue
+        if "__pycache__" in dirs:
+            cache_dirs.append(Path(root) / "__pycache__")
+        for file in files:
+            if file.endswith((".pyc", ".pyo", ".log")) or file == ".DS_Store":
+                temp_files.append(Path(root) / file)
+
+    print(f"\nFound {len(cache_dirs)} __pycache__ folder(s) and {len(temp_files)} temp file(s).")
+    print("Protected: db.sqlite3, migrations/, and documents/ will NOT be touched.")
+
+    if dry_run:
+        for d in cache_dirs[:15]:
+            print(f"  [DRY-RUN] Would remove folder: {d.relative_to(PROJECT_ROOT)}")
+        for f in temp_files[:15]:
+            print(f"  [DRY-RUN] Would remove file  : {f.relative_to(PROJECT_ROOT)}")
+        print("\nDry-run complete. Re-run and enter 'n' to execute.")
         return
 
-    print("\n🔍 Scanning and cleaning project...")
+    if input("Proceed to delete cache/temp files? [y/N]: ").strip().lower() != "y":
+        print("Cleanup cancelled.")
+        return
 
-    project_root = Path(__file__).resolve().parent
-
-    # 1. Remove db.sqlite3 if exists
-    db_path = project_root / "db.sqlite3"
-    if db_path.exists():
-        try:
-            db_path.unlink()
-            print(f"  🗑️ Removed database file: {db_path}")
-            deleted_files_count += 1
-        except Exception as e:
-            print(f"  ⚠️ Error removing database: {e}")
-
-    # 2. Clean migration __init__.py files (clear contents)
-    apps_dir = project_root / "apps"
-    if apps_dir.exists():
-        for mig_init in apps_dir.glob("**/migrations/__init__.py"):
+    removed_dirs = sum(1 for d in cache_dirs if d.exists() and not shutil.rmtree(d, ignore_errors=True))
+    removed_files = 0
+    for f in temp_files:
+        if f.exists():
             try:
-                mig_init.write_text("")
-                print(f"  🧹 Emptied migration init: {mig_init.relative_to(project_root)}")
-                deleted_files_count += 1
-            except Exception as e:
-                print(f"  ⚠️ Error clearing {mig_init}: {e}")
+                f.unlink()
+                removed_files += 1
+            except OSError:
+                pass
 
-    # 3. Walk through project directories for cache and temp files
-    for root, dirs, files in os.walk(project_root, topdown=False):
-        # Remove __pycache__ directories
-        if "__pycache__" in dirs:
-            cache_path = os.path.join(root, "__pycache__")
-            try:
-                shutil.rmtree(cache_path)
-                print(f"  🗑️ Removed cache folder: {os.path.relpath(cache_path, project_root)}")
-                deleted_folders_count += 1
-            except Exception as e:
-                print(f"  ⚠️ Error removing {cache_path}: {e}")
+    print(f"\nDone! Removed {removed_dirs} cache folder(s) and {removed_files} temp file(s).")
 
-        # Remove compiled python files (.pyc, .pyo, logs, etc.)
-        for file in files:
-            if file.endswith((".pyc", ".pyo", ".log")) or file.startswith(".DS_Store"):
-                file_path = os.path.join(root, file)
-                try:
-                    os.remove(file_path)
-                    deleted_files_count += 1
-                except Exception as e:
-                    print(f"  ⚠️ Error removing {file_path}: {e}")
-
-    print("\n" + "=" * 65)
-    print(f"✅ Cleanup Complete! Removed {deleted_folders_count} cache folders, DB, and cleaned temp files.")
-    print("=" * 65)
 
 if __name__ == "__main__":
     clean_project_files()

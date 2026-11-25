@@ -6,14 +6,27 @@ Hybrid Marketplace
 
 ```mermaid
 graph TD
-    classDef appStyle fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef modelStyle fill:#bbf,stroke:#333,stroke-width:1px;
+    catalogs -->|depends on| users
+    catalogs -->|depends on| common
+    customer_supports -->|depends on| users
+    customer_supports -->|depends on| marketing_leads
+    finances -->|depends on| catalogs
     finances -->|depends on| marketing_leads
+    finances -->|depends on| users
+    logistics -->|depends on| users
+    logistics -->|depends on| marketing_leads
     marketing_leads -->|depends on| catalogs
+    marketing_leads -->|depends on| users
+    professional_network -->|depends on| users
+    professional_network -->|depends on| common
+    professional_network -->|depends on| marketing_leads
     systems -->|depends on| marketing_leads
     systems -->|depends on| catalogs
-    users -->|depends on| catalogs
+    systems -->|depends on| professional_network
+    systems -->|depends on| users
+    systems -->|depends on| finances
     users -->|depends on| marketing_leads
+    users -->|depends on| catalogs
     catalogs --- AttributeProfile[Model: AttributeProfile]
     catalogs --- BundleKitProfile[Model: BundleKitProfile]
     catalogs --- CatalogMediaProfile[Model: CatalogMediaProfile]
@@ -28,14 +41,21 @@ graph TD
     catalogs --- SearchFilterProfile[Model: SearchFilterProfile]
     catalogs --- SpecificationProfile[Model: SpecificationProfile]
     catalogs --- CatalogVariantProfile[Model: CatalogVariantProfile]
+    common --- TimeStampedModel[Model: TimeStampedModel]
+    common --- LocationCoverageMixin[Model: LocationCoverageMixin]
     customer_supports --- FAQProfile[Model: FAQProfile]
     customer_supports --- HelpdeskTicket[Model: HelpdeskTicket]
+    customer_supports --- LiveChatMessage[Model: LiveChatMessage]
     customer_supports --- ReturnRefundProfile[Model: ReturnRefundProfile]
     finances --- BankAccountProfile[Model: BankAccountProfile]
     finances --- CommissionProfile[Model: CommissionProfile]
     finances --- PaymentGatewayConfig[Model: PaymentGatewayConfig]
+    finances --- EscrowTransaction[Model: EscrowTransaction]
     finances --- PayoutProfile[Model: PayoutProfile]
+    finances --- LoyaltyWallet[Model: LoyaltyWallet]
+    finances --- WalletTransaction[Model: WalletTransaction]
     finances --- TaxProfile[Model: TaxProfile]
+    finances --- InHouseGSTInvoice[Model: InHouseGSTInvoice]
     logistics --- LogisticsPartnerProfile[Model: LogisticsPartnerProfile]
     logistics --- LogisticsReturnProfile[Model: LogisticsReturnProfile]
     logistics --- ShipmentProfile[Model: ShipmentProfile]

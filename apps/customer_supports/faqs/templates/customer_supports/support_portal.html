@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Support Portal | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">Customer Support &amp; Resolution Center</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Helpdesk Tickets, Return/Refund Approvals, Live Support Chat &amp; FAQs.</p>
+        </div>
+        <a href="{% url 'users:role_dashboard_redirect' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl">Dashboard</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- 1. Helpdesk Tickets & 2. Return/Refunds -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Raise Ticket -->
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="text-lg font-bold">Helpdesk Tickets</h3>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="create_ticket">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input type="text" name="subject" required placeholder="Ticket Subject" class="sm:col-span-2 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <select name="priority" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                        {% for val, label in ticket_priorities %}
+                        <option value="{{ val }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <textarea name="description" rows="2" required placeholder="Describe your issue..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"></textarea>
+                <button type="submit" class="px-5 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl cursor-pointer">Submit Ticket</button>
+            </form>
+
+            <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs max-h-72 overflow-y-auto">
+                {% for t in tickets %}
+                <div class="py-2.5 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                        <p class="font-bold">#{{ t.id }} {{ t.subject }} <span class="text-amber-600">[{{ t.priority }}]</span></p>
+                        <p class="text-slate-400">{{ t.user.email }} &middot; {{ t.status }}</p>
+                    </div>
+                    {% if can_manage %}
+                    <form method="POST" class="flex gap-1 m-0">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="update_ticket">
+                        <input type="hidden" name="ticket_id" value="{{ t.pk }}">
+                        <select name="status" class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                            {% for val, label in ticket_statuses %}
+                            <option value="{{ val }}" {% if t.status == val %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="px-2.5 py-1 bg-indigo-600 text-white font-bold rounded-lg cursor-pointer">Save</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="text-slate-400 py-2">No tickets yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Return & Refund Requests -->
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="text-lg font-bold">Return &amp; Refund Requests</h3>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="create_refund">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input type="text" name="order_ref" required placeholder="Order # (e.g. ORD-...)" list="userOrdersList" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <datalist id="userOrdersList">
+                        {% for ord in user_orders %}
+                        <option value="{{ ord.order_number }}">
+                        {% endfor %}
+                    </datalist>
+                    <select name="reason" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                        {% for val, label in refund_reasons %}
+                        <option value="{{ val }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" step="0.01" min="0" name="refund_amount" required placeholder="Amount (INR)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                </div>
+                <textarea name="description" rows="2" required placeholder="Reason details for return/refund..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"></textarea>
+                <button type="submit" class="px-5 py-2 bg-rose-600 text-white font-bold text-xs uppercase rounded-xl cursor-pointer">Request Return / Refund</button>
+            </form>
+
+            <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs max-h-72 overflow-y-auto">
+                {% for r in refunds %}
+                <div class="py-2.5 flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                        <p class="font-bold">{{ r.order }} &mdash; &#8377;{{ r.refund_amount }} ({{ r.reason }})</p>
+                        <p class="text-slate-400">{{ r.user.email }} &middot; Status: <strong>{{ r.status }}</strong></p>
+                    </div>
+                    {% if can_manage %}
+                    <form method="POST" class="flex gap-1 m-0">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="moderate_refund">
+                        <input type="hidden" name="refund_id" value="{{ r.pk }}">
+                        <select name="status" class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                            {% for val, label in refund_statuses %}
+                            <option value="{{ val }}" {% if r.status == val %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="px-2.5 py-1 bg-emerald-600 text-white font-bold rounded-lg cursor-pointer">Save</button>
+                    </form>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="text-slate-400 py-2">No return/refund requests yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Live Support Chat & 4. FAQs -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="text-lg font-bold">Live Support Chat</h3>
+            <form method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="send_chat">
+                {% if can_manage %}
+                <input type="email" name="receiver_email" placeholder="Reply to User Email" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                {% endif %}
+                <input type="text" name="message" required placeholder="Type a message..." class="{% if can_manage %}sm:col-span-2{% else %}sm:col-span-3{% endif %} px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl cursor-pointer">Send</button>
+            </form>
+            <div class="space-y-2 max-h-60 overflow-y-auto text-xs">
+                {% for c in chats %}
+                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800">
+                    <p class="font-bold">{{ c.sender.email }} {% if c.receiver %}&rarr; {{ c.receiver.email }}{% endif %}</p>
+                    <p class="text-slate-600 dark:text-slate-300">{{ c.message }}</p>
+                </div>
+                {% empty %}
+                <p class="text-slate-400">No chat messages yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="text-lg font-bold">Frequently Asked Questions (FAQs)</h3>
+            {% if can_manage %}
+            <form method="POST" class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="create_faq">
+                <input type="text" name="question" required placeholder="Question" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <input type="text" name="answer" required placeholder="Answer" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Add FAQ</button>
+            </form>
+            {% endif %}
+            <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs max-h-60 overflow-y-auto">
+                {% for f in faqs %}
+                <div class="py-2.5">
+                    <p class="font-bold">{{ f.question }}</p>
+                    <p class="text-slate-500 dark:text-slate-400 mt-0.5">{{ f.answer }}</p>
+                </div>
+                {% empty %}
+                <p class="text-slate-400">No FAQs published yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Manage {{ catalogue.name }} | Catalogue Details{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+
+    <!-- Header -->
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold text-slate-900 dark:text-slate-100">{{ catalogue.name }} &mdash; Stock, Variants, Media &amp; Specs</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">SKU: {{ catalogue.sku }} &middot; Base Price: &#8377;{{ catalogue.base_price }}</p>
+        </div>
+        <div class="flex gap-2">
+            <a href="{% url 'catalogs:core_catalogs:catalogue_detail' catalogue.pk %}" class="px-4 py-2 bg-amber-500 text-white font-bold text-xs rounded-xl">Preview Buyer Page</a>
+            <a href="{% url 'catalogs:core_catalogs:catalogue_workspace' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl">Back to Workspace</a>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- 1. Inventory -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Inventory &amp; Warehouse</h3>
+            <span class="px-3 py-1 rounded-full text-xs font-bold {% if inventory.is_in_stock %}bg-emerald-100 text-emerald-700{% else %}bg-rose-100 text-rose-700{% endif %}">
+                Available: {{ inventory.available_quantity }}
+            </span>
+        </div>
+        <form method="POST" class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="save_inventory">
+            <div>
+                <label class="block text-xs font-bold mb-1">Stock Quantity</label>
+                <input type="number" name="stock_quantity" value="{{ inventory.stock_quantity }}" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            </div>
+            <div>
+                <label class="block text-xs font-bold mb-1">Reserved Quantity</label>
+                <input type="number" name="reserved_quantity" value="{{ inventory.reserved_quantity }}" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            </div>
+            <div>
+                <label class="block text-xs font-bold mb-1">Low Stock Alert</label>
+                <input type="number" name="low_stock_threshold" value="{{ inventory.low_stock_threshold }}" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            </div>
+            <div>
+                <label class="block text-xs font-bold mb-1">Warehouse Location</label>
+                <input type="text" name="warehouse_location" value="{{ inventory.warehouse_location|default:'' }}" placeholder="e.g., Coimbatore Hub" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            </div>
+            <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl cursor-pointer">Save Inventory</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 2. Variants & 3. Media -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Variants -->
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Catalogue Variants</h3>
+            <form method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_variant">
+                <input type="text" name="variant_name" required placeholder="Variant Name (e.g., Red / 500g / XL)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <input type="text" name="variant_sku" placeholder="Variant SKU (optional)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <input type="number" step="0.01" name="price_adjustment" placeholder="Price Adjustment (+/-)" value="0.00" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <div class="flex gap-2">
+                    <input type="number" name="variant_stock" placeholder="Stock" value="10" min="0" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl shrink-0 cursor-pointer">Add</button>
+                </div>
+            </form>
+            <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+                {% for v in variants %}
+                <div class="py-2 flex items-center justify-between gap-2">
+                    <div>
+                        <p class="font-bold">{{ v.variant_name }} <span class="font-mono text-slate-400">({{ v.sku }})</span></p>
+                        <p class="text-slate-500">Adj: &#8377;{{ v.price_adjustment }} &middot; Stock: {{ v.stock_quantity }}</p>
+                    </div>
+                    <form method="POST" class="inline m-0">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete_variant">
+                        <input type="hidden" name="item_id" value="{{ v.pk }}">
+                        <button type="submit" class="text-rose-600 font-bold cursor-pointer">Delete</button>
+                    </form>
+                </div>
+                {% empty %}
+                <p class="text-slate-400">No variants added yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Media Gallery -->
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Media Gallery</h3>
+            <form method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_media">
+                <select name="media_type" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <option value="image">Image</option>
+                    <option value="video">Video</option>
+                    <option value="brochure">PDF Brochure</option>
+                </select>
+                <input type="url" name="media_url" required placeholder="https://example.com/image.jpg" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <input type="text" name="alt_text" placeholder="Alt Text / Caption" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <div class="flex items-center justify-between gap-2">
+                    <label class="inline-flex items-center gap-1.5 font-semibold cursor-pointer">
+                        <input type="checkbox" name="is_primary"> Primary
+                    </label>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl cursor-pointer">Add Media</button>
+                </div>
+            </form>
+            <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+                {% for m in medias %}
+                <div class="py-2 flex items-center justify-between gap-2">
+                    <div class="truncate">
+                        <span class="font-bold uppercase text-indigo-600">{{ m.media_type }}</span>
+                        {% if m.is_primary %}<span class="px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded font-bold ml-1">Primary</span>{% endif %}
+                        <p class="text-slate-500 truncate">{{ m.media_url }}</p>
+                    </div>
+                    <form method="POST" class="inline m-0 shrink-0">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="delete_media">
+                        <input type="hidden" name="item_id" value="{{ m.pk }}">
+                        <button type="submit" class="text-rose-600 font-bold cursor-pointer">Delete</button>
+                    </form>
+                </div>
+                {% empty %}
+                <p class="text-slate-400">No media added yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Specifications -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Technical Specifications</h3>
+        <form method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_specification">
+            <input type="text" name="spec_group" value="General" placeholder="Group (e.g., Dimensions)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="spec_key" required placeholder="Key (e.g., Material, Weight)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="spec_value" required placeholder="Value (e.g., Stainless Steel, 2.5 kg)" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl cursor-pointer">Add Specification</button>
+        </form>
+        <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+            {% for s in specifications %}
+            <div class="py-2 flex items-center justify-between gap-4">
+                <div>
+                    <span class="text-slate-400 font-semibold">[{{ s.spec_group }}]</span>
+                    <span class="font-bold ml-1">{{ s.spec_key }}:</span>
+                    <span class="ml-1">{{ s.spec_value }}</span>
+                </div>
+                <form method="POST" class="inline m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_specification">
+                    <input type="hidden" name="item_id" value="{{ s.pk }}">
+                    <button type="submit" class="text-rose-600 font-bold cursor-pointer">Delete</button>
+                </form>
+            </div>
+            {% empty %}
+            <p class="text-slate-400">No specifications added yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

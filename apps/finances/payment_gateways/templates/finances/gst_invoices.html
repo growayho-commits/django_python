@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}In-House GST Tax Invoices | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">In-House GST Tax Invoices (3-Type)</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Merchant &rarr; Seller (B2B), Seller &rarr; Buyer (B2C), and Platform Commission GST Invoices.</p>
+        </div>
+        <a href="{% url 'finances:escrow_dashboard' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl">Back to Finances</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if orders %}
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-3">Generate GST Invoice for Order</h3>
+        <form method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-sm items-center">
+            {% csrf_token %}
+            <select name="order_id" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                {% for ord in orders %}
+                <option value="{{ ord.pk }}">{{ ord.order_number }} (&#8377;{{ ord.total_amount }})</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="place_of_supply" value="Tamil Nadu" placeholder="Place of Supply" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <label class="inline-flex items-center gap-2 text-xs font-bold cursor-pointer">
+                <input type="checkbox" name="is_inter_state"> Inter-State (IGST)
+            </label>
+            <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Generate Invoice</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-x-auto">
+        <h3 class="text-lg font-bold mb-3">Issued Invoices ({{ invoices|length }})</h3>
+        <table class="w-full text-left text-xs border-collapse">
+            <thead>
+                <tr class="border-b border-slate-200 dark:border-slate-700 uppercase text-slate-500">
+                    <th class="py-2 px-3">Invoice #</th>
+                    <th class="py-2 px-3">Type</th>
+                    <th class="py-2 px-3">Order</th>
+                    <th class="py-2 px-3">Taxable</th>
+                    <th class="py-2 px-3">GST (CGST/SGST/IGST)</th>
+                    <th class="py-2 px-3">Grand Total</th>
+                    <th class="py-2 px-3">Print</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% for inv in invoices %}
+                <tr>
+                    <td class="py-3 px-3 font-mono font-bold">{{ inv.invoice_number }}</td>
+                    <td class="py-3 px-3 font-semibold">{{ inv.get_invoice_type_display }}</td>
+                    <td class="py-3 px-3 font-mono">{{ inv.order.order_number }}</td>
+                    <td class="py-3 px-3">&#8377;{{ inv.taxable_amount }}</td>
+                    <td class="py-3 px-3">&#8377;{{ inv.total_gst }} ({{ inv.cgst_amount }}/{{ inv.sgst_amount }}/{{ inv.igst_amount }})</td>
+                    <td class="py-3 px-3 font-bold text-emerald-600">&#8377;{{ inv.grand_total }}</td>
+                    <td class="py-3 px-3">
+                        <a href="{% url 'finances:gst_invoice_print' inv.pk %}" target="_blank" class="px-3 py-1 bg-indigo-600 text-white font-bold rounded-lg">Print</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="py-4 text-center text-slate-400">No GST invoices generated yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

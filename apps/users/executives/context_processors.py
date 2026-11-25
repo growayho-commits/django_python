@@ -25,15 +25,28 @@ def executive_navigation_context(request):
         {"title": "Role Upgrade Request", "url": "/api/v1/users/superusers/role-request/submit/"},
     ]
 
-    if "merchant" in activities:
-        common_sub_apps.append({"title": "Merchants Portal", "url": "/api/v1/users/merchant/overview/"})
+    if "merchants" in activities or "merchant" in activities:
+        common_sub_apps.append({"title": "Merchants Portal", "url": "/api/v1/users/merchants/overview/"})
     if "marketing_leads" in activities:
         common_sub_apps.append({"title": "Sellers Portal", "url": "/api/v1/users/sellers/overview/"})
 
     enterprise_modules = [
         {
+            "id": "subMarketplace",
+            "name": "Catalogue Marketplace",
+            "short_name": "Marketplace",
+            "icon": "fa-store",
+            "color": "amber",
+            "sub_apps": sorted([
+                {"title": "Browse & Purchase Catalogues", "url": "/api/v1/catalogs/core_catalogs/marketplace/"},
+                {"title": "Catalogue Wishlist", "url": "/api/v1/catalogs/core_catalogs/wishlist/"},
+                {"title": "My Cart", "url": "/api/v1/marketing_leads/carts/my-cart/"},
+            ], key=lambda x: x["title"]),
+        },
+        {
             "id": "subExecOperations",
             "name": "Executive Operations",
+            "short_name": "Operations",
             "icon": "fa-briefcase",
             "color": "indigo",
             "sub_apps": sorted([
@@ -47,22 +60,24 @@ def executive_navigation_context(request):
         {
             "id": "subUsers",
             "name": "Users & Governance",
+            "short_name": "Users",
             "icon": "fa-users-gear",
             "color": "rose",
             "sub_apps": sorted(common_sub_apps, key=lambda x: x["title"]),
         },
     ]
 
-    if "catalogs" in activities:
+    if "catalogs" in activities or "marketing_leads" in activities:
         enterprise_modules.append({
             "id": "subCatalogs",
-            "name": "Catalogs & Products",
+            "name": "Catalogs & Approvals",
+            "short_name": "Catalogs",
             "icon": "fa-boxes-stacked",
             "color": "indigo",
             "sub_apps": sorted([
-                {"title": "Categories", "url": "/api/v1/catalogs/categories/"},
-                {"title": "Core Catalogs", "url": "/api/v1/catalogs/core/"},
-                {"title": "Inventories", "url": "/api/v1/catalogs/inventory/"},
+                {"title": "Bundles & Kits", "url": "/api/v1/catalogs/core_catalogs/bundles/"},
+                {"title": "Catalogue Workspace & Approvals", "url": "/api/v1/catalogs/core_catalogs/workspace/"},
+                {"title": "Categories", "url": "/api/v1/catalogs/core_catalogs/categories/"},
             ], key=lambda x: x["title"]),
         })
 
@@ -70,54 +85,77 @@ def executive_navigation_context(request):
         enterprise_modules.append({
             "id": "subFinances",
             "name": "Finances & Banking",
+            "short_name": "Finances",
             "icon": "fa-wallet",
             "color": "emerald",
-            "sub_apps": [{"title": "Finances Overview", "url": "/api/v1/finances/"}],
+            "sub_apps": [
+                {"title": "Bank Accounts", "url": "/api/v1/finances/portal/bank-accounts/"},
+                {"title": "Commissions & Payouts", "url": "/api/v1/finances/portal/payouts/"},
+                {"title": "Escrow & Settlements", "url": "/api/v1/finances/portal/escrow/"},
+                {"title": "In-House GST Invoices", "url": "/api/v1/finances/portal/gst-invoices/"},
+            ],
         })
 
     if "logistics" in activities:
         enterprise_modules.append({
             "id": "subLogistics",
             "name": "Logistics & Supply",
+            "short_name": "Logistics",
             "icon": "fa-truck-fast",
             "color": "purple",
-            "sub_apps": [{"title": "Logistics & Shipments", "url": "/api/v1/logistics/"}],
+            "sub_apps": [
+                {"title": "Return Pickups", "url": "/api/v1/logistics/portal/returns/"},
+                {"title": "Shipments & Live Tracking", "url": "/api/v1/logistics/portal/"},
+                {"title": "Warehouse Transfers", "url": "/api/v1/logistics/portal/transfers/"},
+            ],
         })
 
     if "marketing_leads" in activities:
         enterprise_modules.append({
             "id": "subMarketing",
             "name": "Marketing & Leads",
+            "short_name": "Marketing",
             "icon": "fa-bullhorn",
             "color": "amber",
-            "sub_apps": [{"title": "Orders & Campaigns", "url": "/api/v1/marketing/orders/"}],
+            "sub_apps": [
+                {"title": "B2B RFQ & Customer Leads", "url": "/api/v1/marketing_leads/customer_leads/portal/"},
+                {"title": "Coupons & Discounts", "url": "/api/v1/marketing_leads/coupons_discounts/portal/"},
+                {"title": "Orders & Fulfillment", "url": "/api/v1/marketing_leads/orders/my-orders/"},
+                {"title": "Push Notifications", "url": "/api/v1/marketing_leads/push_notifications/portal/"},
+            ],
         })
 
     if "customer_supports" in activities:
         enterprise_modules.append({
             "id": "subSupport",
             "name": "Customer Support",
+            "short_name": "Support",
             "icon": "fa-headset",
             "color": "sky",
-            "sub_apps": [{"title": "Helpdesk Tickets", "url": "/api/v1/support/helpdesk-tickets/"}],
+            "sub_apps": [{"title": "Support & Resolution Center", "url": "/api/v1/customer_supports/portal/"}],
         })
 
     if "professional_network" in activities:
         enterprise_modules.append({
             "id": "subProfessional",
             "name": "Professional Network",
+            "short_name": "Professionals",
             "icon": "fa-user-tie",
             "color": "blue",
-            "sub_apps": [{"title": "Professional Directory", "url": "/api/v1/professional-network/"}],
+            "sub_apps": [
+                {"title": "Provider Approvals & Workspace", "url": "/api/v1/professional_network/portal/workspace/"},
+                {"title": "Service Directory", "url": "/api/v1/professional_network/portal/"},
+            ],
         })
 
     if "systems" in activities:
         enterprise_modules.append({
             "id": "subSystems",
-            "name": "Systems & Analytics",
+            "name": "Systems & AI Copilot",
+            "short_name": "Systems",
             "icon": "fa-server",
             "color": "teal",
-            "sub_apps": [{"title": "System Analytics", "url": "/api/v1/systems/"}],
+            "sub_apps": [{"title": "Systems Command Center", "url": "/api/v1/systems/portal/"}],
         })
 
     enterprise_modules = sorted(enterprise_modules, key=lambda x: x["name"])

@@ -1,10 +1,13 @@
-from rest_framework import viewsets
-from apps.common.address import Address
-from apps.common.serializers import AddressSerializer
+from django.http import JsonResponse
+from apps.common.choices import CoverageScopeChoices
 
-class AddressViewSet(viewsets.ModelViewSet):
-    """
-    A ViewSet for viewing and editing address instances.
-    """
-    queryset = Address.objects.filter(is_active=True)
-    serializer_class = AddressSerializer
+
+def coverage_scopes_api(request):
+    """Return standardized coverage scope choices for forms and frontend filters."""
+    return JsonResponse({
+        "status": "success",
+        "scopes": [
+            {"value": value, "label": label}
+            for value, label in CoverageScopeChoices.choices
+        ],
+    })

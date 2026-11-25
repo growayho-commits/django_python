@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}{{ catalogue.name }} | Catalogue Detail{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+
+    <!-- Top Breadcrumb & Actions -->
+    <div class="flex flex-wrap items-center justify-between gap-3">
+        <a href="{% url 'catalogs:core_catalogs:catalogue_marketplace' %}" class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-amber-600">
+            <i class="fa-solid fa-arrow-left"></i> Back to Marketplace
+        </a>
+        <div class="flex items-center gap-2">
+            <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' catalogue.pk %}" method="POST" class="inline m-0">
+                {% csrf_token %}
+                <button type="submit" class="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs font-bold flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-heart {% if is_wishlisted %}text-rose-500{% else %}text-slate-400{% endif %}"></i>
+                    <span>{% if is_wishlisted %}Wishlisted{% else %}Add to Wishlist{% endif %}</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="px-4 py-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Overview Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left: Media Gallery -->
+        <div class="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+            <div class="aspect-square rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-700">
+                {% if medias %}
+                    {% with first_media=medias.0 %}
+                        {% if first_media.media_url %}
+                            <img id="mainCatalogueImage" src="{{ first_media.media_url }}" alt="{{ catalogue.name }}" class="w-full h-full object-cover">
+                        {% elif first_media.file %}
+                            <img id="mainCatalogueImage" src="{{ first_media.file.url }}" alt="{{ catalogue.name }}" class="w-full h-full object-cover">
+                        {% else %}
+                            <div class="text-center text-slate-400 p-6">
+                                <i class="fa-solid fa-box-open text-5xl mb-3"></i>
+                                <p class="text-xs font-semibold">{{ catalogue.name }}</p>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    <div class="text-center text-slate-400 p-6">
+                        <i class="fa-solid fa-box-open text-5xl mb-3"></i>
+                        <p class="text-xs font-semibold">No media uploaded yet</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if medias %}
+            <div class="grid grid-cols-4 gap-2">
+                {% for media in medias %}
+                    {% if media.media_url or media.file %}
+                    <button type="button" onclick="document.getElementById('mainCatalogueImage').src='{% if media.media_url %}{{ media.media_url }}{% else %}{{ media.file.url }}{% endif %}'" class="aspect-square rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 cursor-pointer">
+                        <img src="{% if media.media_url %}{{ media.media_url }}{% else %}{{ media.file.url }}{% endif %}" alt="Thumbnail" class="w-full h-full object-cover">
+                    </button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Right: Pricing, Variants, Delivery Check & Add to Cart -->
+        <div class="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-5">
+            <div>
+                <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span class="text-xs font-bold uppercase px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">{{ catalogue.get_trade_channel_display }}</span>
+                    <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Supplier: {{ supplier_role }}</span>
+                    <span class="text-xs font-bold text-amber-500">
+                        <i class="fa-solid fa-star"></i> {{ avg_rating }} ({{ review_count }} reviews)
+                    </span>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100">{{ catalogue.name }}</h1>
+                <p class="text-xs text-slate-400 font-mono mt-1">SKU: {{ catalogue.sku }} &middot; HSN/SAC: {{ catalogue.hsn_sac_code|default:"N/A" }} &middot; Min Order Qty: {{ catalogue.min_order_quantity }}</p>
+                <p class="text-sm text-slate-600 dark:text-slate-300 mt-3">{{ catalogue.description|default:"Verified marketplace catalogue." }}</p>
+            </div>
+
+            <!-- Live Price Breakdown -->
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-2">
+                <div class="flex items-baseline justify-between">
+                    <div>
+                        <span class="text-3xl font-black text-emerald-700 dark:text-emerald-400">&#8377;{{ breakdown.final_total }}</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 ml-1">for {{ selected_qty }} {{ catalogue.get_unit_display }}(s)</span>
+                    </div>
+                    {% if catalogue.mrp_price > catalogue.base_price %}
+                    <span class="text-sm text-slate-400 line-through">MRP &#8377;{{ catalogue.mrp_price }}</span>
+                    {% endif %}
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-2 border-t border-slate-200 dark:border-slate-700">
+                    <div><span class="text-slate-400">Unit Price:</span> <strong class="block">&#8377;{{ breakdown.unit_price }}</strong></div>
+                    <div><span class="text-slate-400">GST ({{ catalogue.gst_percentage }}%):</span> <strong class="block">&#8377;{{ breakdown.gst_amount }}</strong></div>
+                    <div><span class="text-slate-400">Delivery/Handling:</span> <strong class="block">{{ catalogue.delivery_charge_label }}</strong></div>
+                    <div><span class="text-slate-400">Coverage:</span> <strong class="block">{{ catalogue.get_delivery_scope_display }}</strong></div>
+                </div>
+            </div>
+
+            <!-- Quantity Recalculator & Add to Cart -->
+            <form action="{% url 'catalogs:core_catalogs:add_to_cart_session' catalogue.pk %}" method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Quantity (Min {{ catalogue.min_order_quantity }})</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="qtyInput" name="quantity" min="{{ catalogue.min_order_quantity }}" value="{{ selected_qty }}" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-bold">
+                            <a id="recalcBtn" href="?qty={{ selected_qty }}" onclick="this.href='?qty='+document.getElementById('qtyInput').value" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center shrink-0">Recalculate</a>
+                        </div>
+                    </div>
+
+                    {% if variants %}
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-1">Select Variant</label>
+                        <select name="variant_label" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm font-semibold">
+                            {% for v in variants %}
+                            <option value="{{ v }}">{{ v }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-slate-900 dark:bg-amber-500 hover:bg-black dark:hover:bg-amber-400 text-amber-400 dark:text-slate-950 font-extrabold text-sm uppercase rounded-xl transition cursor-pointer">
+                    <i class="fa-solid fa-cart-plus mr-2"></i> Add to Cart
+                </button>
+            </form>
+
+            <!-- Pincode / Location Delivery Check -->
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+                <h3 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-2">Check Delivery Availability</h3>
+                <form method="GET" class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+                    <input type="hidden" name="qty" value="{{ selected_qty }}">
+                    <input type="text" name="check_pincode" value="{{ check_location.pincode }}" placeholder="Pincode" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <input type="text" name="check_taluk" value="{{ check_location.taluk }}" placeholder="Taluk" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <input type="text" name="check_district" value="{{ check_location.district }}" placeholder="District" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <input type="text" name="check_state" value="{{ check_location.state }}" placeholder="State" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                    <button type="submit" class="px-3 py-2 bg-indigo-600 text-white font-bold rounded-xl cursor-pointer">Check</button>
+                </form>
+                {% if delivery_checked %}
+                    <p class="mt-2 text-xs font-bold {% if is_deliverable %}text-emerald-600 dark:text-emerald-400{% else %}text-rose-600 dark:text-rose-400{% endif %}">
+                        {% if is_deliverable %}
+                            <i class="fa-solid fa-circle-check mr-1"></i> Deliverable to your selected location!
+                        {% else %}
+                            <i class="fa-solid fa-circle-xmark mr-1"></i> Currently not deliverable to this location.
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Tiers & Specifications -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+            <h2 class="text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-3">Bulk Quantity Tiers</h2>
+            {% if tiers %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left">
+                    <thead class="border-b border-slate-200 dark:border-slate-700 text-slate-500">
+                        <tr>
+                            <th class="py-2">Tier</th>
+                            <th class="py-2">Min Qty</th>
+                            <th class="py-2">Max Qty</th>
+                            <th class="py-2">Rule</th>
+                            <th class="py-2">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                        {% for tier in tiers %}
+                        <tr>
+                            <td class="py-2 font-bold">{{ tier.tier_name }}</td>
+                            <td class="py-2">{{ tier.min_quantity }}</td>
+                            <td class="py-2">{{ tier.max_quantity|default:"+" }}</td>
+                            <td class="py-2">{{ tier.get_adjustment_type_display }}</td>
+                            <td class="py-2 font-bold text-emerald-600">{{ tier.tier_value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-xs text-slate-500 dark:text-slate-400">Standard pricing applies for all quantities.</p>
+            {% endif %}
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+            <h2 class="text-lg font-extrabold text-slate-900 dark:text-slate-100 mb-3">Specifications</h2>
+            {% if specifications %}
+            <div class="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
+                {% for spec in specifications %}
+                <div class="py-2 flex justify-between gap-4">
+                    <span class="font-bold text-slate-500 dark:text-slate-400">{{ spec.spec_key|default:spec }}</span>
+                    <span class="font-semibold text-slate-800 dark:text-slate-200">{{ spec.spec_value|default:"" }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-xs text-slate-500 dark:text-slate-400">No extra specifications listed for this catalogue.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Reviews & Submit Review -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-5">
+        <h2 class="text-lg font-extrabold text-slate-900 dark:text-slate-100">Buyer Reviews ({{ review_count }})</h2>
+
+        <form action="{% url 'catalogs:core_catalogs:submit_catalogue_review' catalogue.pk %}" method="POST" class="grid grid-cols-1 md:grid-cols-12 gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+            {% csrf_token %}
+            <div class="md:col-span-3">
+                <label class="block text-xs font-bold mb-1">Rating</label>
+                <select name="rating_score" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+                    <option value="5">5 Stars - Excellent</option>
+                    <option value="4">4 Stars - Good</option>
+                    <option value="3">3 Stars - Average</option>
+                    <option value="2">2 Stars - Poor</option>
+                    <option value="1">1 Star - Very Poor</option>
+                </select>
+            </div>
+            <div class="md:col-span-7">
+                <label class="block text-xs font-bold mb-1">Your Review</label>
+                <input type="text" name="comment" placeholder="Share quality, pricing, or delivery feedback..." class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">
+            </div>
+            <div class="md:col-span-2 flex items-end">
+                <button type="submit" class="w-full py-2 px-4 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl cursor-pointer">Post Review</button>
+            </div>
+        </form>
+
+        <div class="space-y-3">
+            {% for rev in reviews %}
+            <div class="p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+                <div class="flex items-center justify-between text-xs mb-1">
+                    <span class="font-bold text-slate-800 dark:text-slate-200">{{ rev.reviewer_name }}</span>
+                    <span class="font-bold text-amber-500">{{ rev.rating_score }} / 5 Stars</span>
+                </div>
+                <p class="text-sm text-slate-600 dark:text-slate-300">{{ rev.comment|default:"Rated this catalogue." }}</p>
+            </div>
+            {% empty %}
+            <p class="text-xs text-slate-500 dark:text-slate-400">No reviews yet. Be the first to review!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

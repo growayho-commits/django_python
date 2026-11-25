@@ -4,8 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Hybrid Marketplace - Portal{% endblock %}</title>
+    <link rel="manifest" href="/api/v1/systems/pwa/manifest.json">
+    <meta name="theme-color" content="#f59e0b">
 
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('hm_theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        };
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -32,6 +47,11 @@
             transform: translateY(5px);
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
+        html.dark .submenu-flyout {
+            background: #1e293b;
+            border-color: #334155;
+            box-shadow: 0 20px 50px -10px rgba(0,0,0,0.55);
+        }
         .submenu-flyout.active {
             display: block;
             opacity: 1;
@@ -49,44 +69,69 @@
             background-color: #fffbeb !important;
             color: #d97706 !important;
         }
+        html.dark .menu-item-active {
+            background-color: rgba(217, 119, 6, 0.16) !important;
+            color: #fbbf24 !important;
+        }
+        @media (max-width: 767px) {
+            .has-submenu::before { display: none; }
+            .submenu-flyout {
+                position: static !important;
+                width: 100% !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-left: 2px solid #f59e0b !important;
+                border-radius: 0 !important;
+                margin-left: 0.75rem;
+                padding: 0.25rem 0 0.25rem 0.5rem;
+                background: transparent !important;
+                transform: none !important;
+            }
+            .has-submenu .menu-trigger .submenu-chevron {
+                transition: transform 0.2s ease;
+            }
+            .has-submenu.accordion-open .menu-trigger .submenu-chevron {
+                transform: rotate(90deg);
+            }
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between transition-colors duration-200">
 
     <div class="flex flex-col flex-grow w-full min-h-screen">
         <!-- Global Dynamic Top Header Navbar -->
-        <header class="bg-white/95 backdrop-blur-md border-b border-amber-200/50 sticky top-0 z-50 px-4 md:px-8 py-3.5 flex justify-between items-center shadow-[0_4px_20px_-10px_rgba(0,0,0,0.06)]">
+        <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/50 dark:border-slate-800 sticky top-0 z-50 px-4 md:px-8 py-3.5 flex justify-between items-center shadow-[0_4px_20px_-10px_rgba(0,0,0,0.06)] transition-colors duration-200">
 
             <div class="flex items-center space-x-3 md:space-x-5 relative">
                 {% if request.user.is_authenticated %}
                 <div class="relative">
-                    <button id="mainMenuBtn" type="button" class="p-2 text-slate-500 hover:text-amber-600 hover:border-amber-300 hover:bg-amber-50 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 bg-white shadow-sm flex items-center justify-center w-11 h-11">
+                    <button id="mainMenuBtn" type="button" aria-label="Open Navigation Menu" class="p-2 text-slate-500 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center w-11 h-11">
                         <i class="fa-solid fa-ellipsis-vertical text-xl"></i>
                     </button>
 
                     <!-- Dynamic Role-Based Dropdown Menu -->
-                    <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-72 bg-white rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 py-2 z-50">
+                    <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-72 max-h-[80vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 py-2 z-50">
                         <div class="px-2 space-y-0.5">
-                            <a href="{{ user_dashboard_url|default:'/' }}" class="flex items-center space-x-3 px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-xl">
-                                <i class="fa-solid fa-gauge-high text-indigo-600 w-5"></i>
+                            <a href="{{ user_dashboard_url|default:'/' }}" class="flex items-center space-x-3 px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl">
+                                <i class="fa-solid fa-gauge-high text-indigo-600 dark:text-indigo-400 w-5"></i>
                                 <span>Dashboard Overview</span>
                             </a>
 
                             {% for module in enterprise_modules %}
                             <div class="has-submenu" data-module-id="{{ module.id }}">
-                                <div class="menu-trigger w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-xl cursor-pointer transition-colors">
+                                <div class="menu-trigger w-full flex items-center justify-between px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl cursor-pointer transition-colors">
                                     <span class="flex items-center space-x-3">
-                                        <i class="fa-solid {{ module.icon }} text-{{ module.color }}-600 w-5"></i>
+                                        <i class="fa-solid {{ module.icon }} text-{{ module.color }}-600 dark:text-{{ module.color }}-400 w-5"></i>
                                         <span>{{ module.name }}</span>
                                     </span>
-                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400"></i>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 submenu-chevron"></i>
                                 </div>
 
                                 <div class="submenu-flyout">
                                     <div class="px-2 py-1 space-y-0.5">
                                         {% for app in module.sub_apps %}
-                                        <a href="{{ app.url }}" class="block px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-amber-600 rounded-lg transition-colors">
+                                        <a href="{{ app.url }}" class="block px-3 py-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-lg transition-colors">
                                             {{ app.title }}
                                         </a>
                                         {% endfor %}
@@ -101,24 +146,38 @@
 
                 <div class="flex flex-col justify-center">
                     <div class="flex items-center gap-2">
-                        <h1 class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 m-0 tracking-tight">Hybrid Marketplace</h1>
+                        <h1 class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 dark:from-amber-300 dark:to-amber-500 m-0 tracking-tight">Hybrid Marketplace</h1>
                         {% if active_user_role %}
-                            <span class="role-badge bg-indigo-50 text-indigo-700 border border-indigo-200">{{ active_user_role }}</span>
+                            <span class="role-badge bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">{{ active_user_role }}</span>
                         {% endif %}
                     </div>
                     <span class="text-[0.65rem] font-bold text-amber-500 uppercase tracking-widest hidden md:block">Connect . Collaborate . Thrive</span>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-3 md:space-x-5">
+            <div class="flex items-center space-x-2 md:space-x-3">
                 {% if request.user.is_authenticated %}
-                <span class="text-sm font-bold text-slate-700 hidden lg:inline border-r border-slate-200 pr-5">
+                <a href="/api/v1/marketing_leads/carts/my-cart/" title="My Cart" class="p-2 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-cart-shopping text-sm"></i>
+                </a>
+                <a href="/api/v1/marketing_leads/push_notifications/portal/" title="Notifications" class="p-2 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
+                    <i class="fa-solid fa-bell text-sm"></i>
+                </a>
+                {% endif %}
+
+                <!-- Normal / Dark Mode Toggle -->
+                <button id="themeToggleBtn" type="button" title="Toggle Dark / Normal Mode" aria-label="Toggle Dark / Normal Mode" class="p-2 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center cursor-pointer">
+                    <i id="themeToggleIcon" class="fa-solid fa-moon text-sm"></i>
+                </button>
+
+                {% if request.user.is_authenticated %}
+                <span class="text-sm font-bold text-slate-700 dark:text-slate-300 hidden lg:inline border-r border-slate-200 dark:border-slate-700 pr-4">
                     {{ request.user.email }}
                 </span>
 
                 <form action="{% url 'users:logout_view' %}" method="POST" class="inline m-0">
                     {% csrf_token %}
-                    <button type="submit" class="flex items-center space-x-2 bg-gradient-to-r from-slate-800 to-slate-900 text-amber-400 border border-slate-700 px-5 py-2.5 rounded-xl text-sm font-bold hover:from-slate-900 hover:to-black hover:text-amber-300 transition-all cursor-pointer">
+                    <button type="submit" class="flex items-center space-x-2 bg-gradient-to-r from-slate-800 to-slate-900 dark:from-amber-500 dark:to-amber-600 text-amber-400 dark:text-slate-950 border border-slate-700 dark:border-amber-400 px-4 md:px-5 py-2.5 rounded-xl text-sm font-bold hover:from-slate-900 hover:to-black dark:hover:from-amber-400 dark:hover:to-amber-500 transition-all cursor-pointer">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                         <span class="hidden sm:inline">Logout</span>
                     </button>
@@ -130,18 +189,54 @@
         {% block body_content %}{% endblock %}
     </div>
 
-    <footer class="bg-white border-t border-slate-200 py-4 text-center text-slate-500 text-sm w-full mt-auto">
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-4 text-center text-slate-500 dark:text-slate-400 text-sm w-full mt-auto transition-colors duration-200">
         &copy; 2026 HYBRID MARKETPLACE. All rights reserved.
     </footer>
 
     <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/api/v1/systems/pwa/sw.js').catch(() => {});
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
+            const themeBtn = document.getElementById("themeToggleBtn");
+            const themeIcon = document.getElementById("themeToggleIcon");
+
+            function syncThemeIcon() {
+                if (!themeIcon) return;
+                const isDark = document.documentElement.classList.contains("dark");
+                themeIcon.className = isDark ? "fa-solid fa-sun text-sm" : "fa-solid fa-moon text-sm";
+            }
+            syncThemeIcon();
+
+            if (themeBtn) {
+                themeBtn.addEventListener("click", function() {
+                    const isDark = document.documentElement.classList.toggle("dark");
+                    localStorage.setItem("hm_theme", isDark ? "dark" : "light");
+                    syncThemeIcon();
+                });
+            }
+
             const mainMenuBtn = document.getElementById("mainMenuBtn");
             const zohoLeftDropdown = document.getElementById("zohoLeftDropdown");
             if (!mainMenuBtn || !zohoLeftDropdown) return;
 
             const submenuItems = document.querySelectorAll(".has-submenu");
             let hideTimer = null;
+
+            function isMobileViewport() {
+                return window.innerWidth < 768;
+            }
+
+            function hideAllFlyouts() {
+                submenuItems.forEach(i => {
+                    i.classList.remove("accordion-open");
+                    const f = i.querySelector(".submenu-flyout");
+                    if (f) f.classList.remove("active");
+                    const t = i.querySelector(".menu-trigger");
+                    if (t) t.classList.remove("menu-item-active");
+                });
+            }
 
             mainMenuBtn.addEventListener("click", function(e) {
                 e.stopPropagation();
@@ -151,19 +246,27 @@
                 }
             });
 
-            function hideAllFlyouts() {
-                submenuItems.forEach(i => {
-                    const f = i.querySelector(".submenu-flyout");
-                    f.classList.remove("active");
-                    i.querySelector(".menu-trigger").classList.remove("menu-item-active");
-                });
-            }
-
             submenuItems.forEach(item => {
                 const flyout = item.querySelector(".submenu-flyout");
                 const trigger = item.querySelector(".menu-trigger");
+                if (!flyout || !trigger) return;
+
+                trigger.addEventListener("click", function(e) {
+                    if (!isMobileViewport()) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const isAlreadyOpen = item.classList.contains("accordion-open");
+                    hideAllFlyouts();
+                    if (!isAlreadyOpen) {
+                        item.classList.add("accordion-open");
+                        flyout.classList.add("active");
+                        trigger.classList.add("menu-item-active");
+                    }
+                });
 
                 item.addEventListener("mouseenter", function() {
+                    if (isMobileViewport()) return;
                     if (hideTimer) {
                         clearTimeout(hideTimer);
                         hideTimer = null;
@@ -171,8 +274,8 @@
 
                     submenuItems.forEach(i => {
                         if (i !== item) {
-                            i.querySelector(".submenu-flyout").classList.remove("active");
-                            i.querySelector(".menu-trigger").classList.remove("menu-item-active");
+                            i.querySelector(".submenu-flyout")?.classList.remove("active");
+                            i.querySelector(".menu-trigger")?.classList.remove("menu-item-active");
                         }
                     });
 
@@ -183,7 +286,7 @@
                     const flyoutRect = flyout.getBoundingClientRect();
                     const screenHeight = window.innerHeight;
 
-                    let leftPos = itemRect.right + 2;
+                    const leftPos = itemRect.right + 2;
                     let topPos = itemRect.top;
 
                     if (topPos + flyoutRect.height > screenHeight - 20) {
@@ -196,6 +299,7 @@
                 });
 
                 item.addEventListener("mouseleave", function(e) {
+                    if (isMobileViewport()) return;
                     if (e.relatedTarget && flyout.contains(e.relatedTarget)) return;
 
                     hideTimer = setTimeout(() => {
@@ -207,6 +311,7 @@
                 });
 
                 flyout.addEventListener("mouseenter", function() {
+                    if (isMobileViewport()) return;
                     if (hideTimer) {
                         clearTimeout(hideTimer);
                         hideTimer = null;
@@ -214,6 +319,7 @@
                 });
 
                 flyout.addEventListener("mouseleave", function(e) {
+                    if (isMobileViewport()) return;
                     if (e.relatedTarget && item.contains(e.relatedTarget)) return;
 
                     hideTimer = setTimeout(() => {

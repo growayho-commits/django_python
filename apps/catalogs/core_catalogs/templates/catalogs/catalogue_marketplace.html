@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Catalogue Marketplace | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <div class="flex items-center gap-3">
+                <h2 class="text-2xl font-extrabold text-slate-900 dark:text-slate-100">Catalogue Marketplace</h2>
+                <span class="px-3 py-1 text-xs font-bold uppercase rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">{{ current_role }} Buyer Mode</span>
+                <span class="px-3 py-1 text-xs font-bold rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">
+                    <i class="fa-solid fa-cart-shopping mr-1"></i> Cart: {{ cart_count|default:0 }}
+                </span>
+            </div>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                Purchase approved B2B Merchant supply and B2C Seller catalogues filtered by your delivery location.
+            </p>
+        </div>
+        <div class="flex items-center gap-2">
+            <!-- Grid / List Toggle -->
+            <div class="inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-1">
+                <button type="button" id="gridViewBtn" onclick="setMarketplaceView('grid')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
+                    <i class="fa-solid fa-grip mr-1"></i> Grid
+                </button>
+                <button type="button" id="listViewBtn" onclick="setMarketplaceView('list')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
+                    <i class="fa-solid fa-list mr-1"></i> List
+                </button>
+            </div>
+            <a href="{% url 'users:role_dashboard_redirect' %}" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm rounded-xl transition">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- B2B / B2C Channel Tabs -->
+    <div class="flex flex-wrap gap-2">
+        <a href="?channel=all" class="px-4 py-2 rounded-xl text-sm font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+            All Catalogues
+        </a>
+        <a href="?channel=b2b" class="px-4 py-2 rounded-xl text-sm font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+            B2B Supply (Manufacturers / Wholesalers / Dealers)
+        </a>
+        <a href="?channel=b2c" class="px-4 py-2 rounded-xl text-sm font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+            B2C Retail (Distributors / Retailers)
+        </a>
+    </div>
+
+    <!-- Geographic & Search Filter Bar -->
+    <form method="GET" class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-sm">
+        <input type="hidden" name="channel" value="{{ filters.channel }}">
+        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search catalogue name or SKU..." class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <select name="category" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if filters.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="pincode" value="{{ filters.pincode }}" placeholder="Pincode" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <input type="text" name="taluk" value="{{ filters.taluk }}" placeholder="Taluk" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <input type="text" name="district" value="{{ filters.district }}" placeholder="District" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <div class="flex gap-2">
+            <input type="text" name="state" value="{{ filters.state }}" placeholder="State" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+            <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer shrink-0">Filter</button>
+        </div>
+    </form>
+
+    <!-- Catalogue Grid / List Container -->
+    <div id="catalogueContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for entry in catalogue_cards %}
+        <div class="catalogue-card bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between gap-4">
+            <div class="flex-grow">
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
+                        {{ entry.catalogue.get_trade_channel_display }}
+                    </span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">By {{ entry.supplier_role }}</span>
+                        <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' entry.catalogue.pk %}" method="POST" class="inline m-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button type="submit" title="Toggle Wishlist" class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-rose-50 dark:hover:bg-rose-950/40 transition cursor-pointer">
+                                <i class="fa-solid fa-heart text-xs {% if entry.is_wishlisted %}text-rose-500{% else %}text-slate-300 dark:text-slate-600{% endif %}"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <h3 class="text-lg font-extrabold text-slate-900 dark:text-slate-100">{{ entry.catalogue.name }}</h3>
+                <p class="text-xs text-slate-400 font-mono mt-0.5">{{ entry.catalogue.sku }} &middot; Min Qty: {{ entry.catalogue.min_order_quantity }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ entry.catalogue.description|default:"Verified marketplace catalogue"|truncatewords:22 }}</p>
+            </div>
+
+            <div class="catalogue-footer border-t border-slate-100 dark:border-slate-800 pt-4 space-y-3">
+                <div class="flex items-baseline justify-between gap-4">
+                    <span class="text-2xl font-black text-emerald-700 dark:text-emerald-400">&#8377;{{ entry.pricing.final_total }}</span>
+                    {% if entry.catalogue.mrp_price > entry.catalogue.base_price %}
+                    <span class="text-xs text-slate-400 line-through">MRP &#8377;{{ entry.catalogue.mrp_price }}</span>
+                    {% endif %}
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <span class="font-semibold text-slate-600 dark:text-slate-300">{{ entry.catalogue.get_delivery_scope_display }}</span>
+                    <span class="px-2.5 py-0.5 rounded-full font-bold {% if entry.catalogue.transport_included %}bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300{% else %}bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300{% endif %}">
+                        {{ entry.catalogue.delivery_charge_label }}
+                    </span>
+                </div>
+                <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}"
+                   class="block text-center w-full py-2.5 px-4 bg-slate-900 dark:bg-amber-500 hover:bg-black dark:hover:bg-amber-400 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl transition">
+                    View Details &amp; Buy
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 text-center text-slate-500 dark:text-slate-400 text-sm">
+            No approved catalogues match your selected channel or delivery location.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function setMarketplaceView(mode) {
+        const container = document.getElementById("catalogueContainer");
+        const gridBtn = document.getElementById("gridViewBtn");
+        const listBtn = document.getElementById("listViewBtn");
+        const cards = document.querySelectorAll(".catalogue-card");
+        const footers = document.querySelectorAll(".catalogue-footer");
+        if (!container) return;
+
+        localStorage.setItem("hm_marketplace_view", mode);
+
+        if (mode === "list") {
+            container.className = "flex flex-col gap-4";
+            cards.forEach(c => c.classList.add("md:flex-row", "md:items-center"));
+            footers.forEach(f => {
+                f.classList.remove("border-t", "pt-4");
+                f.classList.add("md:border-t-0", "md:border-l", "md:pl-6", "md:min-w-[260px]");
+            });
+            listBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-amber-400 transition cursor-pointer";
+            gridBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer";
+        } else {
+            container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+            cards.forEach(c => c.classList.remove("md:flex-row", "md:items-center"));
+            footers.forEach(f => {
+                f.classList.add("border-t", "pt-4");
+                f.classList.remove("md:border-t-0", "md:border-l", "md:pl-6", "md:min-w-[260px]");
+            });
+            gridBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-amber-400 transition cursor-pointer";
+            listBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer";
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const savedMode = localStorage.getItem("hm_marketplace_view") || "grid";
+        setMarketplaceView(savedMode);
+    });
+</script>
+{% endblock %}

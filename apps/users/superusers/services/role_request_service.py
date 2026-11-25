@@ -2,7 +2,7 @@ from django.db import transaction
 from apps.users.superusers.models import RoleUpgradeRequest
 from apps.users.members.models import MemberProfile
 from apps.users.sellers.models import SellerProfile
-from apps.users.merchant.models import MerchantProfile
+from apps.users.merchants.models import MerchantProfile
 from apps.users.executives.models import ExecutiveProfile
 
 

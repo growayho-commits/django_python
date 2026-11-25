@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}Configure Pricing &amp; Commissions | {{ catalogue.name }}{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-8">
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+        <div>
+            <h2 class="text-2xl font-extrabold text-slate-900">{{ catalogue.name }} — Pricing &amp; Commissions</h2>
+            <p class="text-sm text-slate-500 mt-1">
+                SKU: {{ catalogue.sku }} &middot; Base Price: &#8377;{{ catalogue.base_price }} &middot; {{ catalogue.delivery_charge_label }}
+            </p>
+        </div>
+        <a href="{% url 'catalogs:core_catalogs:catalogue_workspace' %}" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm rounded-xl transition">
+            Back to Workspace
+        </a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-4 rounded-xl text-sm font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Live Waterfall Price Simulator -->
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+            <h3 class="text-lg font-bold text-slate-900">Live Waterfall Price Breakdown</h3>
+            <form method="GET" class="flex items-center gap-2">
+                <label class="text-sm font-semibold text-slate-600">Test Quantity:</label>
+                <input type="number" name="qty" value="{{ breakdown.quantity }}" min="1" class="w-24 px-3 py-1.5 rounded-xl border border-slate-300 text-sm">
+                <button type="submit" class="px-4 py-1.5 bg-slate-900 text-amber-400 text-sm font-bold rounded-xl cursor-pointer">Calculate</button>
+            </form>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <p class="text-xs text-slate-500">Effective Unit Price</p>
+                <p class="text-lg font-extrabold text-slate-900">&#8377;{{ breakdown.effective_unit_price }}</p>
+                <p class="text-xs text-indigo-600">{{ breakdown.applied_tier_name|default:"Base Price" }}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <p class="text-xs text-slate-500">Commissions (SU / EX / SL)</p>
+                <p class="text-lg font-extrabold text-amber-700">&#8377;{{ breakdown.total_commission }}</p>
+                <p class="text-xs text-slate-500">{{ breakdown.superuser_commission }} / {{ breakdown.executive_commission }} / {{ breakdown.seller_commission }}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                <p class="text-xs text-slate-500">GST ({{ breakdown.gst_percentage }}%) + Handling</p>
+                <p class="text-lg font-extrabold text-slate-900">&#8377;{{ breakdown.gst_amount }}</p>
+                <p class="text-xs text-slate-500">Handling: &#8377;{{ breakdown.extra_handling_charge }}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                <p class="text-xs text-emerald-700 font-bold">Final Total (Qty {{ breakdown.quantity }})</p>
+                <p class="text-xl font-black text-emerald-800">&#8377;{{ breakdown.final_total }}</p>
+                <p class="text-xs text-emerald-700">{{ breakdown.delivery_charge_label }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Bulk Quantity Tiers (Seller / Merchant / Superuser) -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
+            <h3 class="text-lg font-bold text-slate-900">Bulk Quantity Pricing Tiers</h3>
+            <form method="POST" class="space-y-3 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_bulk_tier">
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="text" name="tier_name" placeholder="Tier Name (e.g., Wholesale 10+)" required class="col-span-2 px-3 py-2 rounded-xl border border-slate-300">
+                    <input type="number" name="min_quantity" placeholder="Min Qty" min="1" required class="px-3 py-2 rounded-xl border border-slate-300">
+                    <input type="number" name="max_quantity" placeholder="Max Qty (optional)" min="1" class="px-3 py-2 rounded-xl border border-slate-300">
+                    <select name="adjustment_type" class="px-3 py-2 rounded-xl border border-slate-300 bg-white">
+                        <option value="fixed_price">Fixed Unit Price (&#8377;)</option>
+                        <option value="percentage_off">Percentage Discount (%)</option>
+                        <option value="flat_off">Flat Amount Off (&#8377;)</option>
+                    </select>
+                    <input type="number" step="0.01" name="tier_value" placeholder="Value" required class="px-3 py-2 rounded-xl border border-slate-300">
+                </div>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl cursor-pointer">
+                    Add Bulk Tier
+                </button>
+            </form>
+
+            <div class="divide-y divide-slate-100 text-sm">
+                {% for tier in tiers %}
+                <div class="py-2.5 flex justify-between">
+                    <span class="font-semibold text-slate-800">{{ tier.tier_name }} ({{ tier.min_quantity }} - {{ tier.max_quantity|default:"+" }})</span>
+                    <span class="text-indigo-700 font-bold">{{ tier.get_adjustment_type_display }}: {{ tier.tier_value }}</span>
+                </div>
+                {% empty %}
+                <p class="text-xs text-slate-400">No bulk quantity tiers added yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Role Commissions (Superuser / Authorized Executive) -->
+        {% if can_commission %}
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
+            <h3 class="text-lg font-bold text-slate-900">Role Commissions &amp; Extra Charges</h3>
+            <form method="POST" class="space-y-4 text-sm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="save_commissions">
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Superuser Commission Mode</label>
+                        <select name="superuser_commission_mode" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
+                            <option value="percentage" {% if commission_cfg.superuser_commission_mode == 'percentage' %}selected{% endif %}>Percentage (%)</option>
+                            <option value="flat" {% if commission_cfg.superuser_commission_mode == 'flat' %}selected{% endif %}>Flat Amount (&#8377;)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Superuser Commission Value</label>
+                        <input type="number" step="0.01" name="superuser_commission_value" value="{{ commission_cfg.superuser_commission_value }}" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Executive Commission Mode</label>
+                        <select name="executive_commission_mode" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
+                            <option value="percentage" {% if commission_cfg.executive_commission_mode == 'percentage' %}selected{% endif %}>Percentage (%)</option>
+                            <option value="flat" {% if commission_cfg.executive_commission_mode == 'flat' %}selected{% endif %}>Flat Amount (&#8377;)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Executive Commission Value</label>
+                        <input type="number" step="0.01" name="executive_commission_value" value="{{ commission_cfg.executive_commission_value }}" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Seller Commission Mode</label>
+                        <select name="seller_commission_mode" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
+                            <option value="percentage" {% if commission_cfg.seller_commission_mode == 'percentage' %}selected{% endif %}>Percentage (%)</option>
+                            <option value="flat" {% if commission_cfg.seller_commission_mode == 'flat' %}selected{% endif %}>Flat Amount (&#8377;)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Seller Commission Value</label>
+                        <input type="number" step="0.01" name="seller_commission_value" value="{{ commission_cfg.seller_commission_value }}" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Extra Handling Charge (&#8377;)</label>
+                        <input type="number" step="0.01" name="extra_handling_charge" value="{{ commission_cfg.extra_handling_charge }}" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Estimated Delivery Extra (&#8377;)</label>
+                        <input type="number" step="0.01" name="estimated_delivery_charge" value="{{ commission_cfg.estimated_delivery_charge }}" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                    </div>
+                </div>
+
+                <button type="submit" class="px-5 py-2.5 bg-slate-900 hover:bg-black text-amber-400 font-bold rounded-xl cursor-pointer">
+                    Save Commission &amp; Pricing Rules
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

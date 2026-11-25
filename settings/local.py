@@ -25,12 +25,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'apps.users.superusers.context_processors.enterprise_navigation_context',
-                'apps.users.members.context_processors.member_navigation_context',
-                'apps.users.merchant.context_processors.merchant_navigation_context',
-                'apps.users.sellers.context_processors.seller_navigation_context',
-                'apps.users.executives.context_processors.executive_navigation_context',
-            ],
+            ] + USER_CONTEXT_PROCESSORS,
         },
     },
 ]

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Professional Services | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">Professional Service Network</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Find verified service experts &mdash; local or online, zero-catalogue service enquiries.</p>
+        </div>
+        <a href="{% url 'professional_network:service_workspace' %}" class="px-4 py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl">
+            Offer Your Service / Workspace
+        </a>
+    </div>
+
+    <form method="GET" class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-xs">
+        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search service or skill..." class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <select name="category" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <option value="">All Service Categories</option>
+            {% for cat in categories %}
+            <option value="{{ cat.pk }}" {% if filters.category == cat.pk|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="pincode" value="{{ filters.pincode }}" placeholder="Pincode" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <input type="text" name="district" value="{{ filters.district }}" placeholder="District" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+        <div class="flex items-center gap-3">
+            <label class="inline-flex items-center gap-1 font-bold cursor-pointer"><input type="checkbox" name="verified" value="1" {% if filters.verified %}checked{% endif %}> Verified</label>
+            <label class="inline-flex items-center gap-1 font-bold cursor-pointer"><input type="checkbox" name="online" value="1" {% if filters.online %}checked{% endif %}> Online</label>
+        </div>
+        <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Find Experts</button>
+    </form>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for item in provider_cards %}
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-4">
+            <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
+                        {{ item.profile.get_delivery_scope_display }}
+                    </span>
+                    {% if item.profile.is_verified %}
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-700">
+                        <i class="fa-solid fa-circle-check mr-1"></i> Verified
+                    </span>
+                    {% endif %}
+                </div>
+                <h3 class="text-lg font-extrabold">{{ item.profile.skill_title }}</h3>
+                <p class="text-xs text-slate-400 mt-0.5">{{ item.profile.city|default:"Remote / Pan-India" }} &middot; {{ item.profile.experience_years }} yrs exp</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ item.profile.description|truncatewords:20 }}</p>
+            </div>
+            <div class="border-t border-slate-100 dark:border-slate-800 pt-3 space-y-3">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="font-bold text-amber-500"><i class="fa-solid fa-star"></i> {{ item.avg_stars }} ({{ item.rating_count }})</span>
+                    <span class="font-bold text-emerald-600">From &#8377;{{ item.profile.starting_fee }}</span>
+                </div>
+                <a href="{% url 'professional_network:service_provider_detail' item.profile.pk %}" class="block text-center w-full py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl">
+                    View Profile &amp; Send Enquiry
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500">
+            No approved service providers match your criteria yet.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

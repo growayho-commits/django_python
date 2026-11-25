@@ -39,8 +39,8 @@ def get_user_dashboard_url(user):
     latest_role = _get_latest_approved_role(user)
     if latest_role == 'executive' and _has_profile(user, 'executive_profile'):
         return _safe_reverse(['executives:executive_dashboard', 'users:executives:overview'], '/api/v1/users/executives/executive-dashboard/')
-    if latest_role == 'merchant' and _has_profile(user, 'merchant_profile'):
-        return _safe_reverse(['merchant:overview', 'users:merchant:overview'], '/api/v1/users/merchant/overview/')
+    if latest_role == 'merchant' and _has_profile(user, 'merchants_profile'):
+        return _safe_reverse(['merchants:overview', 'users:merchant:overview'], '/api/v1/users/merchants/overview/')
     if latest_role == 'seller' and _has_profile(user, 'seller_profile'):
         return _safe_reverse(['sellers:overview', 'users:sellers:overview'], '/api/v1/users/sellers/overview/')
     if latest_role == 'member':
@@ -48,8 +48,8 @@ def get_user_dashboard_url(user):
 
     if _has_profile(user, 'executive_profile'):
         return _safe_reverse(['executives:executive_dashboard', 'users:executives:overview'], '/api/v1/users/executives/executive-dashboard/')
-    if _has_profile(user, 'merchant_profile'):
-        return _safe_reverse(['merchant:overview', 'users:merchant:overview'], '/api/v1/users/merchant/overview/')
+    if _has_profile(user, 'merchants_profile'):
+        return _safe_reverse(['merchants:overview', 'users:merchant:overview'], '/api/v1/users/merchants/overview/')
     if _has_profile(user, 'seller_profile'):
         return _safe_reverse(['sellers:overview', 'users:sellers:overview'], '/api/v1/users/sellers/overview/')
 

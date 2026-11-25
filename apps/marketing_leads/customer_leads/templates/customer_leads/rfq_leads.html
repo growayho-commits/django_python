@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}B2B RFQ & Customer Leads | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold">B2B RFQ Quotes &amp; Customer Leads</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Request bulk custom quotes or manage incoming buyer leads.</p>
+        </div>
+        <a href="{% url 'catalogs:core_catalogs:catalogue_marketplace' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl">Marketplace</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Submit B2B RFQ Form -->
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-4">Request a Bulk B2B Quote (RFQ)</h3>
+        <form method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="submit_rfq">
+            <select name="catalogue_id" class="px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <option value="">General Requirement (No specific catalogue)</option>
+                {% for cat in catalogues %}
+                <option value="{{ cat.pk }}">{{ cat.name }} ({{ cat.sku }})</option>
+                {% endfor %}
+            </select>
+            <input type="number" name="requested_quantity" value="10" min="1" required placeholder="Requested Quantity" class="px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="number" step="0.01" name="target_unit_price" placeholder="Target Unit Price (INR, optional)" class="px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="full_name" value="{{ request.user.get_full_name|default:request.user.email }}" placeholder="Contact Name" class="px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="phone_number" value="{{ request.user.phone_number|default:'' }}" placeholder="Phone Number" class="px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="notes" placeholder="Delivery timeline or custom specs..." class="px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <div class="md:col-span-3">
+                <button type="submit" class="px-6 py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Submit RFQ Quote</button>
+            </div>
+        </form>
+    </div>
+
+    {% if incoming_leads %}
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3">
+        <h3 class="text-lg font-bold">Incoming B2B Leads ({{ incoming_leads|length }})</h3>
+        {% for lead in incoming_leads %}
+        <div class="p-4 rounded-xl border border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4 text-sm">
+            <div>
+                <p class="font-bold">{{ lead.full_name }} <span class="text-xs text-slate-400">({{ lead.email }})</span></p>
+                <p class="text-xs text-slate-500">{{ lead.catalogue.name|default:"General RFQ" }} &middot; Qty: {{ lead.requested_quantity }}{% if lead.target_unit_price %} &middot; Target: &#8377;{{ lead.target_unit_price }}{% endif %}</p>
+                {% if lead.notes %}<p class="text-xs text-slate-400 mt-1">{{ lead.notes }}</p>{% endif %}
+            </div>
+            <form method="POST" class="flex items-center gap-2 m-0">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_status">
+                <input type="hidden" name="lead_id" value="{{ lead.pk }}">
+                <select name="status" class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold">
+                    {% for val, label in status_choices %}
+                    <option value="{{ val }}" {% if lead.status == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="px-3 py-1.5 bg-indigo-600 text-white text-xs font-bold rounded-xl cursor-pointer">Update</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3">
+        <h3 class="text-lg font-bold">My Submitted RFQs ({{ my_rfqs|length }})</h3>
+        {% for rfq in my_rfqs %}
+        <div class="p-4 rounded-xl border border-slate-100 dark:border-slate-800 flex items-center justify-between text-sm">
+            <div>
+                <p class="font-bold">{{ rfq.catalogue.name|default:"General Requirement" }} &mdash; Qty: {{ rfq.requested_quantity }}</p>
+                <p class="text-xs text-slate-400">{{ rfq.created_at|date:"d M Y, H:i" }}</p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-indigo-50 text-indigo-700">{{ rfq.get_status_display }}</span>
+        </div>
+        {% empty %}
+        <p class="text-sm text-slate-500">No RFQs submitted yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

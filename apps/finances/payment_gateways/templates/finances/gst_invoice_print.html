@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tax Invoice {{ invoice.invoice_number }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 p-8 text-slate-800">
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow border border-slate-200 space-y-6">
+        <div class="flex justify-between items-start border-b pb-4">
+            <div>
+                <h1 class="text-2xl font-black">TAX INVOICE</h1>
+                <p class="text-xs font-bold text-indigo-700 uppercase">{{ invoice.get_invoice_type_display }}</p>
+            </div>
+            <div class="text-right text-xs">
+                <p class="font-mono font-bold text-sm">{{ invoice.invoice_number }}</p>
+                <p>Order: {{ invoice.order.order_number }}</p>
+                <p>Date: {{ invoice.issued_at|date:"d M Y" }}</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6 text-xs">
+            <div class="p-4 bg-slate-50 rounded-xl">
+                <p class="font-bold uppercase text-slate-400 mb-1">Supplier</p>
+                <p class="font-bold">{{ invoice.seller.email|default:"Hybrid Marketplace" }}</p>
+                <p>GSTIN: {{ invoice.seller_gstin }}</p>
+            </div>
+            <div class="p-4 bg-slate-50 rounded-xl">
+                <p class="font-bold uppercase text-slate-400 mb-1">Recipient</p>
+                <p class="font-bold">{{ invoice.buyer.email|default:"Buyer" }}</p>
+                <p>GSTIN: {{ invoice.buyer_gstin }}</p>
+                <p>Place of Supply: {{ invoice.place_of_supply }}</p>
+            </div>
+        </div>
+
+        <table class="w-full text-xs text-left border-collapse">
+            <thead>
+                <tr class="border-b-2 border-slate-300 uppercase">
+                    <th class="py-2">Description</th>
+                    <th class="py-2 text-right">Taxable</th>
+                    <th class="py-2 text-right">CGST</th>
+                    <th class="py-2 text-right">SGST</th>
+                    <th class="py-2 text-right">IGST</th>
+                    <th class="py-2 text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b border-slate-200">
+                    <td class="py-3 font-semibold">{{ invoice.get_invoice_type_display }} ({{ invoice.order.order_number }})</td>
+                    <td class="py-3 text-right">&#8377;{{ invoice.taxable_amount }}</td>
+                    <td class="py-3 text-right">&#8377;{{ invoice.cgst_amount }}</td>
+                    <td class="py-3 text-right">&#8377;{{ invoice.sgst_amount }}</td>
+                    <td class="py-3 text-right">&#8377;{{ invoice.igst_amount }}</td>
+                    <td class="py-3 text-right font-bold">&#8377;{{ invoice.grand_total }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="flex justify-between items-center pt-4 print:hidden">
+            <button onclick="window.print()" class="px-5 py-2 bg-slate-900 text-amber-400 font-bold text-xs uppercase rounded-xl cursor-pointer">Print / Save PDF</button>
+            <a href="javascript:window.close()" class="text-xs font-bold text-slate-500">Close</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Bank Accounts | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-5xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h2 class="text-2xl font-extrabold">Bank Accounts</h2>
+        <a href="{% url 'finances:escrow_dashboard' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl">Back to Finances</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-4">Add Bank Account</h3>
+        <form method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_bank">
+            <input type="text" name="account_holder_name" required placeholder="Account Holder Name" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="account_number" required placeholder="Account Number" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <input type="text" name="ifsc_code" required placeholder="IFSC Code" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 uppercase">
+            <input type="text" name="bank_name" required placeholder="Bank Name" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <div class="sm:col-span-4 flex items-center justify-between">
+                <label class="inline-flex items-center gap-2 text-xs font-bold cursor-pointer"><input type="checkbox" name="is_primary" checked> Set as Primary Account</label>
+                <button type="submit" class="px-5 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Save Bank Account</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="space-y-3">
+        {% for acc in accounts %}
+        <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <p class="font-bold">{{ acc.bank_name }} {% if acc.is_primary %}<span class="px-2 py-0.5 text-[10px] rounded-full bg-emerald-100 text-emerald-700 uppercase">Primary</span>{% endif %}</p>
+                <p class="text-xs text-slate-500">{{ acc.account_holder_name }} &middot; A/C: {{ acc.account_number }} &middot; IFSC: {{ acc.ifsc_code }}</p>
+            </div>
+            <div class="flex gap-2">
+                {% if not acc.is_primary %}
+                <form method="POST" class="m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="set_primary">
+                    <input type="hidden" name="account_id" value="{{ acc.pk }}">
+                    <button type="submit" class="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-xl cursor-pointer">Make Primary</button>
+                </form>
+                {% endif %}
+                <form method="POST" class="m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_bank">
+                    <input type="hidden" name="account_id" value="{{ acc.pk }}">
+                    <button type="submit" class="px-3 py-1 bg-rose-50 text-rose-600 text-xs font-bold rounded-xl cursor-pointer">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-sm text-slate-500">No bank accounts added yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

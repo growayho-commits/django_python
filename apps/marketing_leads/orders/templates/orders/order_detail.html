@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Order {{ order.order_number }} | Hybrid Marketplace{% endblock %}
+
+{% block body_content %}
+<div class="max-w-4xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <h2 class="text-2xl font-extrabold font-mono">{{ order.order_number }}</h2>
+            <p class="text-xs text-slate-500">Placed on {{ order.created_at|date:"d M Y, H:i" }} &middot; Payment: {{ order.payment_method|upper }}</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-indigo-100 text-indigo-700">{{ order.get_status_display }}</span>
+            <a href="{% url 'orders:my_orders' %}" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl">All Orders</a>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if can_update_status %}
+    <form method="POST" class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-3 text-sm">
+        {% csrf_token %}
+        <label class="font-bold">Update Order Status:</label>
+        <select name="status" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            {% for val, label in status_choices %}
+            <option value="{{ val }}" {% if order.status == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl cursor-pointer">Save Status</button>
+    </form>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+        <h3 class="text-lg font-extrabold">Order Items</h3>
+        <div class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+            {% for item in order.items.all %}
+            <div class="py-3 flex justify-between gap-4">
+                <div>
+                    <p class="font-bold">{{ item.catalogue.name|default:item.product_id }}</p>
+                    <p class="text-xs text-slate-400 font-mono">SKU: {{ item.product_id }}{% if item.variant_label %} &middot; {{ item.variant_label }}{% endif %} &middot; Qty: {{ item.quantity }} &times; &#8377;{{ item.unit_price }}</p>
+                </div>
+                <strong class="text-emerald-600">&#8377;{{ item.subtotal }}</strong>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="border-t border-slate-200 dark:border-slate-700 pt-3 flex justify-between text-lg font-black">
+            <span>Total Paid / Payable</span>
+            <span class="text-emerald-600">&#8377;{{ order.total_amount }}</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 text-xs text-slate-600 dark:text-slate-300">
+            <div><strong class="block uppercase text-slate-400 mb-1">Shipping Address</strong>{{ order.shipping_address }}</div>
+            <div><strong class="block uppercase text-slate-400 mb-1">Billing Address</strong>{{ order.billing_address }}</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -18,18 +18,16 @@ def seller_navigation_context(request):
     enterprise_modules = sorted([
         {
             "id": "subCatalogs",
-            "name": "Catalogs & Products",
+            "name": "Catalogs & Supply",
             "short_name": "Catalogs",
             "icon": "fa-boxes-stacked",
             "color": "indigo",
             "sub_apps": sorted([
-                {"title": "Attributes & Variants", "url": "/api/v1/catalogs/variants/"},
-                {"title": "Categories", "url": "/api/v1/catalogs/categories/"},
-                {"title": "Marketplace Catalogs", "url": "/api/v1/catalogs/core/"},
-                {"title": "My Products", "url": "/api/v1/users/sellers/products/"},
-                {"title": "Pricing Tiers", "url": "/api/v1/catalogs/pricing/"},
-                {"title": "Product Media", "url": "/api/v1/catalogs/media/"},
-                {"title": "Reviews & Ratings", "url": "/api/v1/catalogs/reviews/"},
+                {"title": "B2B Merchant Catalogues (Buy)", "url": "/api/v1/catalogs/core_catalogs/marketplace/?channel=b2b"},
+                {"title": "Bundles & Kits", "url": "/api/v1/catalogs/core_catalogs/bundles/"},
+                {"title": "Catalogue Marketplace", "url": "/api/v1/catalogs/core_catalogs/marketplace/"},
+                {"title": "Catalogue Workspace (Manage)", "url": "/api/v1/catalogs/core_catalogs/workspace/"},
+                {"title": "Categories", "url": "/api/v1/catalogs/core_catalogs/categories/"},
             ], key=lambda x: x["title"]),
         },
         {
@@ -39,9 +37,8 @@ def seller_navigation_context(request):
             "icon": "fa-headset",
             "color": "sky",
             "sub_apps": sorted([
-                {"title": "Helpdesk Tickets", "url": "/api/v1/support/helpdesk-tickets/"},
-                {"title": "Return & Refund Complaints", "url": "/api/v1/support/return-refunds/"},
                 {"title": "Seller Support", "url": "/api/v1/users/sellers/support/"},
+                {"title": "Support & Resolution Center", "url": "/api/v1/customer_supports/portal/"},
             ], key=lambda x: x["title"]),
         },
         {
@@ -51,8 +48,10 @@ def seller_navigation_context(request):
             "icon": "fa-wallet",
             "color": "emerald",
             "sub_apps": sorted([
-                {"title": "Bank Accounts & Taxes", "url": "/api/v1/finances/"},
-                {"title": "Commissions", "url": "/api/v1/finances/"},
+                {"title": "Bank Accounts", "url": "/api/v1/finances/portal/bank-accounts/"},
+                {"title": "Commissions & Payouts", "url": "/api/v1/finances/portal/payouts/"},
+                {"title": "In-House GST Invoices", "url": "/api/v1/finances/portal/gst-invoices/"},
+                {"title": "Referral & Loyalty Wallet", "url": "/api/v1/finances/portal/wallet/"},
                 {"title": "Seller Payouts", "url": "/api/v1/users/sellers/payouts/"},
             ], key=lambda x: x["title"]),
         },
@@ -63,10 +62,10 @@ def seller_navigation_context(request):
             "icon": "fa-truck-fast",
             "color": "purple",
             "sub_apps": sorted([
-                {"title": "Catalog Inventories", "url": "/api/v1/catalogs/inventory/"},
                 {"title": "Inventory & Stock", "url": "/api/v1/users/sellers/inventory/"},
-                {"title": "Returns & Tracking", "url": "/api/v1/logistics/"},
-                {"title": "Shipments & Dispatch", "url": "/api/v1/logistics/"},
+                {"title": "Return Pickups", "url": "/api/v1/logistics/portal/returns/"},
+                {"title": "Shipments & Live Tracking", "url": "/api/v1/logistics/portal/"},
+                {"title": "Warehouse Transfers", "url": "/api/v1/logistics/portal/transfers/"},
             ], key=lambda x: x["title"]),
         },
         {
@@ -76,10 +75,12 @@ def seller_navigation_context(request):
             "icon": "fa-bullhorn",
             "color": "amber",
             "sub_apps": sorted([
-                {"title": "Browse & Buy Products", "url": "/api/v1/catalogs/core/"},
-                {"title": "Coupons & Discounts", "url": "/api/v1/marketing/coupons/"},
-                {"title": "My Cart", "url": "/api/v1/marketing/carts/"},
-                {"title": "Wishlist", "url": "/api/v1/catalogs/wishlist/"},
+                {"title": "B2B RFQ & Customer Leads", "url": "/api/v1/marketing_leads/customer_leads/portal/"},
+                {"title": "Browse & Buy Catalogues", "url": "/api/v1/catalogs/core_catalogs/marketplace/"},
+                {"title": "Catalogue Wishlist", "url": "/api/v1/catalogs/core_catalogs/wishlist/"},
+                {"title": "Coupons & Discounts", "url": "/api/v1/marketing_leads/coupons_discounts/portal/"},
+                {"title": "My Cart", "url": "/api/v1/marketing_leads/carts/my-cart/"},
+                {"title": "Notifications Inbox", "url": "/api/v1/marketing_leads/push_notifications/portal/"},
             ], key=lambda x: x["title"]),
         },
         {
@@ -89,9 +90,20 @@ def seller_navigation_context(request):
             "icon": "fa-cart-shopping",
             "color": "blue",
             "sub_apps": sorted([
-                {"title": "Marketplace Orders", "url": "/api/v1/marketing/orders/"},
+                {"title": "Orders & Fulfillment", "url": "/api/v1/marketing_leads/orders/my-orders/"},
                 {"title": "Seller Orders", "url": "/api/v1/users/sellers/orders/"},
                 {"title": "Seller Overview", "url": "/api/v1/users/sellers/overview/"},
+            ], key=lambda x: x["title"]),
+        },
+        {
+            "id": "subProfessional",
+            "name": "Professional Services",
+            "short_name": "Services",
+            "icon": "fa-user-tie",
+            "color": "blue",
+            "sub_apps": sorted([
+                {"title": "Offer Service / Workspace", "url": "/api/v1/professional_network/portal/workspace/"},
+                {"title": "Service Directory", "url": "/api/v1/professional_network/portal/"},
             ], key=lambda x: x["title"]),
         },
         {

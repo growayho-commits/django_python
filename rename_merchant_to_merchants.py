@@ -1,11 +1,10 @@
-#python rename_merchant_to_merchants.py
-#python rename_merchant_to_merchants.py --apply
-#python manage.py check
-
-
+# Dry-run: python rename_merchant_to_merchants.py
+# Apply  : python rename_merchant_to_merchants.py --apply
+# Verify : python manage.py check
 
 from __future__ import annotations
 
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -15,31 +14,52 @@ OLD_APP_DIR = BASE_DIR / "apps" / "users" / "merchant"
 NEW_APP_DIR = BASE_DIR / "apps" / "users" / "merchants"
 
 SKIP_DIRS = {".git", "__pycache__", "venv", ".venv", "node_modules"}
+SKIP_FILES = {"rename_merchant_to_merchants.py", "db.sqlite3"}
 TEXT_EXTS = {".py", ".html", ".txt", ".md", ".json", ".yml", ".yaml", ".env", ".cfg", ".ini"}
 
-# உள்ளே உள்ள கோப்புகளில் மாற்ற வேண்டிய முக்கிய reference-கள்
-REPLACEMENTS: list[tuple[str, str]] = [
-    ("apps.users.merchant", "apps.users.merchants"),
-    ("apps/users/merchant", "apps/users/merchants"),
-    ("apps\\users\\merchant", "apps\\users\\merchants"),
-    ("users.merchant", "users.merchants"),
-    ("templates/merchant/", "templates/merchants/"),
-    ("templates\\merchant\\", "templates\\merchants\\"),
-    ("'merchant/", "'merchants/"),
-    ('"merchant/', '"merchants/'),
+# Regex replacements (safe against double-pluralizing 'merchants' -> 'merchantss')
+REGEX_REPLACEMENTS: list[tuple[str, str]] = [
+    (r"apps\.users\.merchant(?!s)\b", "apps.users.merchants"),
+    (r"apps/users/merchant(?!s)\b", "apps/users/merchants"),
+    (r"apps\\users\\merchant(?!s)\b", r"apps\\users\\merchants"),
+    (r"users\.merchant(?!s)\b", "users.merchants"),
+    (r"/api/v1/users/merchant(?!s)/", "/api/v1/users/merchants/"),
+    (r"templates/merchant(?!s)/", "templates/merchants/"),
+    (r"templates\\merchant(?!s)\\", r"templates\\merchants\\"),
+    (r"'merchant(?!s)/", "'merchants/"),
+    (r'"merchant(?!s)/', '"merchants/'),
+    (r"'merchant(?!s):", "'merchants:"),
+    (r'"merchant(?!s):', '"merchants:'),
+    (r"app_name\s*=\s*'merchant(?!s)'", "app_name = 'merchants'"),
+    (r'app_name\s*=\s*"merchant(?!s)"', 'app_name = "merchants"'),
+    (r"path\('merchant(?!s)/'", "path('merchants/'"),
+    (r'path\("merchant(?!s)/"', 'path("merchants/"'),
+    (r"\bmerchant_views\b", "merchants_views"),
+    (r"\bmerchant_profile\b", "merchants_profile"),
+    (r"\bmerchant_service\b", "merchants_service"),
+    (r"\bmerchant_serializer\b", "merchants_serializer"),
+    (r"\bmerchant_forms\b", "merchants_forms"),
+    (r"\bmerchant_navigation_context\b", "merchants_navigation_context"),
+    (r"\bMerchantConfig\b", "MerchantsConfig"),
 ]
 
 
 def is_text_file(p: Path) -> bool:
-    return p.is_file() and p.suffix.lower() in TEXT_EXTS and not any(d in SKIP_DIRS for d in p.parts)
+    return (
+        p.is_file()
+        and p.name not in SKIP_FILES
+        and p.suffix.lower() in TEXT_EXTS
+        and not any(d in SKIP_DIRS for d in p.parts)
+    )
 
 
 def rename_inner_files_and_dirs(root: Path, apply: bool) -> list[tuple[Path, Path]]:
-    """உள்ளே உள்ள 'merchant' என்ற பெயர்கொண்ட ஃபோல்டர்/ஃபைல்களை 'merchants' என மாற்றுகிறது (bottom-up)."""
+    """Rename inner files/folders containing 'merchant' (skipping migrations)."""
     ops: list[tuple[Path, Path]] = []
-    # ஆழமான பாதைகளிலிருந்து (deepest first) தொடங்குவதால் parent மாறும்போது child path உடையாது
     all_entries = sorted(root.rglob("*"), key=lambda p: len(p.parts), reverse=True)
     for entry in all_entries:
+        if "migrations" in entry.parts:
+            continue
         if "merchant" in entry.name and "merchants" not in entry.name:
             new_name = entry.name.replace("merchant", "merchants")
             target = entry.with_name(new_name)
@@ -51,15 +71,17 @@ def rename_inner_files_and_dirs(root: Path, apply: bool) -> list[tuple[Path, Pat
 
 
 def update_text_references(apply: bool) -> list[Path]:
-    """திட்டம் முழுவதும் (settings, urls, apps, views, templates, docs போன்றவற்றில்) references அப்டேட் செய்கிறது."""
+    """Update imports, URLs, template paths, and config references across the project."""
     changed_files: list[Path] = []
+    compiled = [(re.compile(pattern), repl) for pattern, repl in REGEX_REPLACEMENTS]
+
     for p in sorted(BASE_DIR.rglob("*")):
         if not is_text_file(p):
             continue
         raw = p.read_text(encoding="utf-8", errors="replace")
         updated = raw
-        for old_str, new_str in REPLACEMENTS:
-            updated = updated.replace(old_str, new_str)
+        for pattern, repl in compiled:
+            updated = pattern.sub(repl, updated)
 
         if updated != raw:
             changed_files.append(p)
@@ -68,49 +90,61 @@ def update_text_references(apply: bool) -> list[Path]:
     return changed_files
 
 
+def ensure_app_label(apps_py_path: Path, apply: bool) -> None:
+    """Keep label = 'merchant' in MerchantsConfig so existing db.sqlite3 migrations stay valid."""
+    if not apps_py_path.exists():
+        return
+    content = apps_py_path.read_text(encoding="utf-8", errors="replace")
+    if "label =" not in content and "class MerchantsConfig" in content:
+        updated = content.replace(
+            "name = 'apps.users.merchants'",
+            "name = 'apps.users.merchants'\n    label = 'merchant'",
+        ).replace(
+            'name = "apps.users.merchants"',
+            'name = "apps.users.merchants"\n    label = "merchant"',
+        )
+        if updated != content and apply:
+            apps_py_path.write_text(updated, encoding="utf-8")
+            print("   Added label = 'merchant' in apps/users/merchants/apps.py (protects DB migrations).")
+
+
 def main() -> None:
     apply = "--apply" in sys.argv
-    mode_label = "APPLY (உண்மையாக மாற்றும்)" if apply else "DRY-RUN (சோதனை மட்டும் - எதுவும் மாறாது)"
+    mode_label = "APPLY" if apply else "DRY-RUN"
     print(f"\n=== Merchant -> Merchants Migration [{mode_label}] ===\n")
 
     if not OLD_APP_DIR.exists() and not NEW_APP_DIR.exists():
-        print("❌ 'apps/users/merchant' காணப்படவில்லை.")
+        print("Error: 'apps/users/merchant' not found.")
         return
 
     if OLD_APP_DIR.exists():
-        print(f"📁 App folder rename: {OLD_APP_DIR.relative_to(BASE_DIR)} -> {NEW_APP_DIR.relative_to(BASE_DIR)}")
+        print(f"App folder rename: {OLD_APP_DIR.relative_to(BASE_DIR)} -> {NEW_APP_DIR.relative_to(BASE_DIR)}")
         if apply:
             if NEW_APP_DIR.exists():
-                print("⚠️ எச்சரிக்கை: 'apps/users/merchants' ஏற்கனவே உள்ளது; கவனமாகச் சரிபார்க்கவும்.")
+                print("Warning: 'apps/users/merchants' already exists. Aborting folder move.")
                 return
             shutil.move(str(OLD_APP_DIR), str(NEW_APP_DIR))
 
     scan_root = NEW_APP_DIR if (apply or NEW_APP_DIR.exists()) else OLD_APP_DIR
     if scan_root.exists():
         inner_ops = rename_inner_files_and_dirs(scan_root, apply=apply)
-        print(f"📄 Inner files/folders with 'merchant': {len(inner_ops)}")
-        for src, dst in inner_ops[:20]:
-            print(f"   • {src.relative_to(BASE_DIR)}  -->  {dst.name}")
-        if len(inner_ops) > 20:
-            print(f"   ... மற்றும் {len(inner_ops) - 20} உருப்படிகள்.")
+        print(f"Inner files/folders to rename: {len(inner_ops)}")
+        for src, dst in inner_ops[:25]:
+            print(f"   - {src.relative_to(BASE_DIR)} -> {dst.name}")
 
     changed = update_text_references(apply=apply)
-    print(f"\n✏️ Text/Import/Template references updated in {len(changed)} file(s):")
-    for cf in changed[:25]:
-        print(f"   • {cf.relative_to(BASE_DIR)}")
-    if len(changed) > 25:
-        print(f"   ... மற்றும் {len(changed) - 25} கோப்புகள்.")
+    print(f"\nText/Import/URL/Template references updated in {len(changed)} file(s):")
+    for cf in changed[:30]:
+        print(f"   - {cf.relative_to(BASE_DIR)}")
+
+    ensure_app_label(NEW_APP_DIR / "apps.py", apply=apply)
 
     if not apply:
-        print("\n👉 மாற்றங்களை உறுதியாகச் செய்ய இந்தக் கமெண்ட்டை இயக்கவும்:")
+        print("\nRun with --apply to execute:")
         print("   python rename_merchant_to_merchants.py --apply")
     else:
-        print("\n✅ முடிந்தது! இப்போது கீழ்க்கண்ட சரிபார்ப்புகளைச் செய்யவும்:")
-        print("   1. python manage.py check")
-        print("   2. தேவைப்பட்டால் migrations / app label சரிபார்க்கவும்")
+        print("\nDone! Now run: python manage.py check")
 
 
 if __name__ == "__main__":
     main()
-
-

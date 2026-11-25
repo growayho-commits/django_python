@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}{{ prof.skill_title }} | Professional Network{% endblock %}
+
+{% block body_content %}
+<div class="max-w-5xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+    <div class="flex items-center justify-between">
+        <a href="{% url 'professional_network:service_directory' %}" class="text-sm font-bold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Directory</a>
+    </div>
+
+    {% if messages %}
+    <div class="space-y-2">
+        {% for message in messages %}
+        <div class="p-3 rounded-xl text-sm font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-4">
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700">{{ prof.get_delivery_scope_display }}</span>
+            {% if prof.is_verified %}<span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700"><i class="fa-solid fa-circle-check mr-1"></i> Verified Provider</span>{% endif %}
+            <span class="text-xs font-bold text-amber-500"><i class="fa-solid fa-star"></i> {{ avg_stars }} ({{ rating_count }} reviews)</span>
+        </div>
+        <h1 class="text-2xl font-black">{{ prof.skill_title }}</h1>
+        <p class="text-xs text-slate-400">Provider: {{ prof.user.email }} &middot; SAC/HSN: {{ prof.hsn_service_code|default:"N/A" }} &middot; Starting Fee: <strong class="text-emerald-600">&#8377;{{ prof.starting_fee }}</strong></p>
+        <p class="text-sm text-slate-600 dark:text-slate-300">{{ prof.description }}</p>
+        {% if prof.availability %}
+        <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-xs flex flex-wrap gap-4">
+            <span>Status: <strong>{% if prof.availability.is_on_leave %}On Leave{% elif prof.availability.is_available %}Available{% else %}Busy{% endif %}</strong></span>
+            <span>Working Hours: <strong>{{ prof.availability.working_hours }}</strong></span>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-3">Send Direct Service Enquiry</h3>
+        <form method="POST" class="space-y-3 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="send_enquiry">
+            <textarea name="message" rows="3" required placeholder="Describe your service requirement, timeline, and location..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800"></textarea>
+            <button type="submit" class="px-6 py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer">Send Enquiry</button>
+        </form>
+    </div>
+
+    {% if unrated_enquiries %}
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold mb-3">Rate Completed Service</h3>
+        <form method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-sm">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="submit_rating">
+            <select name="enquiry_id" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                {% for enq in unrated_enquiries %}
+                <option value="{{ enq.pk }}">Enquiry #{{ enq.pk }} ({{ enq.created_at|date:"d M" }})</option>
+                {% endfor %}
+            </select>
+            <select name="stars" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">1 Star</option>
+            </select>
+            <input type="text" name="feedback" placeholder="Short feedback..." class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white font-bold rounded-xl cursor-pointer">Submit Rating</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-3">
+        <h3 class="text-lg font-bold">Customer Ratings ({{ rating_count }})</h3>
+        {% for r in ratings %}
+        <div class="p-3 rounded-xl border border-slate-100 dark:border-slate-800 text-xs">
+            <div class="flex justify-between font-bold mb-1">
+                <span>{{ r.customer.email }}</span>
+                <span class="text-amber-500">{{ r.stars }} / 5 Stars</span>
+            </div>
+            <p class="text-slate-600 dark:text-slate-300">{{ r.feedback|default:"Verified service rating." }}</p>
+        </div>
+        {% empty %}
+        <p class="text-xs text-slate-400">No ratings yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

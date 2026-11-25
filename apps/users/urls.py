@@ -6,6 +6,6 @@ urlpatterns = [
     path('members/', include('apps.users.members.urls')),
     path('superusers/', include('apps.users.superusers.urls')),
     path('executives/', include('apps.users.executives.urls')),
-    path('merchant/', include('apps.users.merchant.urls')),
+    path('merchants/', include('apps.users.merchants.urls')),
     path('sellers/', include('apps.users.sellers.urls')),
 ]
