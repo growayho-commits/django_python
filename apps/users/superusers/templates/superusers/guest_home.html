@@ -47,10 +47,10 @@
             </nav>
 
             <div class="flex items-center gap-2 sm:gap-3">
-                <div id="geo-location-badge" class="hidden md:flex items-center gap-1.5 text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-300 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 font-medium">
+                <button id="geo-location-badge" type="button" title="Click to set your area/pincode" class="flex items-center gap-1.5 text-xs sm:text-sm bg-amber-50 dark:bg-slate-800 text-amber-800 dark:text-amber-300 px-3 py-1.5 rounded-full border border-amber-200 dark:border-slate-700 font-semibold cursor-pointer hover:bg-amber-100 transition">
                     <i class="fa-solid fa-location-dot text-amber-600"></i>
-                    <span id="location-text">Detecting location...</span>
-                </div>
+                    <span id="location-text">Detecting...</span>
+                </button>
 
                 <button id="guestThemeBtn" type="button" aria-label="Toggle Theme" class="p-2.5 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-slate-100 transition flex items-center justify-center cursor-pointer">
                     <i id="guestThemeIcon" class="fa-solid fa-moon"></i>
@@ -212,20 +212,60 @@
             });
 
             const locText = document.getElementById("location-text");
-            if (locText && "geolocation" in navigator) {
+            const locBadge = document.getElementById("geo-location-badge");
+
+            function setLoc(area, pin) {
+                const label = (area && pin) ? `${area} - ${pin}` : (area || pin || "India");
+                if (locText) locText.textContent = label;
+            }
+
+            async function detectByIP() {
+                try {
+                    const r = await fetch("https://ipapi.co/json/");
+                    const d = await r.json();
+                    if (d && (d.city || d.postal)) {
+                        setLoc(d.city || d.region || "", d.postal || "");
+                        return;
+                    }
+                } catch (e) {}
+                try {
+                    const r2 = await fetch("https://ipwho.is/");
+                    const d2 = await r2.json();
+                    if (d2 && d2.success) {
+                        setLoc(d2.city || d2.region || "", d2.postal || "");
+                        return;
+                    }
+                } catch (e2) {}
+                setLoc("India", "");
+            }
+
+            const savedLoc = localStorage.getItem("hm_custom_loc");
+            if (savedLoc && locText) {
+                locText.textContent = savedLoc;
+            } else if ("geolocation" in navigator && window.isSecureContext) {
                 navigator.geolocation.getCurrentPosition(function(pos) {
                     fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&zoom=18&addressdetails=1&accept-language=en`)
                         .then(r => r.json())
                         .then(d => {
                             if (d && d.address) {
-                                const area = d.address.suburb || d.address.city || d.address.town || "";
+                                const area = d.address.suburb || d.address.neighbourhood || d.address.city || d.address.town || "";
                                 const pin = d.address.postcode || "";
-                                locText.textContent = (area && pin) ? `${area} - ${pin}` : (area || pin || "Current Location");
-                            }
-                        }).catch(() => { locText.textContent = "India"; });
-                }, () => { locText.textContent = "India"; });
-            } else if (locText) {
-                locText.textContent = "India";
+                                setLoc(area, pin);
+                            } else { detectByIP(); }
+                        }).catch(detectByIP);
+                }, detectByIP, { timeout: 4000 });
+            } else {
+                detectByIP();
+            }
+
+            if (locBadge) {
+                locBadge.addEventListener("click", function() {
+                    const val = prompt("Enter your City / Area - Pincode (e.g. Coimbatore - 641001):", locText.textContent);
+                    if (val && val.trim()) {
+                        localStorage.setItem("hm_custom_loc", val.trim());
+                        locText.textContent = val.trim();
+                    }
+                });
             }
         });
     </script>
