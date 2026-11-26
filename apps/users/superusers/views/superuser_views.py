@@ -58,7 +58,7 @@ def get_user_dashboard_url(user):
 
 @login_required
 def role_dashboard_redirect(request):
-    return redirect(get_user_dashboard_url(request.user))
+    return redirect('/api/v1/catalogs/core_catalogs/marketplace/')
 
 
 @login_required

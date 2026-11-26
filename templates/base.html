@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        html, body { max-width: 100%; overflow-x: hidden; }
+        @media (max-width: 767px) { body { font-size: 16px; } }
         .role-badge {
             font-size: 0.65rem;
             padding: 4px 10px;
@@ -101,17 +103,17 @@
 
     <div class="flex flex-col flex-grow w-full min-h-screen">
         <!-- Global Dynamic Top Header Navbar -->
-        <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/50 dark:border-slate-800 sticky top-0 z-50 px-4 md:px-8 py-3.5 flex justify-between items-center shadow-[0_4px_20px_-10px_rgba(0,0,0,0.06)] transition-colors duration-200">
+        <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/50 dark:border-slate-800 sticky top-0 z-50 px-3 md:px-8 py-3 flex flex-wrap justify-between items-center gap-2 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.06)] transition-colors duration-200">
 
             <div class="flex items-center space-x-3 md:space-x-5 relative">
                 {% if request.user.is_authenticated %}
                 <div class="relative">
-                    <button id="mainMenuBtn" type="button" aria-label="Open Navigation Menu" class="p-2 text-slate-500 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center w-11 h-11">
-                        <i class="fa-solid fa-ellipsis-vertical text-xl"></i>
+                    <button id="mainMenuBtn" type="button" aria-label="Open Navigation Menu" class="p-2 text-slate-500 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center w-12 h-12 md:w-11 md:h-11">
+                        <i class="fa-solid fa-ellipsis-vertical text-2xl md:text-xl"></i>
                     </button>
 
                     <!-- Dynamic Role-Based Dropdown Menu -->
-                    <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-72 max-h-[80vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 py-2 z-50">
+                    <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-[88vw] sm:w-80 max-h-[80vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 py-2 z-50">
                         <div class="px-2 space-y-0.5">
                             <a href="{{ user_dashboard_url|default:'/' }}" class="flex items-center space-x-3 px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl">
                                 <i class="fa-solid fa-gauge-high text-indigo-600 dark:text-indigo-400 w-5"></i>
@@ -157,6 +159,12 @@
 
             <div class="flex items-center space-x-2 md:space-x-3">
                 {% if request.user.is_authenticated %}
+                <a href="/api/v1/catalogs/core_catalogs/marketplace/" title="Catalogs" class="px-3 py-2 rounded-xl border border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 hover:bg-amber-100 text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-boxes-stacked"></i><span>Catalogs</span>
+                </a>
+                <a href="/api/v1/professional_network/portal/" title="Services" class="px-3 py-2 rounded-xl border border-indigo-200 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-briefcase"></i><span>Services</span>
+                </a>
                 <a href="/api/v1/marketing_leads/carts/my-cart/" title="My Cart" class="p-2 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
                     <i class="fa-solid fa-cart-shopping text-sm"></i>
                 </a>

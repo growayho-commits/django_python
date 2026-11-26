@@ -35,7 +35,35 @@ def _apply_registration_links(new_user, referrer=None):
 
 
 def guest_home_view(request):
-    return render(request, 'superusers/guest_home.html')
+    catalogues = []
+    services = []
+    service_categories = []
+    providers = []
+    try:
+        from apps.catalogs.core_catalogs.models.core_catalog_models import CoreCatalogProfile
+        qs = CoreCatalogProfile.objects.filter(is_active=True, approval_status='approved').order_by('-created_at')
+        if not qs.exists():
+            qs = CoreCatalogProfile.objects.filter(is_active=True).order_by('-created_at')
+        catalogues = list(qs[:12])
+    except Exception:
+        pass
+    try:
+        from apps.professional_network.service_categries.models.service_categries_model import ServiceCategory, ServiceListing
+        services = list(ServiceListing.objects.select_related('category').order_by('-created_at')[:6])
+        service_categories = list(ServiceCategory.objects.filter(is_active=True, parent__isnull=True)[:6])
+    except Exception:
+        pass
+    try:
+        from apps.professional_network.profiles.models.skill_profile import ProfessionalProfile
+        providers = list(ProfessionalProfile.objects.select_related('availability').order_by('-id')[:6])
+    except Exception:
+        pass
+    return render(request, 'superusers/guest_home.html', {
+        'catalogues': catalogues,
+        'services': services,
+        'service_categories': service_categories,
+        'providers': providers,
+    })
 
 
 @transaction.atomic
