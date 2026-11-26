@@ -26,7 +26,7 @@
     <style>
         html, body { max-width: 100%; overflow-x: hidden; }
         @media (max-width: 767px) {
-            html { font-size: 18px; }
+            html { font-size: 20px !important; }
             #zohoLeftDropdown { width: 92vw !important; max-width: 380px !important; }
             #zohoLeftDropdown a, #zohoLeftDropdown .menu-trigger { font-size: 1rem !important; padding-top: 0.7rem !important; padding-bottom: 0.7rem !important; }
             .submenu-flyout a { font-size: 0.95rem !important; padding-top: 0.55rem !important; padding-bottom: 0.55rem !important; }
@@ -113,8 +113,8 @@
             <div class="flex items-center space-x-3 md:space-x-5 relative">
                 {% if request.user.is_authenticated %}
                 <div class="relative">
-                    <button id="mainMenuBtn" type="button" aria-label="Open Navigation Menu" class="p-2 text-slate-800 dark:text-slate-200 border-2 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center w-12 h-12 md:w-11 md:h-11">
-                        <i class="fa-solid fa-ellipsis-vertical text-2xl md:text-xl"></i>
+                    <button id="mainMenuBtn" type="button" aria-label="Open Navigation Menu" class="p-2 text-slate-800 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 cursor-pointer border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center w-14 h-14 md:w-11 md:h-11">
+                        <i class="fa-solid fa-ellipsis-vertical text-3xl md:text-xl"></i>
                     </button>
 
                     <!-- Dynamic Role-Based Dropdown Menu -->
@@ -170,16 +170,16 @@
                 <a href="/api/v1/professional_network/portal/" title="Services" class="px-3 py-2 rounded-xl border border-indigo-200 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
                     <i class="fa-solid fa-briefcase"></i><span>Services</span>
                 </a>
-                <a href="/api/v1/marketing_leads/carts/my-cart/" title="My Cart" class="p-2 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
+                <a href="/api/v1/marketing_leads/carts/my-cart/" title="My Cart" class="p-2 w-10 h-10 rounded-xl border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
                     <i class="fa-solid fa-cart-shopping text-sm"></i>
                 </a>
-                <a href="/api/v1/marketing_leads/push_notifications/portal/" title="Notifications" class="p-2 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
+                <a href="/api/v1/marketing_leads/push_notifications/portal/" title="Notifications" class="p-2 w-10 h-10 rounded-xl border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center">
                     <i class="fa-solid fa-bell text-sm"></i>
                 </a>
                 {% endif %}
 
                 <!-- Normal / Dark Mode Toggle -->
-                <button id="themeToggleBtn" type="button" title="Toggle Dark / Normal Mode" aria-label="Toggle Dark / Normal Mode" class="p-2 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center cursor-pointer">
+                <button id="themeToggleBtn" type="button" title="Toggle Dark / Normal Mode" aria-label="Toggle Dark / Normal Mode" class="p-2 w-10 h-10 rounded-xl border-2 border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center cursor-pointer">
                     <i id="themeToggleIcon" class="fa-solid fa-moon text-sm"></i>
                 </button>
 
