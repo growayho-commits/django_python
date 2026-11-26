@@ -248,23 +248,38 @@
                         .then(r => r.json())
                         .then(d => {
                             if (d && d.address) {
-                                const area = d.address.suburb || d.address.neighbourhood || d.address.city || d.address.town || "";
-                                const pin = d.address.postcode || "";
+                                const a = d.address;
+                                const area = a.hamlet || a.village || a.suburb || a.neighbourhood || a.town || a.city_district || a.city || "";
+                                const pin = a.postcode || "";
                                 setLoc(area, pin);
                             } else { detectByIP(); }
                         }).catch(detectByIP);
-                }, detectByIP, { timeout: 4000 });
+                }, detectByIP, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
             } else {
                 detectByIP();
             }
 
             if (locBadge) {
-                locBadge.addEventListener("click", function() {
-                    const val = prompt("Enter your City / Area - Pincode (e.g. Coimbatore - 641001):", locText.textContent);
-                    if (val && val.trim()) {
-                        localStorage.setItem("hm_custom_loc", val.trim());
-                        locText.textContent = val.trim();
+                locBadge.addEventListener("click", async function() {
+                    const val = prompt("Enter 6-digit Pincode (e.g. 641652) or Area - Pincode:", locText.textContent);
+                    if (!val || !val.trim()) return;
+                    const clean = val.trim();
+                    if (/^\d{6}$/.test(clean)) {
+                        locText.textContent = "Looking up...";
+                        try {
+                            const res = await fetch(`https://api.postalpincode.in/pincode/${clean}`);
+                            const data = await res.json();
+                            if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length) {
+                                const po = data[0].PostOffice[0];
+                                const label = `${po.Name} - ${clean}`;
+                                localStorage.setItem("hm_custom_loc", label);
+                                locText.textContent = label;
+                                return;
+                            }
+                        } catch (e) {}
                     }
+                    localStorage.setItem("hm_custom_loc", clean);
+                    locText.textContent = clean;
                 });
             }
         });
