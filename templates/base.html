@@ -25,7 +25,12 @@
 
     <style>
         html, body { max-width: 100%; overflow-x: hidden; }
-        @media (max-width: 767px) { body { font-size: 16px; } }
+        @media (max-width: 767px) {
+            html { font-size: 18px; }
+            #zohoLeftDropdown { width: 92vw !important; max-width: 380px !important; }
+            #zohoLeftDropdown a, #zohoLeftDropdown .menu-trigger { font-size: 1rem !important; padding-top: 0.7rem !important; padding-bottom: 0.7rem !important; }
+            .submenu-flyout a { font-size: 0.95rem !important; padding-top: 0.55rem !important; padding-bottom: 0.55rem !important; }
+        }
         .role-badge {
             font-size: 0.65rem;
             padding: 4px 10px;
@@ -108,7 +113,7 @@
             <div class="flex items-center space-x-3 md:space-x-5 relative">
                 {% if request.user.is_authenticated %}
                 <div class="relative">
-                    <button id="mainMenuBtn" type="button" aria-label="Open Navigation Menu" class="p-2 text-slate-500 dark:text-slate-300 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center w-12 h-12 md:w-11 md:h-11">
+                    <button id="mainMenuBtn" type="button" aria-label="Open Navigation Menu" class="p-2 text-slate-800 dark:text-slate-200 border-2 hover:text-amber-600 dark:hover:text-amber-400 hover:border-amber-300 hover:bg-amber-50 dark:hover:bg-slate-800 rounded-xl transition-all duration-300 cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center w-12 h-12 md:w-11 md:h-11">
                         <i class="fa-solid fa-ellipsis-vertical text-2xl md:text-xl"></i>
                     </button>
 
