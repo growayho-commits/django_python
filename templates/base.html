@@ -39,6 +39,8 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
+                #zohoLeftDropdown { overflow-x: hidden !important; scrollbar-width: none; -ms-overflow-style: none; }
+        #zohoLeftDropdown::-webkit-scrollbar { display: none; }
         .has-submenu { position: relative; }
         .submenu-flyout {
             display: none;
@@ -118,7 +120,7 @@
                     </button>
 
                     <!-- Dynamic Role-Based Dropdown Menu -->
-                    <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-[88vw] sm:w-80 max-h-[80vh] overflow-y-auto bg-white dark:bg-slate-900 rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 py-2 z-50">
+                    <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-[88vw] sm:w-80 max-h-[88vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-900 rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 py-2 z-50">
                         <div class="px-2 space-y-0.5">
                             <a href="{{ user_dashboard_url|default:'/' }}" class="flex items-center space-x-3 px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl">
                                 <i class="fa-solid fa-gauge-high text-indigo-600 dark:text-indigo-400 w-5"></i>
