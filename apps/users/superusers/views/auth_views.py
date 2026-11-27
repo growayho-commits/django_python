@@ -37,32 +37,39 @@ def _apply_registration_links(new_user, referrer=None):
 def guest_home_view(request):
     catalogues = []
     services = []
-    service_categories = []
     providers = []
+    channel = request.GET.get('channel', 'all').strip().lower()
+    q = request.GET.get('q', '').strip()
+    cat_id = request.GET.get('category', '').strip()
     try:
         from apps.catalogs.core_catalogs.models.core_catalog_models import CoreCatalogProfile
         qs = CoreCatalogProfile.objects.filter(is_active=True, approval_status='approved').order_by('-created_at')
         if not qs.exists():
             qs = CoreCatalogProfile.objects.filter(is_active=True).order_by('-created_at')
-        catalogues = list(qs[:12])
+        if channel in ('b2b', 'b2c'):
+            qs = qs.filter(trade_channel__iexact=channel)
+        if q:
+            qs = qs.filter(name__icontains=q)
+        if cat_id.isdigit():
+            qs = qs.filter(category_id=int(cat_id))
+        catalogues = list(qs[:24])
     except Exception:
         pass
     try:
-        from apps.professional_network.service_categries.models.service_categries_model import ServiceCategory, ServiceListing
+        from apps.professional_network.service_categries.models.service_categries_model import ServiceListing
         services = list(ServiceListing.objects.select_related('category').order_by('-created_at')[:6])
-        service_categories = list(ServiceCategory.objects.filter(is_active=True, parent__isnull=True)[:6])
     except Exception:
         pass
     try:
         from apps.professional_network.profiles.models.skill_profile import ProfessionalProfile
-        providers = list(ProfessionalProfile.objects.select_related('availability').order_by('-id')[:6])
+        providers = list(ProfessionalProfile.objects.select_related('availability', 'category').order_by('-id')[:6])
     except Exception:
         pass
     return render(request, 'superusers/guest_home.html', {
         'catalogues': catalogues,
         'services': services,
-        'service_categories': service_categories,
         'providers': providers,
+        'filters': {'channel': channel, 'q': q, 'category': cat_id},
     })
 
 

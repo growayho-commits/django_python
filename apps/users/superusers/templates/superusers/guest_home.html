@@ -1,289 +1,181 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYBRID MARKETPLACE - Catalogues &amp; Services</title>
-    <script>
-        (function() {
-            if (localStorage.getItem('hm_theme') === 'dark') {
-                document.documentElement.classList.add('dark');
-            }
-        })();
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = { darkMode: 'class' };
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        html, body { max-width: 100%; overflow-x: hidden; }
-        @media (max-width: 767px) { html { font-size: 24px !important; } }
-    </style>
-</head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between transition-colors duration-200">
+{% extends "base.html" %}
 
-    <!-- Light & Responsive Header -->
-    <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-3">
-            <div class="flex items-center gap-3">
-                <a href="{% url 'users:guest_home' %}" class="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-amber-400 whitespace-nowrap">
-                    Hybrid Marketplace
-                </a>
-            </div>
+{% block title %}Hybrid Marketplace ? Catalogues &amp; Services{% endblock %}
 
-            <!-- Priority Quick Links: Catalogs (1st) & Services (2nd) -->
-            <nav class="flex items-center gap-2 sm:gap-3 text-sm font-semibold">
-                <a href="#catalogs" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-700 hover:bg-amber-100 transition">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                    <span>Catalogues</span>
-                </a>
-                <a href="#services" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-100 transition">
-                    <i class="fa-solid fa-briefcase"></i>
-                    <span>Services</span>
-                </a>
-                <a href="#inquiry" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
-                    <span>Service Request</span>
-                </a>
-            </nav>
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-4 md:px-6 py-3 space-y-4">
 
-            <div class="flex items-center gap-2 sm:gap-3">
-                <button id="geo-location-badge" type="button" title="Click to set your area/pincode" class="flex items-center gap-1.5 text-xs sm:text-sm bg-amber-50 dark:bg-slate-800 text-amber-800 dark:text-amber-300 px-3 py-1.5 rounded-full border border-amber-200 dark:border-slate-700 font-semibold cursor-pointer hover:bg-amber-100 transition">
+    <!-- Compact Storefront Header -->
+    <div id="catalogs" class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 bg-white dark:bg-slate-900 px-4 py-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+        <div>
+            <div class="flex flex-wrap items-center gap-2">
+                <h2 class="text-lg md:text-xl font-extrabold text-slate-900 dark:text-slate-100">Catalogue Marketplace</h2>
+                <button id="geo-location-badge" type="button" title="Click to set your area/pincode" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 text-xs font-bold rounded-full bg-amber-50 dark:bg-slate-800 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-slate-700 cursor-pointer">
                     <i class="fa-solid fa-location-dot text-amber-600"></i>
                     <span id="location-text">Detecting...</span>
                 </button>
-
-                <button id="guestThemeBtn" type="button" aria-label="Toggle Theme" class="p-2.5 w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-amber-400 hover:bg-slate-100 transition flex items-center justify-center cursor-pointer">
-                    <i id="guestThemeIcon" class="fa-solid fa-moon"></i>
-                </button>
-
-                <a href="{% url 'users:login' %}" class="text-slate-700 dark:text-slate-200 hover:text-amber-600 font-semibold px-3 py-2 text-sm sm:text-base transition">Login</a>
-                <a href="{% url 'users:register' %}" class="bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2 rounded-xl shadow-sm transition text-sm sm:text-base">Register</a>
             </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Browse approved Merchant (B2B) and Seller (B2C) catalogues &amp; verified services.</p>
         </div>
-    </header>
-
-    <main class="flex-grow">
-        <!-- Light Hero Banner -->
-        <section class="bg-gradient-to-br from-amber-50 via-white to-indigo-50 dark:from-slate-900 dark:via-slate-950 dark:to-indigo-950 border-b border-slate-200 dark:border-slate-800 py-10 sm:py-14 px-4">
-            <div class="max-w-5xl mx-auto text-center">
-                <span class="inline-block px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 mb-4">
-                    B2B &amp; B2C Marketplace + Verified Services
-                </span>
-                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-4">
-                    Discover Products &amp; <span class="text-amber-600 dark:text-amber-400">Professional Services</span>
-                </h1>
-                <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-6">
-                    Browse verified catalogues for direct purchase or connect with available service specialists across India.
-                </p>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <a href="#catalogs" class="px-6 py-3 rounded-xl bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 font-bold text-base shadow-sm hover:opacity-90 transition">
-                        Explore Catalogues
-                    </a>
-                    <a href="#services" class="px-6 py-3 rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-300 dark:border-slate-700 font-bold text-base hover:bg-slate-50 transition">
-                        Check Service Availability
-                    </a>
-                </div>
+        <div class="flex items-center gap-2">
+            <div class="inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-1">
+                <button type="button" id="guestGridBtn" onclick="setGuestView('grid')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 transition cursor-pointer">
+                    <i class="fa-solid fa-grip mr-1"></i> Grid
+                </button>
+                <button type="button" id="guestListBtn" onclick="setGuestView('list')" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer">
+                    <i class="fa-solid fa-list mr-1"></i> List
+                </button>
             </div>
-        </section>
+            <a href="{% url 'users:login' %}" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 text-xs font-bold hover:opacity-90">
+                Login to Order
+            </a>
+        </div>
+    </div>
 
-        <!-- 1. Featured Catalogues (First Priority) -->
-        <section id="catalogs" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 border-b border-slate-200 dark:border-slate-800 pb-3">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Catalogues</h2>
-                    <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400">First priority wholesale &amp; retail listings ready to order</p>
+    <!-- All Catalogues / Merchants / Sellers Tabs -->
+    <div class="flex flex-wrap gap-2">
+        <a href="?channel=all" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+            All Catalogues
+        </a>
+        <a href="?channel=b2b" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+            Merchants
+        </a>
+        <a href="?channel=b2c" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+            Sellers
+        </a>
+    </div>
+
+    <!-- Compact Search & Searchable Category Filter -->
+    <form method="GET" class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+        <input type="hidden" name="channel" value="{{ filters.channel }}">
+        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search catalogue name..." class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <select name="category" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+            <option value="">All Categories</option>
+        </select>
+        <button type="submit" class="px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 font-bold hover:opacity-90 cursor-pointer">
+            Filter Catalogues
+        </button>
+    </form>
+
+    <!-- 1. Catalogues Grid / List -->
+    <div id="guestCatalogsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {% for cat in catalogues %}
+        <div class="guest-cat-card bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 flex flex-col justify-between gap-3">
+            <div>
+                <div class="flex items-center justify-between gap-2 mb-1.5">
+                    <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded-full {% if cat.trade_channel == 'b2b' %}bg-indigo-50 text-indigo-700{% else %}bg-emerald-50 text-emerald-700{% endif %}">
+                        {% if cat.trade_channel == 'b2b' %}Merchant{% else %}Seller{% endif %}
+                    </span>
+                    <span class="text-[11px] text-slate-400">{{ cat.get_delivery_scope_display|default:"All India" }}</span>
                 </div>
-                <a href="{% url 'users:login' %}" class="text-sm font-bold text-amber-600 dark:text-amber-400 hover:underline">
-                    Login to Order &rarr;
-                </a>
+                <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">{{ cat.name }}</h3>
+                <p class="text-lg font-extrabold text-amber-600 dark:text-amber-400 mt-1">&#8377;{{ cat.base_price }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">{{ cat.description|default:"Verified catalogue"|truncatechars:70 }}</p>
             </div>
+            <a href="{% url 'users:login' %}" class="block text-center px-3 py-2 rounded-lg bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 text-xs font-bold hover:opacity-90">
+                View &amp; Order
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-span-full bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-8 text-center text-sm text-slate-500">
+            No catalogues match your filter yet. <a href="{% url 'users:login' %}" class="text-amber-600 font-bold underline">Login</a> to publish or browse full marketplace.
+        </div>
+        {% endfor %}
+    </div>
 
-            {% if catalogues %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                    {% for cat in catalogues %}
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm hover:border-amber-400 transition flex flex-col justify-between">
-                            <div>
-                                <div class="flex items-center justify-between gap-2 mb-2">
-                                    <span class="text-xs font-bold uppercase px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300">
-                                        {{ cat.trade_channel|default:"B2C" }}
-                                    </span>
-                                    <span class="text-xs text-slate-500 dark:text-slate-400">{{ cat.delivery_scope|default:"India" }}</span>
-                                </div>
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">{{ cat.name }}</h3>
-                                <p class="text-amber-600 dark:text-amber-400 font-extrabold text-xl mb-2">&#8377;{{ cat.base_price }}</p>
-                                <p class="text-slate-600 dark:text-slate-400 text-sm mb-4">{{ cat.description|default:"Verified catalogue item"|truncatechars:80 }}</p>
-                            </div>
-                            <a href="{% url 'users:login' %}" class="block text-center bg-slate-900 dark:bg-amber-500 hover:bg-amber-600 text-white dark:text-slate-950 text-sm sm:text-base font-bold py-2.5 rounded-xl transition">
-                                View &amp; Buy
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-2xl text-center shadow-sm">
-                    <i class="fa-solid fa-boxes-stacked text-3xl text-amber-500 mb-3"></i>
-                    <p class="text-base text-slate-600 dark:text-slate-300 font-medium">Catalogues will appear here as soon as sellers &amp; merchants publish them.</p>
-                    <a href="{% url 'users:login' %}" class="inline-block mt-4 px-5 py-2.5 rounded-xl bg-amber-500 text-white font-bold text-sm">Login to Browse Marketplace</a>
-                </div>
-            {% endif %}
-        </section>
+    <!-- 2. Services & Live Availability Section -->
+    <div id="services" class="bg-white dark:bg-slate-900 px-4 py-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+            <h2 class="text-lg md:text-xl font-extrabold text-slate-900 dark:text-slate-100">Professional Services &amp; Availability</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Verified service specialists, working hours &amp; instant service requests.</p>
+        </div>
+        <a href="{% url 'users:login' %}" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-bold hover:opacity-90">
+            Request Service
+        </a>
+    </div>
 
-        <!-- 2. Services, Availability & Service Requests (Second Priority) -->
-        <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="flex flex-wrap justify-between items-center gap-2 mb-6 border-b border-slate-200 dark:border-slate-800 pb-3">
-                <div>
-                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">Services &amp; Live Availability</h2>
-                    <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400">Verified service providers, working hours, and instant service requests</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-6">
+        {% for prov in providers %}
+        <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-4 flex flex-col justify-between gap-3">
+            <div>
+                <div class="flex items-center justify-between gap-2">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">{{ prov.title|default:prov.user.email }}</h3>
+                    {% if prov.availability and prov.availability.is_available and not prov.availability.is_on_leave %}
+                    <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-100 text-emerald-700">Available</span>
+                    {% else %}
+                    <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-slate-100 text-slate-600">Busy</span>
+                    {% endif %}
                 </div>
-                <a href="{% url 'users:login' %}" class="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:underline">
-                    Open Service Directory &rarr;
-                </a>
+                <p class="text-xs text-slate-500 mt-1">{{ prov.category.name|default:"Professional Service" }} &middot; {{ prov.availability.working_hours|default:"9:00 AM - 6:00 PM" }}</p>
             </div>
+            <a href="{% url 'users:login' %}" class="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline">View &amp; Request &rarr;</a>
+        </div>
+        {% empty %}
+        <div class="col-span-full bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 text-center text-sm text-slate-500">
+            Verified service providers and availability schedules will appear here once approved.
+        </div>
+        {% endfor %}
+    </div>
 
-            {% if providers %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
-                    {% for prov in providers %}
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="text-base font-bold text-slate-900 dark:text-white">{{ prov.display_name|default:prov.user.email }}</span>
-                                {% if prov.availability and prov.availability.is_available and not prov.availability.is_on_leave %}
-                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">Available</span>
-                                {% else %}
-                                    <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600">Busy / Offline</span>
-                                {% endif %}
-                            </div>
-                            <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">
-                                Hours: {{ prov.availability.working_hours|default:"9:00 AM - 6:00 PM" }}
-                            </p>
-                            <a href="{% url 'users:login' %}" class="inline-block text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Request Service &rarr;</a>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+</div>
+{% endblock %}
 
-            {% if services %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {% for svc in services %}
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl shadow-sm">
-                            <span class="text-xs font-bold uppercase text-indigo-600 dark:text-indigo-400">{{ svc.category.name }}</span>
-                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1 mb-2">{{ svc.title }}</h3>
-                            <p class="text-sm text-slate-600 dark:text-slate-400">{{ svc.description|default:"Professional service listing"|truncatechars:90 }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% elif not providers %}
-                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-2xl text-center shadow-sm">
-                    <i class="fa-solid fa-briefcase text-3xl text-indigo-500 mb-3"></i>
-                    <p class="text-base text-slate-600 dark:text-slate-300 font-medium">Service providers and availability schedules will appear here once published.</p>
-                </div>
-            {% endif %}
-        </section>
+{% block extra_js %}
+<script>
+window.setGuestView = function(mode) {
+    const grid = document.getElementById('guestCatalogsGrid');
+    const gBtn = document.getElementById('guestGridBtn');
+    const lBtn = document.getElementById('guestListBtn');
+    const cards = document.querySelectorAll('.guest-cat-card');
+    if (!grid) return;
+    if (mode === 'list') {
+        grid.className = 'grid grid-cols-1 gap-3';
+        cards.forEach(c => c.classList.add('sm:flex-row', 'sm:items-center'));
+        lBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 transition cursor-pointer';
+        gBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer';
+    } else {
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4';
+        cards.forEach(c => c.classList.remove('sm:flex-row', 'sm:items-center'));
+        gBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 transition cursor-pointer';
+        lBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer';
+    }
+    localStorage.setItem('hm_guest_view', mode);
+};
 
-        <!-- 3. Service Request / Inquiry CTA -->
-        <section id="inquiry" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 rounded-3xl shadow-sm text-center">
-                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Need a Custom Product Quote or Service Request?</h2>
-                <p class="text-base text-slate-600 dark:text-slate-400 mb-5">Sign in or register to submit a Service Request or RFQ directly to verified providers.</p>
-                <div class="flex flex-wrap justify-center gap-3">
-                    <a href="{% url 'users:login' %}" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-base transition">Login to Request</a>
-                    <a href="{% url 'users:register' %}" class="px-6 py-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-bold text-base hover:bg-slate-200 transition">Create Free Account</a>
-                </div>
-            </div>
-        </section>
-    </main>
+document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('hm_guest_view') === 'list') window.setGuestView('list');
 
-    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 text-center text-slate-500 dark:text-slate-400 text-sm">
-        &copy; 2026 HYBRID MARKETPLACE. All rights reserved.
-    </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const btn = document.getElementById("guestThemeBtn");
-            const icon = document.getElementById("guestThemeIcon");
-            function syncIcon() {
-                const isDark = document.documentElement.classList.contains("dark");
-                icon.className = isDark ? "fa-solid fa-sun" : "fa-solid fa-moon";
-            }
-            syncIcon();
-            btn.addEventListener("click", function() {
-                document.documentElement.classList.toggle("dark");
-                localStorage.setItem("hm_theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
-                syncIcon();
-            });
-
-            const locText = document.getElementById("location-text");
-            const locBadge = document.getElementById("geo-location-badge");
-
-            function setLoc(area, pin) {
-                const label = (area && pin) ? `${area} - ${pin}` : (area || pin || "India");
-                if (locText) locText.textContent = label;
-            }
-
-            async function detectByIP() {
+    const locText = document.getElementById('location-text');
+    const locBadge = document.getElementById('geo-location-badge');
+    const saved = localStorage.getItem('hm_custom_loc');
+    if (saved && locText) {
+        locText.textContent = saved;
+    } else if (locText) {
+        fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+            locText.textContent = (d && d.city && d.postal) ? `${d.city} - ${d.postal}` : (d && d.city ? d.city : 'India');
+        }).catch(() => { locText.textContent = 'India'; });
+    }
+    if (locBadge) {
+        locBadge.addEventListener('click', async function() {
+            const val = prompt('Enter 6-digit Pincode (e.g. 641652) or Area - Pincode:', locText.textContent);
+            if (!val || !val.trim()) return;
+            const clean = val.trim();
+            if (/^\d{6}$/.test(clean)) {
                 try {
-                    const r = await fetch("https://ipapi.co/json/");
-                    const d = await r.json();
-                    if (d && (d.city || d.postal)) {
-                        setLoc(d.city || d.region || "", d.postal || "");
+                    const res = await fetch(`https://api.postalpincode.in/pincode/${clean}`);
+                    const data = await res.json();
+                    if (data && data[0] && data[0].Status === 'Success' && data[0].PostOffice && data[0].PostOffice.length) {
+                        const label = `${data[0].PostOffice[0].Name} - ${clean}`;
+                        localStorage.setItem('hm_custom_loc', label);
+                        locText.textContent = label;
                         return;
                     }
                 } catch (e) {}
-                try {
-                    const r2 = await fetch("https://ipwho.is/");
-                    const d2 = await r2.json();
-                    if (d2 && d2.success) {
-                        setLoc(d2.city || d2.region || "", d2.postal || "");
-                        return;
-                    }
-                } catch (e2) {}
-                setLoc("India", "");
             }
-
-            const savedLoc = localStorage.getItem("hm_custom_loc");
-            if (savedLoc && locText) {
-                locText.textContent = savedLoc;
-            } else if ("geolocation" in navigator && window.isSecureContext) {
-                navigator.geolocation.getCurrentPosition(function(pos) {
-                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&zoom=18&addressdetails=1&accept-language=en`)
-                        .then(r => r.json())
-                        .then(d => {
-                            if (d && d.address) {
-                                const a = d.address;
-                                const area = a.hamlet || a.village || a.suburb || a.neighbourhood || a.town || a.city_district || a.city || "";
-                                const pin = a.postcode || "";
-                                setLoc(area, pin);
-                            } else { detectByIP(); }
-                        }).catch(detectByIP);
-                }, detectByIP, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
-            } else {
-                detectByIP();
-            }
-
-            if (locBadge) {
-                locBadge.addEventListener("click", async function() {
-                    const val = prompt("Enter 6-digit Pincode (e.g. 641652) or Area - Pincode:", locText.textContent);
-                    if (!val || !val.trim()) return;
-                    const clean = val.trim();
-                    if (/^\d{6}$/.test(clean)) {
-                        locText.textContent = "Looking up...";
-                        try {
-                            const res = await fetch(`https://api.postalpincode.in/pincode/${clean}`);
-                            const data = await res.json();
-                            if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length) {
-                                const po = data[0].PostOffice[0];
-                                const label = `${po.Name} - ${clean}`;
-                                localStorage.setItem("hm_custom_loc", label);
-                                locText.textContent = label;
-                                return;
-                            }
-                        } catch (e) {}
-                    }
-                    localStorage.setItem("hm_custom_loc", clean);
-                    locText.textContent = clean;
-                });
-            }
+            localStorage.setItem('hm_custom_loc', clean);
+            locText.textContent = clean;
         });
-    </script>
-</body>
-</html>
+    }
+});
+</script>
+{% endblock %}

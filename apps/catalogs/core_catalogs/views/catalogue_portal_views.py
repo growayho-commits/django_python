@@ -602,7 +602,6 @@ def add_to_cart_session_view(request, pk):
         messages.success(request, f"Added {qty} x '{catalogue.name}' to your cart.")
     return redirect("catalogs:core_catalogs:catalogue_detail", pk=catalogue.pk)
 
-@login_required
 def category_autocomplete_api(request):
     from django.http import JsonResponse
     from apps.catalogs.categories.models.category_profile import CategoryProfile
