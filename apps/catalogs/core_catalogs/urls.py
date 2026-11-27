@@ -20,8 +20,7 @@ app_name = 'core_catalogs'
 
 urlpatterns = [
     path('core-catalog-list-create-a-p-i/', CoreCatalogListCreateAPIView.as_view(), name='core_catalog_list_create_a_p_i'),
-    path('workspace/', catalogue_workspace_view,
-    category_autocomplete_api, name='catalogue_workspace'),
+    path('workspace/', catalogue_workspace_view, name='catalogue_workspace'),
     path('manage-details/<int:pk>/', manage_catalogue_details_view, name='manage_catalogue_details'),
     path('categories/', manage_categories_view, name='manage_categories'),
     path('categories-search/', category_autocomplete_api, name='category_autocomplete_api'),
