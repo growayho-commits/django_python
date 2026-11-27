@@ -15,7 +15,7 @@
                     <span id="location-text">Detecting...</span>
                 </button>
             </div>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Browse approved Merchant (B2B) and Seller (B2C) catalogues &amp; verified services.</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Browse verified Seller catalogues available in your delivery area &amp; professional services.</p>
         </div>
         <div class="flex items-center gap-2">
             <div class="inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-1">
@@ -32,28 +32,15 @@
         </div>
     </div>
 
-    <!-- All Catalogues / Merchants / Sellers Tabs -->
-    <div class="flex flex-wrap gap-2">
-        <a href="?channel=all" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-            All Catalogues
-        </a>
-        <a href="?channel=b2b" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-            Merchants
-        </a>
-        <a href="?channel=b2c" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-            Sellers
-        </a>
-    </div>
-
-    <!-- Compact Search & Searchable Category Filter -->
-    <form method="GET" class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-        <input type="hidden" name="channel" value="{{ filters.channel }}">
-        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search catalogue name..." class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+    <!-- Compact Search, Category & Pincode Filter (Seller Catalogues Only) -->
+    <form method="GET" class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-xs">
+        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search seller catalogue..." class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
         <select name="category" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
             <option value="">All Categories</option>
         </select>
+        <input type="text" name="pincode" value="{{ filters.pincode }}" placeholder="Delivery Pincode (e.g. 641652)" class="px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
         <button type="submit" class="px-4 py-1.5 rounded-lg bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 font-bold hover:opacity-90 cursor-pointer">
-            Filter Catalogues
+            Filter
         </button>
     </form>
 

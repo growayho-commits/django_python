@@ -386,23 +386,45 @@ def approve_catalogue_view(request, pk):
 @login_required
 def catalogue_marketplace_view(request):
     """
-    Universal Purchase & Marketplace View for ALL roles
-    (Member, Seller, Merchant, Executive, Superuser):
-    - B2B tab: Merchant catalogues (Manufacturers, Wholesalers, Dealers)
-    - B2C tab: Seller catalogues (Distributors, Retailers)
+    Role-aware Marketplace View:
+    - Member: Strictly B2C Seller catalogues only. Assigned Seller first, then other Sellers delivering to active Shipping/Filter pincode.
+    - Seller / Merchant / Executive / Superuser: Both B2B Merchant & B2C Seller catalogues (with assigned priority for Executives).
     """
     current_role = (get_user_current_role(request.user) or "member").lower()
     if request.user.is_superuser:
         current_role = "superuser"
 
-    default_channel = "b2b" if current_role == "seller" else "all"
-    trade_channel = request.GET.get("channel", default_channel).strip().lower()
+    if current_role == "member":
+        trade_channel = "b2c"
+    else:
+        default_channel = "b2b" if current_role == "seller" else "all"
+        trade_channel = request.GET.get("channel", default_channel).strip().lower()
+
     category_id = request.GET.get("category") or None
     search_query = request.GET.get("q", "").strip()
     pincode = request.GET.get("pincode", "").strip() or None
     taluk = request.GET.get("taluk", "").strip() or None
     district = request.GET.get("district", "").strip() or None
     state = request.GET.get("state", "").strip() or None
+
+    # For Members, auto-use Shipping Address pincode (or fallback default address) if no manual filter pincode is entered
+    active_address_label = ""
+    if current_role == "member" and not any([pincode, taluk, district, state]):
+        try:
+            from apps.users.superusers.models.address import UserAddress
+            addr = (
+                UserAddress.objects.filter(user=request.user, address_type="SHIPPING", is_default=True).first()
+                or UserAddress.objects.filter(user=request.user, address_type="SHIPPING").order_by("-updated_at", "-id").first()
+                or UserAddress.objects.filter(user=request.user, is_default=True).first()
+                or UserAddress.objects.filter(user=request.user).order_by("-updated_at", "-id").first()
+            )
+            if addr:
+                pincode = addr.pincode or None
+                district = addr.city or None
+                state = addr.state or None
+                active_address_label = f"{addr.city} - {addr.pincode}" if addr.pincode else addr.city
+        except Exception:
+            pass
 
     catalogues = CoreCatalogSelector.get_approved_marketplace_catalogues(
         category_id=category_id,
@@ -414,17 +436,46 @@ def catalogue_marketplace_view(request):
         state=state,
     )
 
+    # Determine assigned owner IDs for priority sorting
+    assigned_owner_ids = set()
+    if current_role == "member":
+        try:
+            mp = getattr(request.user, "member_profile", None)
+            if mp and mp.assigned_seller and mp.assigned_seller.user_id:
+                assigned_owner_ids.add(mp.assigned_seller.user_id)
+        except Exception:
+            pass
+    elif current_role == "executive":
+        try:
+            from apps.users.sellers.models.seller_profile import SellerProfile
+            from apps.users.merchants.models.merchants_profile import MerchantProfile
+            assigned_owner_ids.update(
+                SellerProfile.objects.filter(assigned_executive=request.user).values_list("user_id", flat=True)
+            )
+            assigned_owner_ids.update(
+                MerchantProfile.objects.filter(assigned_executive=request.user).values_list("user_id", flat=True)
+            )
+        except Exception:
+            pass
+
     wishlisted_ids = set(
         CatalogWishlistProfile.objects.filter(user=request.user, catalogue__isnull=False)
         .values_list("catalogue_id", flat=True)
     )
 
+    # Sort: Assigned Seller / Assigned Partner catalogues FIRST, then others
+    sorted_catalogues = sorted(
+        list(catalogues),
+        key=lambda c: (0 if c.owner_id in assigned_owner_ids else 1, -c.id),
+    )
+
     catalogue_cards = []
-    for cat in catalogues:
+    for cat in sorted_catalogues:
         supplier_role = get_user_current_role(cat.owner).title() if cat.owner else "Platform"
         catalogue_cards.append({
             "catalogue": cat,
             "supplier_role": supplier_role,
+            "is_assigned": cat.owner_id in assigned_owner_ids,
             "is_wishlisted": cat.id in wishlisted_ids,
             "pricing": CataloguePricingCalculatorService.calculate_price_breakdown(
                 cat, quantity=cat.min_order_quantity or 1
@@ -437,8 +488,9 @@ def catalogue_marketplace_view(request):
     return render(request, "catalogs/catalogue_marketplace.html", {
         "current_role": current_role,
         "catalogue_cards": catalogue_cards,
-        "categories": CategoryProfile.objects.filter(is_active=True).order_by("name"),
+        "categories": CategoryProfile.objects.filter(is_active=True).order_by("name")[:50],
         "cart_count": cart_count,
+        "active_address_label": active_address_label,
         "filters": {
             "channel": trade_channel,
             "category": category_id,

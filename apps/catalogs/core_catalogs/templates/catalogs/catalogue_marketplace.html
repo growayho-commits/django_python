@@ -35,17 +35,30 @@
         </div>
     </div>
 
-    <!-- B2B / B2C Channel Tabs -->
-    <div class="flex flex-wrap gap-2">
-        <a href="?channel=all" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-            All Catalogues
-        </a>
-        <a href="?channel=b2b" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-            Merchants
-        </a>
-        <a href="?channel=b2c" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-            Sellers
-        </a>
+    <!-- Channel Tabs (Members see Seller Catalogues only; Seller/Merchant/Executive/Superuser see both) -->
+    <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex flex-wrap gap-2">
+            {% if current_role == 'member' %}
+            <span class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white">
+                <i class="fa-solid fa-store mr-1"></i> Sellers (Assigned &amp; Local Delivery)
+            </span>
+            {% else %}
+            <a href="?channel=all" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+                All Catalogues
+            </a>
+            <a href="?channel=b2b" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+                Merchants
+            </a>
+            <a href="?channel=b2c" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+                Sellers
+            </a>
+            {% endif %}
+        </div>
+        {% if active_address_label %}
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-slate-800 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-slate-700">
+            <i class="fa-solid fa-location-dot mr-1 text-amber-600"></i> Delivery: {{ active_address_label }}
+        </span>
+        {% endif %}
     </div>
 
     <!-- Geographic & Search Filter Bar -->
@@ -106,6 +119,11 @@
                 <span class="absolute top-3 left-3 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-sm {% if entry.catalogue.trade_channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-emerald-600 text-white{% endif %}">
                     {% if entry.catalogue.trade_channel == 'b2b' %}Merchant B2B{% else %}Seller B2C{% endif %}
                 </span>
+                {% if entry.is_assigned %}
+                <span class="absolute top-11 left-3 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full shadow-sm bg-amber-400 text-slate-950">
+                    <i class="fa-solid fa-star mr-0.5"></i> Assigned
+                </span>
+                {% endif %}
 
                 <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' entry.catalogue.pk %}" method="POST" class="absolute top-2.5 right-2.5 m-0">
                     {% csrf_token %}

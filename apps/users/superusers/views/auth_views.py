@@ -38,20 +38,29 @@ def guest_home_view(request):
     catalogues = []
     services = []
     providers = []
-    channel = request.GET.get('channel', 'all').strip().lower()
     q = request.GET.get('q', '').strip()
     cat_id = request.GET.get('category', '').strip()
+    pincode = request.GET.get('pincode', '').strip() or None
+    district = request.GET.get('district', '').strip() or None
+    state = request.GET.get('state', '').strip() or None
     try:
         from apps.catalogs.core_catalogs.models.core_catalog_models import CoreCatalogProfile
-        qs = CoreCatalogProfile.objects.filter(is_active=True, approval_status='approved').order_by('-created_at')
+        from apps.catalogs.core_catalogs.services.delivery_coverage_service import CatalogueDeliveryCoverageService
+        qs = CoreCatalogProfile.objects.filter(
+            is_active=True,
+            approval_status='approved',
+            trade_channel__iexact='b2c',
+        ).order_by('-created_at')
         if not qs.exists():
-            qs = CoreCatalogProfile.objects.filter(is_active=True).order_by('-created_at')
-        if channel in ('b2b', 'b2c'):
-            qs = qs.filter(trade_channel__iexact=channel)
+            qs = CoreCatalogProfile.objects.filter(is_active=True, trade_channel__iexact='b2c').order_by('-created_at')
         if q:
             qs = qs.filter(name__icontains=q)
         if cat_id.isdigit():
             qs = qs.filter(category_id=int(cat_id))
+        if any([pincode, district, state]):
+            qs = CatalogueDeliveryCoverageService.filter_deliverable_catalogues(
+                qs, pincode=pincode, district=district, state=state
+            )
         catalogues = list(qs[:24])
     except Exception:
         pass
@@ -69,7 +78,7 @@ def guest_home_view(request):
         'catalogues': catalogues,
         'services': services,
         'providers': providers,
-        'filters': {'channel': channel, 'q': q, 'category': cat_id},
+        'filters': {'q': q, 'category': cat_id, 'pincode': pincode or ''},
     })
 
 
