@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        html, body { max-width: 100%; overflow-x: hidden; }
+        html, body { max-width: 100%; overflow-x: clip; }
         @media (max-width: 767px) {
             html { font-size: 24px !important; }
             #mainMenuBtn { width: 60px !important; height: 60px !important; }
@@ -113,7 +113,7 @@
 
     <div class="flex flex-col flex-grow w-full min-h-screen">
         <!-- Global Dynamic Top Header Navbar -->
-        <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/50 dark:border-slate-800 sticky top-0 z-50 px-3 md:px-8 py-3 flex flex-wrap justify-between items-center gap-2 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.06)] transition-colors duration-200">
+        <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-amber-200/50 dark:border-slate-800 sticky top-0 z-50 px-3 md:px-8 py-3 flex flex-wrap lg:flex-nowrap justify-between items-center gap-2 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.06)] transition-colors duration-200">
 
             <div class="flex items-center space-x-3 md:space-x-5 relative">
                 {% if request.user.is_authenticated %}
@@ -158,16 +158,13 @@
 
                 <div class="flex flex-col justify-center">
                     <div class="flex items-center gap-2">
-                        <h1 class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 dark:from-amber-300 dark:to-amber-500 m-0 tracking-tight">Hybrid Marketplace</h1>
-                        {% if active_user_role %}
-                            <span class="role-badge bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">{{ active_user_role }}</span>
-                        {% endif %}
+                        <h1 class="text-xl md:text-2xl font-black whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-600 dark:from-amber-300 dark:to-amber-500 m-0 tracking-tight">Hybrid Marketplace</h1>
                     </div>
                     <span class="text-[0.65rem] font-bold text-amber-500 uppercase tracking-widest hidden md:block">Connect . Collaborate . Thrive</span>
                 </div>
             </div>
 
-            <div class="flex flex-wrap items-center justify-between md:justify-end gap-2 w-full md:w-auto">
+            <div class="flex flex-wrap lg:flex-nowrap items-center justify-between md:justify-end gap-2 w-full lg:w-auto shrink-0">
                 {% if request.user.is_authenticated %}
                 <a href="/api/v1/catalogs/core_catalogs/marketplace/" title="Catalogs" class="px-3 py-2 rounded-xl border border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 hover:bg-amber-100 text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
                     <i class="fa-solid fa-boxes-stacked"></i><span>Catalogs</span>
@@ -189,7 +186,7 @@
                 </button>
 
                 {% if request.user.is_authenticated %}
-                <span class="text-sm font-bold text-slate-700 dark:text-slate-300 hidden lg:inline border-r border-slate-200 dark:border-slate-700 pr-4">
+                <span class="text-sm font-bold text-slate-700 dark:text-slate-300 hidden xl:inline border-r border-slate-200 dark:border-slate-700 pr-4">
                     {{ request.user.email }}
                 </span>
 
