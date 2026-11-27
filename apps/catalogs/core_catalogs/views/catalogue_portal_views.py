@@ -386,15 +386,19 @@ def approve_catalogue_view(request, pk):
 @login_required
 def catalogue_marketplace_view(request):
     """
-    Role-aware Marketplace View:
-    - Member: Strictly B2C Seller catalogues only. Assigned Seller first, then other Sellers delivering to active Shipping/Filter pincode.
-    - Seller / Merchant / Executive / Superuser: Both B2B Merchant & B2C Seller catalogues (with assigned priority for Executives).
+    High-Impression Amazon/Flipkart/Alibaba Storefront:
+    - Guest, Member, Executive: Strictly B2C Seller catalogues only.
+    - Seller, Merchant, Superuser: Both B2B Merchant & B2C Seller catalogues.
+    - 3-Tier Arrangement:
+      1) Assigned Seller/Partner matching active pincode
+      2) Other Suppliers available in active pincode
+      3) Explore All Other Catalogues
     """
     current_role = (get_user_current_role(request.user) or "member").lower()
     if request.user.is_superuser:
         current_role = "superuser"
 
-    if current_role == "member":
+    if current_role in ("member", "executive"):
         trade_channel = "b2c"
     else:
         default_channel = "b2b" if current_role == "seller" else "all"
@@ -407,7 +411,6 @@ def catalogue_marketplace_view(request):
     district = request.GET.get("district", "").strip() or None
     state = request.GET.get("state", "").strip() or None
 
-    # For Members, auto-use Shipping Address pincode (or fallback default address) if no manual filter pincode is entered
     active_address_label = ""
     if current_role == "member" and not any([pincode, taluk, district, state]):
         try:
@@ -426,17 +429,13 @@ def catalogue_marketplace_view(request):
         except Exception:
             pass
 
-    catalogues = CoreCatalogSelector.get_approved_marketplace_catalogues(
+    # Base approved queryset (filtered by channel, category, search ? WITHOUT location drop so Row 3 can show Explore All)
+    all_matching_qs = CoreCatalogSelector.get_approved_marketplace_catalogues(
         category_id=category_id,
         search_query=search_query,
         trade_channel=trade_channel if trade_channel in {"b2b", "b2c"} else None,
-        pincode=pincode,
-        taluk=taluk,
-        district=district,
-        state=state,
     )
 
-    # Determine assigned owner IDs for priority sorting
     assigned_owner_ids = set()
     if current_role == "member":
         try:
@@ -448,12 +447,8 @@ def catalogue_marketplace_view(request):
     elif current_role == "executive":
         try:
             from apps.users.sellers.models.seller_profile import SellerProfile
-            from apps.users.merchants.models.merchants_profile import MerchantProfile
             assigned_owner_ids.update(
                 SellerProfile.objects.filter(assigned_executive=request.user).values_list("user_id", flat=True)
-            )
-            assigned_owner_ids.update(
-                MerchantProfile.objects.filter(assigned_executive=request.user).values_list("user_id", flat=True)
             )
         except Exception:
             pass
@@ -463,31 +458,50 @@ def catalogue_marketplace_view(request):
         .values_list("catalogue_id", flat=True)
     )
 
-    # Sort: Assigned Seller / Assigned Partner catalogues FIRST, then others
-    sorted_catalogues = sorted(
-        list(catalogues),
-        key=lambda c: (0 if c.owner_id in assigned_owner_ids else 1, -c.id),
-    )
+    has_loc = any([pincode, taluk, district, state])
+    tier1_assigned = []
+    tier2_local = []
+    tier3_explore = []
 
-    catalogue_cards = []
-    for cat in sorted_catalogues:
+    for cat in all_matching_qs.order_by("-id"):
         supplier_role = get_user_current_role(cat.owner).title() if cat.owner else "Platform"
-        catalogue_cards.append({
+        is_assigned = cat.owner_id in assigned_owner_ids
+        is_local = True if not has_loc else CatalogueDeliveryCoverageService.is_deliverable_to(
+            cat, pincode=pincode, taluk=taluk, district=district, state=state
+        )
+        mrp = float(cat.mrp_price or 0)
+        pricing = CataloguePricingCalculatorService.calculate_price_breakdown(
+            cat, quantity=cat.min_order_quantity or 1
+        )
+        final_p = float(pricing.get("final_total") or 0)
+        discount_pct = int(round(((mrp - final_p) / mrp) * 100)) if mrp > final_p > 0 else 0
+
+        card = {
             "catalogue": cat,
             "supplier_role": supplier_role,
-            "is_assigned": cat.owner_id in assigned_owner_ids,
+            "is_assigned": is_assigned,
+            "is_local": is_local,
             "is_wishlisted": cat.id in wishlisted_ids,
-            "pricing": CataloguePricingCalculatorService.calculate_price_breakdown(
-                cat, quantity=cat.min_order_quantity or 1
-            ),
-        })
+            "pricing": pricing,
+            "discount_pct": discount_pct,
+        }
+        if is_assigned and is_local:
+            tier1_assigned.append(card)
+        elif is_local:
+            tier2_local.append(card)
+        else:
+            tier3_explore.append(card)
 
+    catalogue_cards = tier1_assigned + tier2_local + tier3_explore
     session_cart = request.session.get("hm_cart", {})
     cart_count = sum(item.get("quantity", 0) for item in session_cart.values())
 
     return render(request, "catalogs/catalogue_marketplace.html", {
         "current_role": current_role,
         "catalogue_cards": catalogue_cards,
+        "tier1_assigned": tier1_assigned,
+        "tier2_local": tier2_local,
+        "tier3_explore": tier3_explore,
         "categories": CategoryProfile.objects.filter(is_active=True).order_by("name")[:50],
         "cart_count": cart_count,
         "active_address_label": active_address_label,

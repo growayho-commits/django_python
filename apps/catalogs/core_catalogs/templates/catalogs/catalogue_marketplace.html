@@ -38,7 +38,7 @@
     <!-- Channel Tabs (Members see Seller Catalogues only; Seller/Merchant/Executive/Superuser see both) -->
     <div class="flex flex-wrap items-center justify-between gap-2">
         <div class="flex flex-wrap gap-2">
-            {% if current_role == 'member' %}
+            {% if current_role == 'member' or current_role == 'executive' %}
             <span class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white">
                 <i class="fa-solid fa-store mr-1"></i> Sellers (Assigned &amp; Local Delivery)
             </span>
@@ -81,8 +81,14 @@
     </form>
 
     <!-- Quick Sort & Result Count Bar (Amazon / Flipkart Style) -->
+    <!-- 3-Tier Priority Strip -->
     <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400 px-1">
-        <span class="font-semibold">Showing <strong class="text-slate-900 dark:text-white">{{ catalogue_cards|length }}</strong> verified catalogues</span>
+        <div class="flex flex-wrap items-center gap-2">
+            {% if tier1_assigned %}<span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 font-bold"><i class="fa-solid fa-star mr-1"></i>1. Assigned ({{ tier1_assigned|length }})</span>{% endif %}
+            {% if tier2_local %}<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 font-bold"><i class="fa-solid fa-location-dot mr-1"></i>2. Available in Pincode ({{ tier2_local|length }})</span>{% endif %}
+            {% if tier3_explore %}<span class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold"><i class="fa-solid fa-globe mr-1"></i>3. All Catalogues ({{ tier3_explore|length }})</span>{% endif %}
+            <span class="font-semibold ml-1">Total: <strong class="text-slate-900 dark:text-white">{{ catalogue_cards|length }}</strong></span>
+        </div>
         <div class="flex items-center gap-2">
             <label for="sortCatalogues" class="font-semibold">Sort:</label>
             <select id="sortCatalogues" onchange="sortCatalogueCards(this.value)" class="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold">
@@ -102,10 +108,10 @@
              data-moq="{{ entry.catalogue.min_order_quantity|default:1 }}">
 
             <!-- Media / Visual Header + Floating Badges -->
-            <div class="relative bg-gradient-to-br from-slate-100 to-amber-50/60 dark:from-slate-800 dark:to-slate-900 h-44 flex items-center justify-center overflow-hidden">
+            <div class="relative bg-gradient-to-br from-slate-100 to-amber-50/60 dark:from-slate-800 dark:to-slate-900 h-52 group flex items-center justify-center overflow-hidden">
                 {% with media=entry.catalogue.medias.first %}
                     {% if media and media.image %}
-                        <img src="{{ media.image.url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover">
+                        <img src="{{ media.image.url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     {% elif media and media.media_url %}
                         <img src="{{ media.media_url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover">
                     {% else %}
@@ -156,6 +162,9 @@
                             <span class="text-xl font-black text-slate-900 dark:text-emerald-400">&#8377;{{ entry.pricing.final_total }}</span>
                             {% if entry.catalogue.mrp_price > entry.catalogue.base_price %}
                             <span class="text-xs text-slate-400 line-through ml-1.5">&#8377;{{ entry.catalogue.mrp_price }}</span>
+                            {% endif %}
+                            {% if entry.discount_pct > 0 %}
+                            <span class="ml-1.5 text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400">{{ entry.discount_pct }}% OFF</span>
                             {% endif %}
                         </div>
                         <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
