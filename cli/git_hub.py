@@ -38,7 +38,7 @@ def deploy_to_oracle_cloud() -> None:
         "sudo systemctl restart hybrid_marketplace && "
         "echo 'ORACLE CLOUD DEPLOYED SUCCESSFULLY!'"
     )
-    subprocess.run(["ssh", "-i", key, CLOUD_HOST, cmd])
+    subprocess.run(["ssh", "-i", key, CLOUD_HOST, cmd], stdin=subprocess.DEVNULL)
 
 
 def push_local_users_to_cloud() -> None:
