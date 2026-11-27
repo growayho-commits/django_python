@@ -67,48 +67,105 @@
         </div>
     </form>
 
+    <!-- Quick Sort & Result Count Bar (Amazon / Flipkart Style) -->
+    <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400 px-1">
+        <span class="font-semibold">Showing <strong class="text-slate-900 dark:text-white">{{ catalogue_cards|length }}</strong> verified catalogues</span>
+        <div class="flex items-center gap-2">
+            <label for="sortCatalogues" class="font-semibold">Sort:</label>
+            <select id="sortCatalogues" onchange="sortCatalogueCards(this.value)" class="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold">
+                <option value="default">Featured</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="moq_asc">Lowest MOQ (Wholesale)</option>
+            </select>
+        </div>
+    </div>
+
     <!-- Catalogue Grid / List Container -->
-    <div id="catalogueContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div id="catalogueContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {% for entry in catalogue_cards %}
-        <div class="catalogue-card bg-white dark:bg-slate-900 px-4 py-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between gap-4">
-            <div class="flex-grow">
-                <div class="flex items-center justify-between gap-2 mb-2">
-                    <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
-                        {{ entry.catalogue.get_trade_channel_display }}
-                    </span>
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">By {{ entry.supplier_role }}</span>
-                        <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' entry.catalogue.pk %}" method="POST" class="inline m-0">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                            <button type="submit" title="Toggle Wishlist" class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-rose-50 dark:hover:bg-rose-950/40 transition cursor-pointer">
-                                <i class="fa-solid fa-heart text-xs {% if entry.is_wishlisted %}text-rose-500{% else %}text-slate-300 dark:text-slate-600{% endif %}"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <h3 class="text-lg font-extrabold text-slate-900 dark:text-slate-100">{{ entry.catalogue.name }}</h3>
-                <p class="text-xs text-slate-400 font-mono mt-0.5">{{ entry.catalogue.sku }} &middot; Min Qty: {{ entry.catalogue.min_order_quantity }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ entry.catalogue.description|default:"Verified marketplace catalogue"|truncatewords:22 }}</p>
+        <div class="catalogue-card bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-md border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col justify-between transition"
+             data-price="{{ entry.pricing.final_total|default:0 }}"
+             data-moq="{{ entry.catalogue.min_order_quantity|default:1 }}">
+
+            <!-- Media / Visual Header + Floating Badges -->
+            <div class="relative bg-gradient-to-br from-slate-100 to-amber-50/60 dark:from-slate-800 dark:to-slate-900 h-44 flex items-center justify-center overflow-hidden">
+                {% with media=entry.catalogue.medias.first %}
+                    {% if media and media.image %}
+                        <img src="{{ media.image.url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover">
+                    {% elif media and media.media_url %}
+                        <img src="{{ media.media_url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="text-center px-4">
+                            <i class="fa-solid fa-boxes-stacked text-4xl text-amber-500/80 mb-1"></i>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">{{ entry.catalogue.category.name|default:"Verified Catalogue"|truncatechars:28 }}</p>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <span class="absolute top-3 left-3 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-sm {% if entry.catalogue.trade_channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-emerald-600 text-white{% endif %}">
+                    {% if entry.catalogue.trade_channel == 'b2b' %}Merchant B2B{% else %}Seller B2C{% endif %}
+                </span>
+
+                <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' entry.catalogue.pk %}" method="POST" class="absolute top-2.5 right-2.5 m-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button type="submit" title="Save to Wishlist" class="w-9 h-9 rounded-full bg-white/95 dark:bg-slate-800/95 shadow border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:scale-105 transition cursor-pointer">
+                        <i class="fa-solid fa-heart text-sm {% if entry.is_wishlisted %}text-rose-500{% else %}text-slate-400{% endif %}"></i>
+                    </button>
+                </form>
             </div>
 
-            <div class="catalogue-footer border-t border-slate-100 dark:border-slate-800 pt-4 space-y-3">
-                <div class="flex items-baseline justify-between gap-4">
-                    <span class="text-2xl font-black text-emerald-700 dark:text-emerald-400">&#8377;{{ entry.pricing.final_total }}</span>
-                    {% if entry.catalogue.mrp_price > entry.catalogue.base_price %}
-                    <span class="text-xs text-slate-400 line-through">MRP &#8377;{{ entry.catalogue.mrp_price }}</span>
-                    {% endif %}
+            <!-- Body -->
+            <div class="p-4 flex-grow flex flex-col justify-between gap-3">
+                <div>
+                    <div class="flex items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400 mb-1">
+                        <span class="font-bold text-indigo-600 dark:text-indigo-400">
+                            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i>{{ entry.catalogue.brand_name|default:entry.supplier_role }}
+                        </span>
+                        <span class="font-mono">MOQ: {{ entry.catalogue.min_order_quantity }} {{ entry.catalogue.get_unit_display }}</span>
+                    </div>
+                    <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}" class="block group">
+                        <h3 class="text-base font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 transition line-clamp-1">{{ entry.catalogue.name }}</h3>
+                    </a>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{{ entry.catalogue.description|default:"Verified marketplace catalogue"|truncatewords:18 }}</p>
                 </div>
-                <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
-                    <span class="font-semibold text-slate-600 dark:text-slate-300">{{ entry.catalogue.get_delivery_scope_display }}</span>
-                    <span class="px-2.5 py-0.5 rounded-full font-bold {% if entry.catalogue.transport_included %}bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300{% else %}bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300{% endif %}">
-                        {{ entry.catalogue.delivery_charge_label }}
-                    </span>
+
+                <!-- Price & Delivery Footer -->
+                <div class="catalogue-footer border-t border-slate-100 dark:border-slate-800 pt-3 space-y-2.5">
+                    <div class="flex items-baseline justify-between gap-2">
+                        <div>
+                            <span class="text-xl font-black text-slate-900 dark:text-emerald-400">&#8377;{{ entry.pricing.final_total }}</span>
+                            {% if entry.catalogue.mrp_price > entry.catalogue.base_price %}
+                            <span class="text-xs text-slate-400 line-through ml-1.5">&#8377;{{ entry.catalogue.mrp_price }}</span>
+                            {% endif %}
+                        </div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                            GST {{ entry.catalogue.gst_percentage }}%
+                        </span>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-1.5 text-[11px]">
+                        <span class="font-semibold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-truck-fast text-amber-500 mr-1"></i>{{ entry.catalogue.get_delivery_scope_display }}</span>
+                        <span class="px-2 py-0.5 rounded-full font-bold {% if entry.catalogue.transport_included %}bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300{% else %}bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300{% endif %}">
+                            {{ entry.catalogue.delivery_charge_label }}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <form action="{% url 'catalogs:core_catalogs:add_to_cart_session' entry.catalogue.pk %}" method="POST" class="m-0">
+                            {% csrf_token %}
+                            <input type="hidden" name="qty" value="{{ entry.catalogue.min_order_quantity }}">
+                            <button type="submit" class="w-full py-2 px-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl transition cursor-pointer">
+                                <i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart
+                            </button>
+                        </form>
+                        <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}"
+                           class="block text-center py-2 px-2 bg-slate-900 dark:bg-slate-800 hover:bg-black text-white font-bold text-xs rounded-xl transition">
+                            Details &amp; Tiers
+                        </a>
+                    </div>
                 </div>
-                <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}"
-                   class="block text-center w-full py-2.5 px-4 bg-slate-900 dark:bg-amber-500 hover:bg-black dark:hover:bg-amber-400 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl transition">
-                    View Details &amp; Buy
-                </a>
             </div>
         </div>
         {% empty %}
