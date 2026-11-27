@@ -3,14 +3,17 @@ from django.db import models
 
 class CatalogVariantProfile(models.Model):
     catalogue = models.ForeignKey(
-        'core_catalogs.CoreCatalogProfile',
+        "core_catalogs.CoreCatalogProfile",
         on_delete=models.CASCADE,
-        related_name='variants',
+        related_name="variants",
         null=True,
         blank=True,
     )
     variant_name = models.CharField(max_length=150)
     sku = models.CharField(max_length=100, unique=True)
+    gtin_barcode = models.CharField(max_length=50, blank=True, default="", help_text="Global EAN-13 / UPC / GTIN")
+    attributes_json = models.JSONField(default=dict, blank=True, help_text="e.g., {'Color': 'Navy', 'Size': 'L'}")
+    b2b_moq = models.PositiveIntegerField(default=1)
     price_adjustment = models.DecimalField(
         max_digits=10,
         decimal_places=2,
