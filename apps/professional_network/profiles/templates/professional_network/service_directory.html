@@ -9,9 +9,19 @@
             <h2 class="text-2xl font-extrabold">Professional Service Network</h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">Find verified service experts &mdash; local or online, zero-catalogue service enquiries.</p>
         </div>
-        <a href="{% url 'professional_network:service_workspace' %}" class="px-4 py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl">
+        <div class="flex flex-wrap items-center gap-2">
+            <div class="inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-1">
+                <button type="button" id="svcGridBtn" onclick="setServiceView('grid')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 transition cursor-pointer">
+                    <i class="fa-solid fa-grip mr-1"></i> Grid
+                </button>
+                <button type="button" id="svcListBtn" onclick="setServiceView('list')" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 transition cursor-pointer">
+                    <i class="fa-solid fa-list mr-1"></i> List
+                </button>
+            </div>
+            <a href="{% url 'professional_network:service_workspace' %}" class="px-4 py-2.5 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold text-xs uppercase rounded-xl">
             Offer Your Service / Workspace
         </a>
+        </div>
     </div>
 
     <form method="GET" class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-xs">
@@ -66,4 +76,29 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+window.setServiceView = function(mode) {
+    const grid = document.getElementById('servicesGrid');
+    const gBtn = document.getElementById('svcGridBtn');
+    const lBtn = document.getElementById('svcListBtn');
+    const cards = document.querySelectorAll('.svc-card');
+    if (!grid) return;
+    if (mode === 'list') {
+        grid.className = 'grid grid-cols-1 gap-4';
+        cards.forEach(c => c.classList.add('sm:flex-row', 'sm:items-center'));
+        lBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 transition cursor-pointer';
+        gBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 transition cursor-pointer';
+    } else {
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5';
+        cards.forEach(c => c.classList.remove('sm:flex-row', 'sm:items-center'));
+        gBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 transition cursor-pointer';
+        lBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 transition cursor-pointer';
+    }
+    localStorage.setItem('hm_services_view', mode);
+};
+document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('hm_services_view') === 'list') window.setServiceView('list');
+});
+</script>
 {% endblock %}
