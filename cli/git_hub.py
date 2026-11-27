@@ -94,7 +94,9 @@ print(json.dumps(rows))
 cd {CLOUD_DIR}
 source venv/bin/activate
 DJANGO_SETTINGS_MODULE=settings.production python - << 'PYEOF'
-import json
+import json, os, django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.production')
+django.setup()
 from django.contrib.auth import get_user_model
 from apps.users.members.models.member_profile import MemberProfile
 from apps.users.sellers.models.seller_profile import SellerProfile
@@ -134,7 +136,7 @@ print(f"One-Way Sync Complete -> Added: {{added}} new users | Skipped existing: 
 PYEOF
 rm -f /tmp/tmp_users_sync.json
 """
-    subprocess.run(["ssh", "-i", key, CLOUD_HOST, "bash -s"], input=remote_import, text=True)
+    subprocess.run(["ssh", "-i", key, CLOUD_HOST, "bash -s"], input=remote_import.replace("\r\n", "\n").encode("utf-8"))
     if tmp_local.exists():
         tmp_local.unlink()
 
