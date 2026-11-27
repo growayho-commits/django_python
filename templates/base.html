@@ -107,6 +107,12 @@
             }
         }
     </style>
+        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+    <style>
+        .ts-wrapper.single .ts-control { border-radius: 0.5rem; padding: 0.35rem 0.65rem; border-color: #cbd5e1; font-size: 0.8rem; }
+        html.dark .ts-wrapper.single .ts-control, html.dark .ts-dropdown { background: #1e293b; color: #f1f5f9; border-color: #334155; }
+        html.dark .ts-dropdown .active { background: #334155; color: #fbbf24; }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between transition-colors duration-200">
@@ -355,5 +361,27 @@
         });
     </script>
     {% block extra_js %}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll('select[name="category"]').forEach(function(el) {
+                if (el.tomselect) return;
+                new TomSelect(el, {
+                    valueField: 'id',
+                    labelField: 'name',
+                    searchField: 'name',
+                    maxOptions: 40,
+                    allowEmptyOption: true,
+                    placeholder: 'Type to search categories...',
+                    load: function(query, callback) {
+                        fetch('/api/v1/catalogs/core_catalogs/categories-search/?q=' + encodeURIComponent(query))
+                            .then(r => r.json())
+                            .then(data => callback(data.results || []))
+                            .catch(() => callback());
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

@@ -6,6 +6,7 @@ from .views.catalogue_portal_views import (
     catalogue_detail_view,
     catalogue_marketplace_view,
     catalogue_workspace_view,
+    category_autocomplete_api,
     configure_catalogue_pricing_view,
     manage_bundles_view,
     manage_catalogue_details_view,
@@ -19,9 +20,11 @@ app_name = 'core_catalogs'
 
 urlpatterns = [
     path('core-catalog-list-create-a-p-i/', CoreCatalogListCreateAPIView.as_view(), name='core_catalog_list_create_a_p_i'),
-    path('workspace/', catalogue_workspace_view, name='catalogue_workspace'),
+    path('workspace/', catalogue_workspace_view,
+    category_autocomplete_api, name='catalogue_workspace'),
     path('manage-details/<int:pk>/', manage_catalogue_details_view, name='manage_catalogue_details'),
     path('categories/', manage_categories_view, name='manage_categories'),
+    path('categories-search/', category_autocomplete_api, name='category_autocomplete_api'),
     path('bundles/', manage_bundles_view, name='manage_bundles'),
     path('wishlist/', my_wishlist_view, name='my_wishlist'),
     path('configure-pricing/<int:pk>/', configure_catalogue_pricing_view, name='configure_catalogue_pricing'),

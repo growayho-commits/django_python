@@ -601,3 +601,14 @@ def add_to_cart_session_view(request, pk):
         request.session.modified = True
         messages.success(request, f"Added {qty} x '{catalogue.name}' to your cart.")
     return redirect("catalogs:core_catalogs:catalogue_detail", pk=catalogue.pk)
+
+@login_required
+def category_autocomplete_api(request):
+    from django.http import JsonResponse
+    from apps.catalogs.categories.models.category_profile import CategoryProfile
+    q = request.GET.get("q", "").strip()
+    qs = CategoryProfile.objects.filter(is_active=True)
+    if q:
+        qs = qs.filter(name__icontains=q)
+    results = [{"id": str(c["id"]), "name": c["name"]} for c in qs.order_by("name").values("id", "name")[:35]]
+    return JsonResponse({"results": results})
