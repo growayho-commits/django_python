@@ -3,13 +3,13 @@
 {% block title %}Catalogue Marketplace | Hybrid Marketplace{% endblock %}
 
 {% block body_content %}
-<div class="max-w-7xl mx-auto w-full px-4 md:px-8 py-8 space-y-6">
+<div class="max-w-7xl mx-auto w-full px-4 md:px-6 py-3 space-y-3">
 
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-slate-900 px-4 py-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
         <div>
             <div class="flex items-center gap-3">
-                <h2 class="text-2xl font-extrabold text-slate-900 dark:text-slate-100">Catalogue Marketplace</h2>
+                <h2 class="text-lg md:text-xl font-extrabold text-slate-900 dark:text-slate-100">Catalogue Marketplace</h2>
                 <span class="px-3 py-1 text-xs font-bold uppercase rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">{{ current_role }} Buyer Mode</span>
                 <span class="px-3 py-1 text-xs font-bold rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">
                     <i class="fa-solid fa-cart-shopping mr-1"></i> Cart: {{ cart_count|default:0 }}
@@ -37,32 +37,32 @@
 
     <!-- B2B / B2C Channel Tabs -->
     <div class="flex flex-wrap gap-2">
-        <a href="?channel=all" class="px-4 py-2 rounded-xl text-sm font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+        <a href="?channel=all" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
             All Catalogues
         </a>
-        <a href="?channel=b2b" class="px-4 py-2 rounded-xl text-sm font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+        <a href="?channel=b2b" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
             Merchants
         </a>
-        <a href="?channel=b2c" class="px-4 py-2 rounded-xl text-sm font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
+        <a href="?channel=b2c" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
             Sellers
         </a>
     </div>
 
     <!-- Geographic & Search Filter Bar -->
-    <form method="GET" class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-sm">
+    <form method="GET" class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-sm">
         <input type="hidden" name="channel" value="{{ filters.channel }}">
-        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search catalogue name or SKU..." class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-        <select name="category" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search catalogue name or SKU..." class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <select name="category" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
             <option value="">All Categories</option>
             {% for cat in categories %}
             <option value="{{ cat.id }}" {% if filters.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
             {% endfor %}
         </select>
-        <input type="text" name="pincode" value="{{ filters.pincode }}" placeholder="Pincode" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-        <input type="text" name="taluk" value="{{ filters.taluk }}" placeholder="Taluk" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-        <input type="text" name="district" value="{{ filters.district }}" placeholder="District" class="px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <input type="text" name="pincode" value="{{ filters.pincode }}" placeholder="Pincode" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <input type="text" name="taluk" value="{{ filters.taluk }}" placeholder="Taluk" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+        <input type="text" name="district" value="{{ filters.district }}" placeholder="District" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
         <div class="flex gap-2">
-            <input type="text" name="state" value="{{ filters.state }}" placeholder="State" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+            <input type="text" name="state" value="{{ filters.state }}" placeholder="State" class="w-full px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
             <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer shrink-0">Filter</button>
         </div>
     </form>
@@ -70,7 +70,7 @@
     <!-- Catalogue Grid / List Container -->
     <div id="catalogueContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for entry in catalogue_cards %}
-        <div class="catalogue-card bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between gap-4">
+        <div class="catalogue-card bg-white dark:bg-slate-900 px-4 py-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between gap-4">
             <div class="flex-grow">
                 <div class="flex items-center justify-between gap-2 mb-2">
                     <span class="text-[11px] font-bold uppercase px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">
