@@ -64,9 +64,11 @@ class RoleUpgradeRequest(models.Model):
     sub_roles = models.JSONField(default=list, blank=True)
     department = models.CharField(max_length=100, blank=True, null=True)
     business_name = models.CharField(max_length=255, blank=True, null=True)
+    gst_number = models.CharField(max_length=50, blank=True, null=True)
     reason = models.TextField(blank=True, null=True)
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    admin_remarks = models.TextField(blank=True, null=True)
     reviewed_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
