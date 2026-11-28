@@ -27,10 +27,11 @@ class RoleUpgradeRequestForm(forms.ModelForm):
         excluded_roles = kwargs.pop('excluded_roles', None)
         super().__init__(*args, **kwargs)
 
-        if excluded_roles and 'requested_role' in self.fields:
+        excluded_set = {r.lower() for r in (excluded_roles or [])} | {'superuser'}
+        if 'requested_role' in self.fields:
             current_choices = self.fields['requested_role'].choices
             self.fields['requested_role'].choices = [
                 (choice_value, choice_label)
                 for choice_value, choice_label in current_choices
-                if choice_value.lower() not in [r.lower() for r in excluded_roles]
+                if choice_value.lower() not in excluded_set
             ]
