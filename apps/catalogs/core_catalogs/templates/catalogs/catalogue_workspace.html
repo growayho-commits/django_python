@@ -1,116 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Catalogue Workspace | Hybrid Marketplace{{ india_locations|json_script:"india-locations-data" }}
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const scopeEl = document.querySelector('select[name="delivery_scope"]');
-    const wrapper = document.getElementById("deliveryLocationWrapper");
-    const labelEl = document.getElementById("deliveryLocationLabel");
-    const hiddenEl = document.getElementById("deliveryLocationsHidden");
-    const sdBox = document.getElementById("stateDistrictSelectBox");
-    const pinBox = document.getElementById("pincodeLookupBox");
-    const multiEl = document.getElementById("locationMultiSelect");
-    const pinChipsEl = document.getElementById("pinChipContainer");
-    const rawData = JSON.parse(document.getElementById("india-locations-data").textContent || "{}");
-
-    const allStates = Object.keys(rawData).sort();
-    const allDistricts = [];
-    allStates.forEach(st => {
-        (rawData[st] || []).forEach(d => allDistricts.push({ val: d, text: `${d} (${st})` }));
-    });
-
-    let tsLoc = null;
-    let pinTags = [];
-
-    function syncPinTags() {
-        hiddenEl.value = pinTags.join(", ");
-        pinChipsEl.innerHTML = pinTags.map((t, idx) =>
-            `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-900 dark:text-amber-200 text-xs font-bold">${t}<button type="button" onclick="removePinTag(${idx})" class="text-rose-600 font-black cursor-pointer">&times;</button></span>`
-        ).join("");
-    }
-    window.removePinTag = function(idx) {
-        pinTags.splice(idx, 1);
-        syncPinTags();
-    };
-    window.lookupIndiaPostPin = async function() {
-        const inp = document.getElementById("pinLookupInput");
-        const val = (inp.value || "").trim();
-        if (!val) return;
-        const scopeVal = (scopeEl ? scopeEl.value : "").toLowerCase();
-        if (/^\d{6}$/.test(val)) {
-            try {
-                const res = await fetch(`https://api.postalpincode.in/pincode/${val}`);
-                const data = await res.json();
-                if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length) {
-                    if (scopeVal.includes("taluk")) {
-                        const blocks = [...new Set(data[0].PostOffice.map(po => po.Block || po.Name).filter(Boolean))];
-                        blocks.forEach(b => { if (!pinTags.includes(b)) pinTags.push(b); });
-                    } else {
-                        if (!pinTags.includes(val)) pinTags.push(val);
-                    }
-                    inp.value = "";
-                    syncPinTags();
-                    return;
-                }
-            } catch (e) {}
-        }
-        if (!pinTags.includes(val)) pinTags.push(val);
-        inp.value = "";
-        syncPinTags();
-    };
-
-    function initTomSelectLoc(optionsList, maxItems) {
-        if (tsLoc) { tsLoc.destroy(); tsLoc = null; }
-        multiEl.innerHTML = "";
-        tsLoc = new TomSelect(multiEl, {
-            options: optionsList,
-            valueField: "val",
-            labelField: "text",
-            searchField: ["text", "val"],
-            maxItems: maxItems,
-            maxOptions: 100,
-            plugins: ["remove_button"],
-            onChange: function(vals) {
-                hiddenEl.value = Array.isArray(vals) ? vals.join(", ") : (vals || "");
-            }
-        });
-    }
-
-    function updateScopeUI() {
-        if (!scopeEl || !wrapper) return;
-        const v = (scopeEl.value || "").toLowerCase();
-        hiddenEl.value = "";
-        if (!v || v.includes("all")) {
-            wrapper.classList.add("hidden");
-            sdBox.classList.add("hidden");
-            pinBox.classList.add("hidden");
-        } else if (v.includes("state")) {
-            wrapper.classList.remove("hidden");
-            sdBox.classList.remove("hidden");
-            pinBox.classList.add("hidden");
-            labelEl.textContent = v.includes("multi") ? "Select Covered States (All India)" : "Select Covered State (All India)";
-            initTomSelectLoc(allStates.map(s => ({ val: s, text: s })), v.includes("multi") ? null : 1);
-        } else if (v.includes("district")) {
-            wrapper.classList.remove("hidden");
-            sdBox.classList.remove("hidden");
-            pinBox.classList.add("hidden");
-            labelEl.textContent = v.includes("multi") ? "Select Covered Districts (All India)" : "Select Covered District (All India)";
-            initTomSelectLoc(allDistricts, v.includes("multi") ? null : 1);
-        } else {
-            wrapper.classList.remove("hidden");
-            sdBox.classList.add("hidden");
-            pinBox.classList.remove("hidden");
-            labelEl.textContent = v.includes("taluk") ? "Lookup & Add Taluks (via 6-digit Pincode)" : "Lookup & Add Covered Pincodes";
-            syncPinTags();
-        }
-    }
-
-    if (scopeEl) {
-        scopeEl.addEventListener("change", updateScopeUI);
-        updateScopeUI();
-    }
-});
-</script>
+{% block title %}Catalogue Workspace | Hybrid Marketplace
 {% endblock %}
 
 {% block body_content %}
@@ -407,6 +297,120 @@ window.setWsView = function(mode) {
 };
 document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('hm_ws_view') === 'grid') window.setWsView('grid');
+});
+</script>
+{% endblock %}
+
+{% block extra_js %}
+{{ india_locations|json_script:"india-locations-data" }}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const scopeEl = document.querySelector('select[name="delivery_scope"]');
+    const wrapper = document.getElementById("deliveryLocationWrapper");
+    const labelEl = document.getElementById("deliveryLocationLabel");
+    const hiddenEl = document.getElementById("deliveryLocationsHidden");
+    const sdBox = document.getElementById("stateDistrictSelectBox");
+    const pinBox = document.getElementById("pincodeLookupBox");
+    const multiEl = document.getElementById("locationMultiSelect");
+    const pinChipsEl = document.getElementById("pinChipContainer");
+    const rawData = JSON.parse(document.getElementById("india-locations-data").textContent || "{}");
+
+    const allStates = Object.keys(rawData).sort();
+    const allDistricts = [];
+    allStates.forEach(st => {
+        (rawData[st] || []).forEach(d => allDistricts.push({ val: d, text: `${d} (${st})` }));
+    });
+
+    let tsLoc = null;
+    let pinTags = [];
+
+    function syncPinTags() {
+        hiddenEl.value = pinTags.join(", ");
+        pinChipsEl.innerHTML = pinTags.map((t, idx) =>
+            `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-100 dark:bg-amber-900/50 text-amber-900 dark:text-amber-200 text-xs font-bold">${t}<button type="button" onclick="removePinTag(${idx})" class="text-rose-600 font-black cursor-pointer">&times;</button></span>`
+        ).join("");
+    }
+    window.removePinTag = function(idx) {
+        pinTags.splice(idx, 1);
+        syncPinTags();
+    };
+    window.lookupIndiaPostPin = async function() {
+        const inp = document.getElementById("pinLookupInput");
+        const val = (inp.value || "").trim();
+        if (!val) return;
+        const scopeVal = (scopeEl ? scopeEl.value : "").toLowerCase();
+        if (/^\d{6}$/.test(val)) {
+            try {
+                const res = await fetch(`https://api.postalpincode.in/pincode/${val}`);
+                const data = await res.json();
+                if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length) {
+                    if (scopeVal.includes("taluk")) {
+                        const blocks = [...new Set(data[0].PostOffice.map(po => po.Block || po.Name).filter(Boolean))];
+                        blocks.forEach(b => { if (!pinTags.includes(b)) pinTags.push(b); });
+                    } else {
+                        if (!pinTags.includes(val)) pinTags.push(val);
+                    }
+                    inp.value = "";
+                    syncPinTags();
+                    return;
+                }
+            } catch (e) {}
+        }
+        if (!pinTags.includes(val)) pinTags.push(val);
+        inp.value = "";
+        syncPinTags();
+    };
+
+    function initTomSelectLoc(optionsList, maxItems) {
+        if (tsLoc) { tsLoc.destroy(); tsLoc = null; }
+        multiEl.innerHTML = "";
+        tsLoc = new TomSelect(multiEl, {
+            options: optionsList,
+            valueField: "val",
+            labelField: "text",
+            searchField: ["text", "val"],
+            maxItems: maxItems,
+            maxOptions: 100,
+            plugins: ["remove_button"],
+            onChange: function(vals) {
+                hiddenEl.value = Array.isArray(vals) ? vals.join(", ") : (vals || "");
+            }
+        });
+    }
+
+    function updateScopeUI() {
+        if (!scopeEl || !wrapper) return;
+        const v = (scopeEl.value || "").toLowerCase();
+        hiddenEl.value = "";
+        if (!v || v.includes("all")) {
+            wrapper.classList.add("hidden");
+            sdBox.classList.add("hidden");
+            pinBox.classList.add("hidden");
+        } else if (v.includes("state")) {
+            wrapper.classList.remove("hidden");
+            sdBox.classList.remove("hidden");
+            pinBox.classList.add("hidden");
+            labelEl.textContent = v.includes("multi") ? "Select Covered States (All India)" : "Select Covered State (All India)";
+            initTomSelectLoc(allStates.map(s => ({ val: s, text: s })), v.includes("multi") ? null : 1);
+        } else if (v.includes("district")) {
+            wrapper.classList.remove("hidden");
+            sdBox.classList.remove("hidden");
+            pinBox.classList.add("hidden");
+            labelEl.textContent = v.includes("multi") ? "Select Covered Districts (All India)" : "Select Covered District (All India)";
+            initTomSelectLoc(allDistricts, v.includes("multi") ? null : 1);
+        } else {
+            wrapper.classList.remove("hidden");
+            sdBox.classList.add("hidden");
+            pinBox.classList.remove("hidden");
+            labelEl.textContent = v.includes("taluk") ? "Lookup & Add Taluks (via 6-digit Pincode)" : "Lookup & Add Covered Pincodes";
+            syncPinTags();
+        }
+    }
+
+    if (scopeEl) {
+        scopeEl.addEventListener("change", updateScopeUI);
+        updateScopeUI();
+    }
 });
 </script>
 {% endblock %}
