@@ -2,194 +2,232 @@
 
 {% block title %}Catalogue Marketplace | Hybrid Marketplace{% endblock %}
 
-{% block body_content %}
-<div class="max-w-7xl mx-auto w-full px-4 md:px-6 py-3 space-y-3">
+{% block extra_css %}
+<style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+{% endblock %}
 
-    <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white dark:bg-slate-900 px-4 py-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+{% block body_content %}
+<div class="max-w-7xl mx-auto w-full px-3 sm:px-6 py-3 space-y-3">
+
+    <!-- Storefront Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 bg-white dark:bg-slate-900 px-4 py-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
         <div>
-            <div class="flex items-center gap-3">
-                <h2 class="text-lg md:text-xl font-extrabold text-slate-900 dark:text-slate-100">Catalogue Marketplace</h2>
-                <span class="px-3 py-1 text-xs font-bold uppercase rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">{{ current_role }} Buyer Mode</span>
-                <span class="px-3 py-1 text-xs font-bold rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300">
-                    <i class="fa-solid fa-cart-shopping mr-1"></i> Cart: {{ cart_count|default:0 }}
-                </span>
+            <div class="flex flex-wrap items-center gap-2">
+                <h2 class="text-base sm:text-xl font-extrabold text-slate-900 dark:text-slate-100">Catalogue Marketplace</h2>
+                <span class="px-2.5 py-0.5 text-[11px] font-bold uppercase rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300">{{ current_role }}</span>
+                <a href="/api/v1/marketing_leads/carts/my-cart/" class="px-2.5 py-0.5 text-[11px] font-bold rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 hover:bg-amber-200 transition">
+                    <i class="fa-solid fa-cart-shopping mr-1"></i> Cart ({{ cart_count|default:0 }})
+                </a>
             </div>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Purchase approved B2B Merchant supply and B2C Seller catalogues filtered by your delivery location.
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Approved catalogues ranked by assigned partner &amp; delivery pincode.
             </p>
         </div>
         <div class="flex items-center gap-2">
-            <!-- Grid / List Toggle -->
-            <div class="inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 p-1">
-                <button type="button" id="gridViewBtn" onclick="setMarketplaceView('grid')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
-                    <i class="fa-solid fa-grip mr-1"></i> Grid
-                </button>
-                <button type="button" id="listViewBtn" onclick="setMarketplaceView('list')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer">
-                    <i class="fa-solid fa-list mr-1"></i> List
+            {% if active_address_label %}
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                <i class="fa-solid fa-truck-fast mr-1"></i> {{ active_address_label }}
+            </span>
+            {% endif %}
+            <a href="{{ user_dashboard_url|default:'/' }}" class="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs rounded-xl transition">
+                Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Marketing / Sponsored Ads & Active Deals Strip -->
+    {% if active_campaigns or active_coupons %}
+    <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white px-4 py-2.5 rounded-xl shadow-sm flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 font-black uppercase text-[10px]">
+                <i class="fa-solid fa-bolt mr-1"></i> Deals &amp; Campaigns
+            </span>
+            {% for camp in active_campaigns %}
+            <span class="px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 font-semibold">
+                <i class="fa-solid fa-bullhorn text-amber-400 mr-1"></i> {{ camp.campaign_name }}
+            </span>
+            {% endfor %}
+            {% for coupon in active_coupons %}
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 font-bold">
+                <i class="fa-solid fa-tag mr-1"></i> Code: {{ coupon.code }} ({% if coupon.discount_type == 'percentage' %}{{ coupon.discount_value }}% OFF{% else %}&#8377;{{ coupon.discount_value }} OFF{% endif %})
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Channel Tabs + Search & Collapsible Smart Filter -->
+    <div class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-2.5">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap gap-1.5">
+                {% if current_role == 'member' or current_role == 'executive' %}
+                <span class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white">
+                    <i class="fa-solid fa-store mr-1"></i> Sellers (Assigned &amp; Local)
+                </span>
+                {% else %}
+                <a href="?channel=all" class="px-3 py-1 rounded-lg text-xs font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300{% endif %}">All</a>
+                <a href="?channel=b2b" class="px-3 py-1 rounded-lg text-xs font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300{% endif %}">Merchants (B2B)</a>
+                <a href="?channel=b2c" class="px-3 py-1 rounded-lg text-xs font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300{% endif %}">Sellers (B2C)</a>
+                {% endif %}
+            </div>
+            <button type="button" onclick="document.getElementById('advancedFiltersBox').classList.toggle('hidden')"
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer">
+                <i class="fa-solid fa-sliders text-amber-500"></i> Filters
+            </button>
+        </div>
+
+        <form method="GET" class="space-y-2.5 text-xs">
+            <input type="hidden" name="channel" value="{{ filters.channel }}">
+            <div class="flex gap-2">
+                <input type="text" name="q" value="{{ filters.q }}" placeholder="Search catalogue name, brand or SKU..."
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 dark:text-slate-100 text-xs focus:ring-2 focus:ring-amber-500 outline-none">
+                <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer shrink-0">
+                    <i class="fa-solid fa-magnifying-glass sm:mr-1"></i><span class="hidden sm:inline">Search</span>
                 </button>
             </div>
-            <a href="{{ user_dashboard_url|default:'/' }}" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm rounded-xl transition">
-                Back to Dashboard
-            </a>
-        </div>
+            <div id="advancedFiltersBox" class="{% if not filters.category and not filters.pincode and not filters.taluk and not filters.district and not filters.state %}hidden{% endif %} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 pt-1">
+                <select name="category" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.id }}" {% if filters.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+                <input type="text" name="pincode" value="{{ filters.pincode }}" placeholder="Pincode" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+                <input type="text" name="taluk" value="{{ filters.taluk }}" placeholder="Taluk" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+                <input type="text" name="district" value="{{ filters.district }}" placeholder="District" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+                <div class="flex gap-2">
+                    <input type="text" name="state" value="{{ filters.state }}" placeholder="State" class="w-full px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
+                    <button type="submit" class="px-3 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-lg cursor-pointer shrink-0">Apply</button>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <!-- Channel Tabs (Members see Seller Catalogues only; Seller/Merchant/Executive/Superuser see both) -->
-    <div class="flex flex-wrap items-center justify-between gap-2">
-        <div class="flex flex-wrap gap-2">
-            {% if current_role == 'member' or current_role == 'executive' %}
-            <span class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white">
-                <i class="fa-solid fa-store mr-1"></i> Sellers (Assigned &amp; Local Delivery)
-            </span>
-            {% else %}
-            <a href="?channel=all" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'all' or not filters.channel %}bg-slate-900 text-amber-400{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-                All Catalogues
-            </a>
-            <a href="?channel=b2b" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-                Merchants
-            </a>
-            <a href="?channel=b2c" class="px-3 py-1.5 rounded-lg text-xs font-bold {% if filters.channel == 'b2c' %}bg-emerald-600 text-white{% else %}bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300{% endif %}">
-                Sellers
-            </a>
-            {% endif %}
-        </div>
-        {% if active_address_label %}
-        <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-slate-800 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-slate-700">
-            <i class="fa-solid fa-location-dot mr-1 text-amber-600"></i> Delivery: {{ active_address_label }}
-        </span>
-        {% endif %}
+    <!-- Horizontal Quick Category Chips -->
+    {% if quick_categories %}
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+        <a href="?channel={{ filters.channel }}" class="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition {% if not filters.category %}bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 border-slate-900 dark:border-amber-500{% else %}bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700{% endif %}">
+            All Categories
+        </a>
+        {% for qcat in quick_categories %}
+        <a href="?channel={{ filters.channel }}&category={{ qcat.id }}"
+           class="shrink-0 px-3 py-1.5 rounded-full text-xs font-bold border transition {% if filters.category == qcat.id|stringformat:'s' %}bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 border-slate-900 dark:border-amber-500{% else %}bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-amber-400{% endif %}">
+            {{ qcat.name|truncatechars:22 }}
+        </a>
+        {% endfor %}
     </div>
+    {% endif %}
 
-    <!-- Geographic & Search Filter Bar -->
-    <form method="GET" class="bg-white dark:bg-slate-900 p-3 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-sm">
-        <input type="hidden" name="channel" value="{{ filters.channel }}">
-        <input type="text" name="q" value="{{ filters.q }}" placeholder="Search catalogue name or SKU..." class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-        <select name="category" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-            <option value="">All Categories</option>
-            {% for cat in categories %}
-            <option value="{{ cat.id }}" {% if filters.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
-            {% endfor %}
-        </select>
-        <input type="text" name="pincode" value="{{ filters.pincode }}" placeholder="Pincode" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-        <input type="text" name="taluk" value="{{ filters.taluk }}" placeholder="Taluk" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-        <input type="text" name="district" value="{{ filters.district }}" placeholder="District" class="px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-        <div class="flex gap-2">
-            <input type="text" name="state" value="{{ filters.state }}" placeholder="State" class="w-full px-2.5 py-1.5 rounded-lg border text-xs border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 dark:text-slate-100">
-            <button type="submit" class="px-4 py-2 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 font-bold rounded-xl cursor-pointer shrink-0">Filter</button>
+    <!-- 3-Tier Priority & Sort Bar -->
+    <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400 px-0.5">
+        <div class="flex flex-wrap items-center gap-1.5">
+            {% if tier1_assigned %}<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-bold text-[11px]"><i class="fa-solid fa-star mr-1"></i>1. Assigned ({{ tier1_assigned|length }})</span>{% endif %}
+            {% if tier2_local %}<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-bold text-[11px]"><i class="fa-solid fa-location-dot mr-1"></i>2. Local ({{ tier2_local|length }})</span>{% endif %}
+            {% if tier3_explore %}<span class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[11px]"><i class="fa-solid fa-globe mr-1"></i>3. Explore ({{ tier3_explore|length }})</span>{% endif %}
+            <span class="font-semibold ml-1">Showing <strong class="text-slate-900 dark:text-white">{{ catalogue_cards|length }}</strong></span>
         </div>
-    </form>
-
-    <!-- Quick Sort & Result Count Bar (Amazon / Flipkart Style) -->
-    <!-- 3-Tier Priority Strip -->
-    <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600 dark:text-slate-400 px-1">
-        <div class="flex flex-wrap items-center gap-2">
-            {% if tier1_assigned %}<span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 font-bold"><i class="fa-solid fa-star mr-1"></i>1. Assigned ({{ tier1_assigned|length }})</span>{% endif %}
-            {% if tier2_local %}<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-900 font-bold"><i class="fa-solid fa-location-dot mr-1"></i>2. Available in Pincode ({{ tier2_local|length }})</span>{% endif %}
-            {% if tier3_explore %}<span class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold"><i class="fa-solid fa-globe mr-1"></i>3. All Catalogues ({{ tier3_explore|length }})</span>{% endif %}
-            <span class="font-semibold ml-1">Total: <strong class="text-slate-900 dark:text-white">{{ catalogue_cards|length }}</strong></span>
-        </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5">
             <label for="sortCatalogues" class="font-semibold">Sort:</label>
-            <select id="sortCatalogues" onchange="sortCatalogueCards(this.value)" class="px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold">
+            <select id="sortCatalogues" onchange="sortCatalogueCards(this.value)" class="px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold">
                 <option value="default">Featured</option>
                 <option value="price_asc">Price: Low to High</option>
                 <option value="price_desc">Price: High to Low</option>
-                <option value="moq_asc">Lowest MOQ (Wholesale)</option>
+                <option value="moq_asc">Lowest MOQ</option>
             </select>
         </div>
     </div>
 
-    <!-- Catalogue Grid / List Container -->
-    <div id="catalogueContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <!-- Amazon / Flipkart / Alibaba Grid View Only (2-Col Mobile, 3-Col Tablet, 4-Col Desktop) -->
+    <div id="catalogueContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-4">
         {% for entry in catalogue_cards %}
-        <div class="catalogue-card bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-md border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col justify-between transition"
+        <div class="catalogue-card bg-white dark:bg-slate-900 rounded-xl sm:rounded-2xl shadow-sm hover:shadow-md border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col justify-between transition"
              data-price="{{ entry.pricing.final_total|default:0 }}"
              data-moq="{{ entry.catalogue.min_order_quantity|default:1 }}">
 
-            <!-- Media / Visual Header + Floating Badges -->
-            <div class="relative bg-gradient-to-br from-slate-100 to-amber-50/60 dark:from-slate-800 dark:to-slate-900 h-52 group flex items-center justify-center overflow-hidden">
+            <!-- Media + Badges -->
+            <div class="relative bg-gradient-to-br from-slate-100 to-amber-50/60 dark:from-slate-800 dark:to-slate-900 h-36 sm:h-48 group flex items-center justify-center overflow-hidden">
+                <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}" class="w-full h-full flex items-center justify-center">
                 {% with media=entry.catalogue.medias.first %}
                     {% if media and media.image %}
                         <img src="{{ media.image.url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     {% elif media and media.media_url %}
                         <img src="{{ media.media_url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover">
                     {% else %}
-                        <div class="text-center px-4">
-                            <i class="fa-solid fa-boxes-stacked text-4xl text-amber-500/80 mb-1"></i>
-                            <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">{{ entry.catalogue.category.name|default:"Verified Catalogue"|truncatechars:28 }}</p>
+                        <div class="text-center px-2">
+                            <i class="fa-solid fa-boxes-stacked text-2xl sm:text-4xl text-amber-500/80 mb-1"></i>
+                            <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 line-clamp-1">{{ entry.catalogue.category.name|default:"Verified"|truncatechars:20 }}</p>
                         </div>
                     {% endif %}
                 {% endwith %}
+                </a>
 
-                <span class="absolute top-3 left-3 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full shadow-sm {% if entry.catalogue.trade_channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-emerald-600 text-white{% endif %}">
-                    {% if entry.catalogue.trade_channel == 'b2b' %}Merchant B2B{% else %}Seller B2C{% endif %}
+                <span class="absolute top-2 left-2 text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 sm:px-2 py-0.5 rounded-full shadow-sm {% if entry.catalogue.trade_channel == 'b2b' %}bg-indigo-600 text-white{% else %}bg-emerald-600 text-white{% endif %}">
+                    {% if entry.catalogue.trade_channel == 'b2b' %}B2B{% else %}B2C{% endif %}
                 </span>
                 {% if entry.is_assigned %}
-                <span class="absolute top-11 left-3 text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full shadow-sm bg-amber-400 text-slate-950">
-                    <i class="fa-solid fa-star mr-0.5"></i> Assigned
+                <span class="absolute top-7 sm:top-8 left-2 text-[9px] sm:text-[10px] font-extrabold uppercase px-1.5 sm:px-2 py-0.5 rounded-full shadow-sm bg-amber-400 text-slate-950">
+                    <i class="fa-solid fa-star"></i> Assigned
                 </span>
                 {% endif %}
 
-                <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' entry.catalogue.pk %}" method="POST" class="absolute top-2.5 right-2.5 m-0">
+                <form action="{% url 'catalogs:core_catalogs:toggle_wishlist' entry.catalogue.pk %}" method="POST" class="absolute top-2 right-2 m-0">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                    <button type="submit" title="Save to Wishlist" class="w-9 h-9 rounded-full bg-white/95 dark:bg-slate-800/95 shadow border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:scale-105 transition cursor-pointer">
-                        <i class="fa-solid fa-heart text-sm {% if entry.is_wishlisted %}text-rose-500{% else %}text-slate-400{% endif %}"></i>
+                    <button type="submit" title="Save to Wishlist" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/95 dark:bg-slate-800/95 shadow border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:scale-105 transition cursor-pointer">
+                        <i class="fa-solid fa-heart text-xs sm:text-sm {% if entry.is_wishlisted %}text-rose-500{% else %}text-slate-400{% endif %}"></i>
                     </button>
                 </form>
             </div>
 
-            <!-- Body -->
-            <div class="p-4 flex-grow flex flex-col justify-between gap-3">
+            <!-- Card Body -->
+            <div class="p-2.5 sm:p-4 flex-grow flex flex-col justify-between gap-2">
                 <div>
-                    <div class="flex items-center justify-between gap-2 text-[11px] text-slate-500 dark:text-slate-400 mb-1">
-                        <span class="font-bold text-indigo-600 dark:text-indigo-400">
-                            <i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i>{{ entry.catalogue.brand_name|default:entry.supplier_role }}
+                    <div class="flex items-center justify-between gap-1 text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mb-0.5">
+                        <span class="font-bold text-indigo-600 dark:text-indigo-400 truncate">
+                            <i class="fa-solid fa-circle-check text-emerald-500 mr-0.5"></i>{{ entry.catalogue.brand_name|default:entry.supplier_role }}
                         </span>
-                        <span class="font-mono">MOQ: {{ entry.catalogue.min_order_quantity }} {{ entry.catalogue.get_unit_display }}</span>
+                        <span class="font-mono shrink-0">MOQ {{ entry.catalogue.min_order_quantity }}</span>
                     </div>
                     <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}" class="block group">
-                        <h3 class="text-base font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 transition line-clamp-1">{{ entry.catalogue.name }}</h3>
+                        <h3 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 transition line-clamp-2">{{ entry.catalogue.name }}</h3>
                     </a>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">{{ entry.catalogue.description|default:"Verified marketplace catalogue"|truncatewords:18 }}</p>
                 </div>
 
-                <!-- Price & Delivery Footer -->
-                <div class="catalogue-footer border-t border-slate-100 dark:border-slate-800 pt-3 space-y-2.5">
-                    <div class="flex items-baseline justify-between gap-2">
+                <!-- Price, Badges & Actions -->
+                <div class="border-t border-slate-100 dark:border-slate-800 pt-2 space-y-1.5">
+                    <div class="flex flex-wrap items-baseline justify-between gap-1">
                         <div>
-                            <span class="text-xl font-black text-slate-900 dark:text-emerald-400">&#8377;{{ entry.pricing.final_total }}</span>
+                            <span class="text-sm sm:text-lg font-black text-slate-900 dark:text-emerald-400">&#8377;{{ entry.pricing.final_total }}</span>
                             {% if entry.catalogue.mrp_price > entry.catalogue.base_price %}
-                            <span class="text-xs text-slate-400 line-through ml-1.5">&#8377;{{ entry.catalogue.mrp_price }}</span>
+                            <span class="text-[10px] sm:text-xs text-slate-400 line-through ml-1">&#8377;{{ entry.catalogue.mrp_price }}</span>
                             {% endif %}
                             {% if entry.discount_pct > 0 %}
-                            <span class="ml-1.5 text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400">{{ entry.discount_pct }}% OFF</span>
+                            <span class="ml-1 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400">{{ entry.discount_pct }}% OFF</span>
                             {% endif %}
                         </div>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                            GST {{ entry.catalogue.gst_percentage }}%
-                        </span>
                     </div>
 
-                    <div class="flex flex-wrap items-center justify-between gap-1.5 text-[11px]">
-                        <span class="font-semibold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-truck-fast text-amber-500 mr-1"></i>{{ entry.catalogue.get_delivery_scope_display }}</span>
-                        <span class="px-2 py-0.5 rounded-full font-bold {% if entry.catalogue.transport_included %}bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300{% else %}bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300{% endif %}">
-                            {{ entry.catalogue.delivery_charge_label }}
+                    <div class="flex flex-wrap items-center justify-between gap-1 text-[10px]">
+                        <span class="px-1.5 py-0.5 rounded font-bold {% if entry.catalogue.transport_included %}bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300{% else %}bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300{% endif %}">
+                            {% if entry.catalogue.transport_included %}Free Delivery{% else %}+ Delivery{% endif %}
                         </span>
+                        <span class="text-slate-400 truncate max-w-[90px]">{{ entry.catalogue.get_delivery_scope_display }}</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-2 pt-1">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
                         <form action="{% url 'catalogs:core_catalogs:add_to_cart_session' entry.catalogue.pk %}" method="POST" class="m-0">
                             {% csrf_token %}
                             <input type="hidden" name="qty" value="{{ entry.catalogue.min_order_quantity }}">
-                            <button type="submit" class="w-full py-2 px-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl transition cursor-pointer">
-                                <i class="fa-solid fa-cart-plus mr-1"></i> Add to Cart
+                            <button type="submit" class="w-full py-1.5 px-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-[11px] sm:text-xs rounded-lg sm:rounded-xl transition cursor-pointer">
+                                <i class="fa-solid fa-cart-plus mr-1"></i> Add
                             </button>
                         </form>
                         <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}"
-                           class="block text-center py-2 px-2 bg-slate-900 dark:bg-slate-800 hover:bg-black text-white font-bold text-xs rounded-xl transition">
-                            Details &amp; Tiers
+                           class="block text-center py-1.5 px-2 bg-slate-900 dark:bg-slate-800 hover:bg-black text-white font-bold text-[11px] sm:text-xs rounded-lg sm:rounded-xl transition">
+                            Details
                         </a>
                     </div>
                 </div>
@@ -206,40 +244,22 @@
 
 {% block extra_js %}
 <script>
-    function setMarketplaceView(mode) {
+    function sortCatalogueCards(mode) {
         const container = document.getElementById("catalogueContainer");
-        const gridBtn = document.getElementById("gridViewBtn");
-        const listBtn = document.getElementById("listViewBtn");
-        const cards = document.querySelectorAll(".catalogue-card");
-        const footers = document.querySelectorAll(".catalogue-footer");
         if (!container) return;
-
-        localStorage.setItem("hm_marketplace_view", mode);
-
-        if (mode === "list") {
-            container.className = "flex flex-col gap-4";
-            cards.forEach(c => c.classList.add("md:flex-row", "md:items-center"));
-            footers.forEach(f => {
-                f.classList.remove("border-t", "pt-4");
-                f.classList.add("md:border-t-0", "md:border-l", "md:pl-6", "md:min-w-[260px]");
-            });
-            listBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-amber-400 transition cursor-pointer";
-            gridBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer";
-        } else {
-            container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
-            cards.forEach(c => c.classList.remove("md:flex-row", "md:items-center"));
-            footers.forEach(f => {
-                f.classList.add("border-t", "pt-4");
-                f.classList.remove("md:border-t-0", "md:border-l", "md:pl-6", "md:min-w-[260px]");
-            });
-            gridBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-amber-400 transition cursor-pointer";
-            listBtn.className = "px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 dark:text-slate-300 transition cursor-pointer";
-        }
+        const cards = Array.from(container.querySelectorAll(".catalogue-card"));
+        if (!cards.length || mode === "default") return;
+        cards.sort((a, b) => {
+            const pa = parseFloat(a.dataset.price || 0);
+            const pb = parseFloat(b.dataset.price || 0);
+            const ma = parseInt(a.dataset.moq || 1, 10);
+            const mb = parseInt(b.dataset.moq || 1, 10);
+            if (mode === "price_asc") return pa - pb;
+            if (mode === "price_desc") return pb - pa;
+            if (mode === "moq_asc") return ma - mb;
+            return 0;
+        });
+        cards.forEach(c => container.appendChild(c));
     }
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const savedMode = localStorage.getItem("hm_marketplace_view") || "grid";
-        setMarketplaceView(savedMode);
-    });
 </script>
 {% endblock %}

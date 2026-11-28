@@ -58,14 +58,37 @@ def catalogue_workspace_view(request):
     if request.user.is_superuser:
         current_role = "superuser"
 
-    can_create = current_role in {"seller", "merchant", "superuser"}
     can_commission = _can_manage_commissions(request.user)
+    can_create = current_role in {"seller", "merchant", "superuser"} or can_commission
+
+    available_owners = []
+    if can_commission:
+        try:
+            from django.contrib.auth import get_user_model
+            from django.db.models import Q
+            UserModel = get_user_model()
+            available_owners = list(
+                UserModel.objects.filter(is_active=True)
+                .filter(Q(seller_profile__isnull=False) | Q(merchant_profile__isnull=False))
+                .distinct()
+                .order_by("email")
+            )
+        except Exception:
+            available_owners = []
 
     if request.method == "POST" and can_create:
         form = CoreCatalogForm(request.POST)
         if form.is_valid():
             catalogue = form.save(commit=False)
-            catalogue.owner = request.user
+            selected_owner_id = request.POST.get("owner_id", "").strip()
+            if can_commission and selected_owner_id:
+                try:
+                    from django.contrib.auth import get_user_model
+                    catalogue.owner = get_user_model().objects.get(pk=selected_owner_id)
+                except Exception:
+                    catalogue.owner = request.user
+            else:
+                catalogue.owner = request.user
             raw_locations = request.POST.get("delivery_locations_text", "")
             catalogue.delivery_locations = [
                 loc.strip() for loc in raw_locations.split(",") if loc.strip()
@@ -89,6 +112,7 @@ def catalogue_workspace_view(request):
         "current_role": current_role,
         "can_create": can_create,
         "can_commission": can_commission,
+        "available_owners": available_owners,
         "form": form,
         "catalogues": catalogues,
     }
@@ -429,6 +453,12 @@ def catalogue_marketplace_view(request):
         except Exception:
             pass
 
+    if not any([pincode, taluk, district, state]):
+        cookie_pin = (request.COOKIES.get("hm_pincode") or "").strip()
+        if cookie_pin.isdigit() and len(cookie_pin) == 6:
+            pincode = cookie_pin
+            active_address_label = f"Pincode {cookie_pin}"
+
     # Base approved queryset (filtered by channel, category, search ? WITHOUT location drop so Row 3 can show Explore All)
     all_matching_qs = CoreCatalogSelector.get_approved_marketplace_catalogues(
         category_id=category_id,
@@ -496,6 +526,23 @@ def catalogue_marketplace_view(request):
     session_cart = request.session.get("hm_cart", {})
     cart_count = sum(item.get("quantity", 0) for item in session_cart.values())
 
+    active_campaigns = []
+    active_coupons = []
+    try:
+        from apps.marketing_leads.ads_campaigns.models.campaign_profile import AdsCampaignProfile
+        active_campaigns = list(AdsCampaignProfile.objects.filter(is_active=True).order_by("-id")[:4])
+    except Exception:
+        pass
+    try:
+        from apps.marketing_leads.coupons_discounts.models.coupon_profile import CouponDiscountProfile
+        active_coupons = list(CouponDiscountProfile.objects.filter(is_active=True).order_by("-id")[:4])
+    except Exception:
+        pass
+
+    quick_categories = list(
+        CategoryProfile.objects.filter(is_active=True, parent__isnull=True).order_by("name")[:12]
+    ) or list(CategoryProfile.objects.filter(is_active=True).order_by("name")[:12])
+
     return render(request, "catalogs/catalogue_marketplace.html", {
         "current_role": current_role,
         "catalogue_cards": catalogue_cards,
@@ -503,6 +550,9 @@ def catalogue_marketplace_view(request):
         "tier2_local": tier2_local,
         "tier3_explore": tier3_explore,
         "categories": CategoryProfile.objects.filter(is_active=True).order_by("name")[:50],
+        "quick_categories": quick_categories,
+        "active_campaigns": active_campaigns,
+        "active_coupons": active_coupons,
         "cart_count": cart_count,
         "active_address_label": active_address_label,
         "filters": {

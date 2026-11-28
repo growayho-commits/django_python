@@ -130,6 +130,10 @@
 
                     <!-- Dynamic Role-Based Dropdown Menu -->
                     <div id="zohoLeftDropdown" class="hidden absolute left-0 mt-3 w-[88vw] sm:w-80 max-h-[88vh] overflow-y-auto overflow-x-hidden bg-white dark:bg-slate-900 rounded-2xl shadow-[0_15px_40px_-10px_rgba(0,0,0,0.15)] border border-slate-100 dark:border-slate-800 py-2 z-50">
+                        <div class="px-3 py-2 mb-1 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-user text-amber-500 text-base"></i>
+                            <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate">{{ request.user.email }}</span>
+                        </div>
                         <div class="px-2 space-y-0.5">
                             <a href="{{ user_dashboard_url|default:'/' }}" class="flex items-center space-x-3 px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-amber-600 dark:hover:text-amber-400 rounded-xl">
                                 <i class="fa-solid fa-gauge-high text-indigo-600 dark:text-indigo-400 w-5"></i>
@@ -168,6 +172,11 @@
                     </div>
                     <span class="text-[0.65rem] font-bold text-amber-500 uppercase tracking-widest hidden md:block">Connect . Collaborate . Thrive</span>
                 </div>
+                <button id="geo-location-badge" type="button" title="Click to set your delivery area / pincode"
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-full bg-amber-50 dark:bg-slate-800 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-slate-700 hover:bg-amber-100 transition cursor-pointer max-w-[165px] sm:max-w-[230px]">
+                    <i class="fa-solid fa-location-dot text-amber-600 shrink-0"></i>
+                    <span id="location-text" class="truncate">Detecting...</span>
+                </button>
             </div>
 
             <div class="flex flex-wrap lg:flex-nowrap items-center justify-between md:justify-end gap-2 w-full lg:w-auto shrink-0">
@@ -203,8 +212,9 @@
                 </button>
 
                 {% if request.user.is_authenticated %}
-                <span class="text-sm font-bold text-slate-700 dark:text-slate-300 hidden xl:inline border-r border-slate-200 dark:border-slate-700 pr-4">
-                    {{ request.user.email }}
+                <span title="{{ request.user.email }}" class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-slate-700 dark:text-slate-200 bg-slate-100 dark:bg-slate-800 px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 max-w-[140px] sm:max-w-[210px] truncate">
+                    <i class="fa-solid fa-user text-amber-500 text-[10px] shrink-0"></i>
+                    <span class="truncate">{{ request.user.email }}</span>
                 </span>
 
                 <form action="{% url 'users:logout_view' %}" method="POST" class="inline m-0">
@@ -392,6 +402,48 @@
                     }
                 });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const locText = document.getElementById("location-text");
+            const locBadge = document.getElementById("geo-location-badge");
+            const savedLoc = localStorage.getItem("hm_custom_loc");
+            if (savedLoc && locText) {
+                locText.textContent = savedLoc;
+            } else if (locText) {
+                fetch("https://ipapi.co/json/").then(r => r.json()).then(d => {
+                    if (d && d.city && d.postal) {
+                        locText.textContent = `${d.city} - ${d.postal}`;
+                        document.cookie = `hm_pincode=${encodeURIComponent(d.postal)};path=/;max-age=2592000`;
+                    } else {
+                        locText.textContent = (d && d.city) ? d.city : "India";
+                    }
+                }).catch(() => { locText.textContent = "India"; });
+            }
+            if (locBadge) {
+                locBadge.addEventListener("click", async function() {
+                    const val = prompt("Enter 6-digit Pincode (e.g. 641652) or City - Pincode:", locText ? locText.textContent : "");
+                    if (!val || !val.trim()) return;
+                    const clean = val.trim();
+                    if (/^\d{6}$/.test(clean)) {
+                        document.cookie = `hm_pincode=${clean};path=/;max-age=2592000`;
+                        localStorage.setItem("hm_custom_pincode", clean);
+                        try {
+                            const res = await fetch(`https://api.postalpincode.in/pincode/${clean}`);
+                            const data = await res.json();
+                            if (data && data[0] && data[0].Status === "Success" && data[0].PostOffice && data[0].PostOffice.length) {
+                                const label = `${data[0].PostOffice[0].Name} - ${clean}`;
+                                localStorage.setItem("hm_custom_loc", label);
+                                if (locText) locText.textContent = label;
+                                return;
+                            }
+                        } catch (e) {}
+                    }
+                    localStorage.setItem("hm_custom_loc", clean);
+                    if (locText) locText.textContent = clean;
+                });
+            }
         });
     </script>
 </body>
