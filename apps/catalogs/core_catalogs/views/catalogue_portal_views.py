@@ -62,20 +62,25 @@ def catalogue_workspace_view(request):
     can_commission = _can_manage_commissions(request.user)
     can_create = current_role in {"seller", "merchant", "superuser"} or can_commission
 
-    available_owners = []
+    merchant_owners = []
+    seller_owners = []
     if can_commission:
         try:
-            from django.contrib.auth import get_user_model
-            from django.db.models import Q
-            UserModel = get_user_model()
-            available_owners = list(
-                UserModel.objects.filter(is_active=True)
-                .filter(Q(seller_profile__isnull=False) | Q(merchant_profile__isnull=False))
-                .distinct()
-                .order_by("email")
-            )
+            from apps.users.merchants.models.merchant_profile import MerchantProfile
+            for mp in MerchantProfile.objects.select_related("user").filter(user__is_active=True).order_by("user__email"):
+                name = getattr(mp, "business_name", "") or getattr(mp, "company_name", "") or getattr(mp, "store_name", "") or ""
+                label = f"{name} ({mp.user.email})" if name else mp.user.email
+                merchant_owners.append({"user_id": mp.user_id, "label": label})
         except Exception:
-            available_owners = []
+            pass
+        try:
+            from apps.users.sellers.models.seller_profile import SellerProfile
+            for sp in SellerProfile.objects.select_related("user").filter(user__is_active=True).order_by("user__email"):
+                name = getattr(sp, "business_name", "") or getattr(sp, "store_name", "") or getattr(sp, "shop_name", "") or ""
+                label = f"{name} ({sp.user.email})" if name else sp.user.email
+                seller_owners.append({"user_id": sp.user_id, "label": label})
+        except Exception:
+            pass
 
     if request.method == "POST" and can_create:
         form = CoreCatalogForm(request.POST)
@@ -85,7 +90,13 @@ def catalogue_workspace_view(request):
             if can_commission and selected_owner_id:
                 try:
                     from django.contrib.auth import get_user_model
-                    catalogue.owner = get_user_model().objects.get(pk=selected_owner_id)
+                    sel_user = get_user_model().objects.get(pk=selected_owner_id)
+                    catalogue.owner = sel_user
+                    sel_role = (get_user_current_role(sel_user) or "").lower()
+                    if sel_role == "merchant":
+                        catalogue.trade_channel = "b2b"
+                    elif sel_role == "seller":
+                        catalogue.trade_channel = "b2c"
                 except Exception:
                     catalogue.owner = request.user
             else:
@@ -113,7 +124,8 @@ def catalogue_workspace_view(request):
         "current_role": current_role,
         "can_create": can_create,
         "can_commission": can_commission,
-        "available_owners": available_owners,
+        "merchant_owners": merchant_owners,
+        "seller_owners": seller_owners,
         "form": form,
         "catalogues": catalogues,
     }
@@ -466,6 +478,8 @@ def catalogue_marketplace_view(request):
         search_query=search_query,
         trade_channel=trade_channel if trade_channel in {"b2b", "b2c"} else None,
     )
+    if request.user.is_authenticated and not request.user.is_superuser:
+        all_matching_qs = all_matching_qs.exclude(owner=request.user)
 
     assigned_owner_ids = set()
     if current_role == "member":
@@ -556,6 +570,7 @@ def catalogue_marketplace_view(request):
         "active_coupons": active_coupons,
         "cart_count": cart_count,
         "active_address_label": active_address_label,
+        "filter_open": any([request.GET.get("category"), request.GET.get("pincode"), request.GET.get("taluk"), request.GET.get("district"), request.GET.get("state")]),
         "filters": {
             "channel": trade_channel,
             "category": category_id,

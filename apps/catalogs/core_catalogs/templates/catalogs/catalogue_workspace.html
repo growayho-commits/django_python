@@ -55,16 +55,27 @@
             </div>
             {% endif %}
 
-            {% if can_commission and available_owners %}
+            {% if can_commission %}
             <div class="bg-amber-50/70 dark:bg-slate-800/70 border border-amber-200 dark:border-slate-700 p-3.5 rounded-xl text-sm">
                 <label class="block font-bold text-slate-800 dark:text-amber-300 mb-1">
-                    <i class="fa-solid fa-user-tie mr-1"></i> Catalogue Owner (Self or Select Seller / Merchant)
+                    <i class="fa-solid fa-user-tie mr-1"></i> Catalogue Owner (Own / Merchant / Seller)
                 </label>
                 <select name="owner_id" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm">
-                    <option value="">-- Self ({{ request.user.email }}) --</option>
-                    {% for owner_u in available_owners %}
-                    <option value="{{ owner_u.pk }}">{{ owner_u.email }}</option>
-                    {% endfor %}
+                    <option value="">Own (Self - {{ request.user.email }})</option>
+                    {% if merchant_owners %}
+                    <optgroup label="Merchants">
+                        {% for m in merchant_owners %}
+                        <option value="{{ m.user_id }}">{{ m.label }}</option>
+                        {% endfor %}
+                    </optgroup>
+                    {% endif %}
+                    {% if seller_owners %}
+                    <optgroup label="Sellers">
+                        {% for s in seller_owners %}
+                        <option value="{{ s.user_id }}">{{ s.label }}</option>
+                        {% endfor %}
+                    </optgroup>
+                    {% endif %}
                 </select>
             </div>
             {% endif %}
