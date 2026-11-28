@@ -65,22 +65,19 @@ def catalogue_workspace_view(request):
     merchant_owners = []
     seller_owners = []
     if can_commission:
-        try:
-            from apps.users.merchants.models.merchant_profile import MerchantProfile
-            for mp in MerchantProfile.objects.select_related("user").filter(user__is_active=True).order_by("user__email"):
-                name = getattr(mp, "business_name", "") or getattr(mp, "company_name", "") or getattr(mp, "store_name", "") or ""
-                label = f"{name} ({mp.user.email})" if name else mp.user.email
-                merchant_owners.append({"user_id": mp.user_id, "label": label})
-        except Exception:
-            pass
-        try:
-            from apps.users.sellers.models.seller_profile import SellerProfile
-            for sp in SellerProfile.objects.select_related("user").filter(user__is_active=True).order_by("user__email"):
-                name = getattr(sp, "business_name", "") or getattr(sp, "store_name", "") or getattr(sp, "shop_name", "") or ""
-                label = f"{name} ({sp.user.email})" if name else sp.user.email
-                seller_owners.append({"user_id": sp.user_id, "label": label})
-        except Exception:
-            pass
+        from django.contrib.auth import get_user_model
+        for u in get_user_model().objects.filter(is_active=True).order_by("email"):
+            r = (get_user_current_role(u) or "").lower()
+            if r == "merchant":
+                mp = getattr(u, "merchant_profile", None)
+                name = (getattr(mp, "business_name", "") or getattr(mp, "company_name", "") or getattr(mp, "store_name", "")) if mp else ""
+                label = f"{name} ({u.email})" if name else u.email
+                merchant_owners.append({"user_id": u.pk, "label": label})
+            elif r == "seller":
+                sp = getattr(u, "seller_profile", None)
+                name = (getattr(sp, "business_name", "") or getattr(sp, "store_name", "") or getattr(sp, "shop_name", "")) if sp else ""
+                label = f"{name} ({u.email})" if name else u.email
+                seller_owners.append({"user_id": u.pk, "label": label})
 
     if request.method == "POST" and can_create:
         form = CoreCatalogForm(request.POST)
@@ -126,6 +123,7 @@ def catalogue_workspace_view(request):
         "can_commission": can_commission,
         "merchant_owners": merchant_owners,
         "seller_owners": seller_owners,
+        "india_locations": __import__("apps.catalogs.core_catalogs.services.india_locations", fromlist=["INDIA_STATE_DISTRICTS"]).INDIA_STATE_DISTRICTS,
         "form": form,
         "catalogues": catalogues,
     }
