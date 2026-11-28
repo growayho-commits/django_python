@@ -1,3 +1,4 @@
+from apps.catalogs.core_catalogs.services.delivery_coverage_service import CatalogueDeliveryCoverageService
 import uuid
 
 from django.contrib import messages
