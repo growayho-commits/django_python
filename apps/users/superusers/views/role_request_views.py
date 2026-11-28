@@ -6,7 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
 
+import json
 from apps.users.superusers.models import RoleUpgradeRequest
+from apps.users.superusers.models.role_upgrade_request import SUB_ROLE_OPTIONS
 from apps.users.superusers.forms.role_forms import RoleUpgradeRequestForm
 from apps.users.superusers.serializers.role_request_serializer import RoleUpgradeRequestSerializer
 from apps.users.superusers.services.role_request_service import (
@@ -38,6 +40,7 @@ def submit_role_request_view(request):
         form = RoleUpgradeRequestForm(request.POST)
         if form.is_valid():
             role_req = form.save(commit=False)
+            role_req.sub_roles = request.POST.getlist('sub_roles')
             if role_req.requested_role in excluded_roles:
                 messages.error(
                     request,
@@ -73,6 +76,7 @@ def submit_role_request_view(request):
         "current_role": current_role,
         "dashboard_url": dashboard_url,
     }
+    context["sub_role_options_json"] = json.dumps(SUB_ROLE_OPTIONS)
     return render(request, "members/submit_role_request.html", context)
 
 

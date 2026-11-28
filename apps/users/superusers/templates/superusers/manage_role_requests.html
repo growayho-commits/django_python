@@ -64,7 +64,7 @@
                         <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="px-6 py-4 font-semibold text-slate-700">{{ req.user.email }}</td>
                             <td class="px-6 py-4 text-xs text-slate-600">
-                                <div>{{ req.business_name|default:"—" }}</div>
+                                <div>{% if req.sub_roles %}<div class="flex flex-wrap gap-1 mt-1">{% for sr in req.sub_roles %}<span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-indigo-50 text-indigo-700">{{ sr }}</span>{% endfor %}</div>{% endif %}{{ req.business_name|default:"—" }}</div>
                                 <div class="text-slate-400">{{ req.gst_number|default:"" }}</div>
                             </td>
                             <td class="px-6 py-4">

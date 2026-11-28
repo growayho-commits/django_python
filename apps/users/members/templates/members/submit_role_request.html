@@ -1,90 +1,89 @@
 {% extends 'base.html' %}
 
+{% block title %}Role Upgrade Request | HYBRID MARKETPLACE{% endblock %}
+
 {% block body_content %}
-<div class="container mt-4 px-6 py-8 max-w-6xl mx-auto">
-    <div class="row mb-4">
-        <div class="col-12 flex items-center justify-between flex-wrap gap-3">
-            <a href="{{ dashboard_url }}" class="inline-flex items-center px-4 py-2 bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-300 transition-all">
-                &larr; Back to Dashboard
-            </a>
-            {% if current_role %}
-                <span class="px-3 py-1.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
-                    Current Role: {{ current_role|title }}
-                </span>
-            {% endif %}
-        </div>
-    </div>
-
-    <h2 class="text-2xl font-black text-slate-800 mb-6">Role Upgrade Request</h2>
-
-    {% if messages %}
-        <div class="mb-6 space-y-2">
-            {% for message in messages %}
-                <div class="p-4 rounded-xl {% if message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %}" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-            <h5 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">Request a New Role</h5>
-            <form method="POST" action="">
-                {% csrf_token %}
-                <div class="mb-4">
-                    <label for="{{ form.requested_role.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-2">
-                        Select Role to Request
-                    </label>
-                    {{ form.requested_role }}
-                </div>
-                <div class="mb-4">
-                    <label for="{{ form.business_name.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-2">
-                        Business Name (Optional)
-                    </label>
-                    {{ form.business_name }}
-                </div>
-                <div class="mb-4">
-                    <label for="{{ form.gst_number.id_for_label }}" class="block text-sm font-semibold text-slate-600 mb-2">
-                        GST Number (Optional)
-                    </label>
-                    {{ form.gst_number }}
-                </div>
-                <button type="submit" class="w-full py-2.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-md cursor-pointer">
-                    Submit Request
-                </button>
-            </form>
+<div class="max-w-3xl mx-auto px-4 py-6">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 p-6 md:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-6 border-b border-slate-100 dark:border-slate-800 pb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Role Upgrade Request</h1>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Select your target role and multi-select your business / operational types</p>
+            </div>
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-amber-100 text-amber-800">
+                Current: {{ active_user_role|default:"member" }}
+            </span>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-            <h5 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100">My Requests Status</h5>
-            <ul class="divide-y divide-slate-100">
-                {% for req in my_requests %}
-                    <li class="py-3">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <span class="font-semibold text-slate-700">{{ req.requested_role|title }}</span>
-                                <span class="block text-xs text-slate-400">{{ req.created_at|date:"M d, Y H:i" }}</span>
-                            </div>
-                            <span class="px-3 py-1 text-xs font-bold rounded-full
-                                {% if req.status == 'approved' %}bg-green-100 text-green-700
-                                {% elif req.status == 'rejected' %}bg-red-100 text-red-700
-                                {% elif req.status == 'reconsidered' %}bg-blue-100 text-blue-700
-                                {% else %}bg-amber-100 text-amber-700{% endif %}">
-                                {{ req.status|title }}
-                            </span>
-                        </div>
-                        {% if req.admin_remarks %}
-                            <p class="mt-1.5 text-xs text-slate-500 bg-slate-50 p-2 rounded-lg">
-                                <strong>Remarks:</strong> {{ req.admin_remarks }}
-                            </p>
-                        {% endif %}
-                    </li>
-                {% empty %}
-                    <li class="py-3 text-slate-400 text-center">No requests found.</li>
+        {% if messages %}
+            <div class="space-y-2 mb-6">
+                {% for message in messages %}
+                    <div class="p-3 rounded-xl text-sm font-medium {% if message.tags == 'success' %}bg-emerald-50 text-emerald-800 border border-emerald-200{% else %}bg-amber-50 text-amber-800 border border-amber-200{% endif %}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
-            </ul>
-        </div>
+            </div>
+        {% endif %}
+
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="{% if field.name == 'department' %}dept-field-wrap{% endif %}">
+                    <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-xs text-rose-600 mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% if field.name == 'requested_role' %}
+                <div id="subRolesContainer" class="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl p-4">
+                    <label class="block text-sm font-bold text-slate-800 dark:text-slate-200 mb-2">
+                        Business / Role Sub-Types <span class="text-xs font-normal text-amber-600">(Multi-Select)</span>
+                    </label>
+                    <div id="subRolesGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm"></div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            <button type="submit" class="w-full py-3 rounded-xl bg-slate-900 dark:bg-amber-500 text-white dark:text-slate-950 font-bold hover:opacity-90 transition cursor-pointer">
+                Submit Role Request
+            </button>
+        </form>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    const optionsMap = {{ sub_role_options_json|safe|default:"{}" }};
+    const roleSelect = document.querySelector('select[name="requested_role"]');
+    const grid = document.getElementById('subRolesGrid');
+    const deptWrap = document.querySelector('.dept-field-wrap');
+
+    function renderSubRoles() {
+        if (!roleSelect || !grid) return;
+        const role = (roleSelect.value || 'member').toLowerCase();
+        const items = optionsMap[role] || [];
+        grid.innerHTML = '';
+        items.forEach(function(label) {
+            const wrap = document.createElement('label');
+            wrap.className = 'flex items-center gap-2.5 px-3 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-amber-400 transition';
+            wrap.innerHTML = '<input type="checkbox" name="sub_roles" value="' + label + '" class="w-4 h-4 accent-amber-500 rounded"> <span class="text-slate-700 dark:text-slate-200 font-medium text-xs sm:text-sm">' + label + '</span>';
+            grid.appendChild(wrap);
+        });
+        if (deptWrap) {
+            deptWrap.style.display = (role === 'executive') ? 'block' : 'none';
+        }
+    }
+
+    if (roleSelect) {
+        roleSelect.className = 'w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm';
+        roleSelect.addEventListener('change', renderSubRoles);
+        renderSubRoles();
+    }
+    document.querySelectorAll('form input[type="text"], form textarea').forEach(function(el) {
+        el.className = 'w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm';
+    });
+})();
+</script>
 {% endblock %}
