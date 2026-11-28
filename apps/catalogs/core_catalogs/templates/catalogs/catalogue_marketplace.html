@@ -125,10 +125,8 @@
             <div class="relative bg-gradient-to-br from-slate-100 to-amber-50/60 dark:from-slate-800 dark:to-slate-900 h-36 sm:h-48 group flex items-center justify-center overflow-hidden">
                 <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}" class="w-full h-full flex items-center justify-center">
                 {% with media=entry.catalogue.medias.first %}
-                    {% if media and media.image %}
-                        <img src="{{ media.image.url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                    {% elif media and media.media_url %}
-                        <img src="{{ media.media_url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover">
+                    {% if media and media.media_url %}
+                        <img src="{{ media.media_url }}" alt="{{ entry.catalogue.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                     {% else %}
                         <div class="text-center px-2">
                             <i class="fa-solid fa-boxes-stacked text-2xl sm:text-4xl text-amber-500/80 mb-1"></i>
@@ -168,6 +166,10 @@
                     <a href="{% url 'catalogs:core_catalogs:catalogue_detail' entry.catalogue.pk %}?qty={{ entry.catalogue.min_order_quantity }}" class="block group">
                         <h3 class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 transition line-clamp-2">{{ entry.catalogue.name }}</h3>
                     </a>
+                    <div class="mt-1 flex items-center gap-1.5 text-[10px]">
+                        <span class="px-1.5 py-0.5 rounded bg-emerald-600 text-white font-extrabold">{{ entry.avg_rating|default:"5.0" }} &#9733;</span>
+                        <span class="text-slate-400">({{ entry.review_count|default:0 }})</span>
+                    </div>
                 </div>
 
                 <!-- Price, Badges & Actions -->

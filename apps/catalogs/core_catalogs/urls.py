@@ -2,6 +2,7 @@ from django.urls import path
 from .views.core_catalog_views import CoreCatalogListCreateAPIView
 from .views.catalogue_portal_views import (
     add_to_cart_session_view,
+    ai_analyze_catalogue_api,
     approve_catalogue_view,
     catalogue_detail_view,
     catalogue_marketplace_view,
@@ -27,6 +28,7 @@ urlpatterns = [
     path('bundles/', manage_bundles_view, name='manage_bundles'),
     path('wishlist/', my_wishlist_view, name='my_wishlist'),
     path('configure-pricing/<int:pk>/', configure_catalogue_pricing_view, name='configure_catalogue_pricing'),
+    path('ai-analyze/', ai_analyze_catalogue_api, name='ai_analyze_catalogue_api'),
     path('approve/<int:pk>/', approve_catalogue_view, name='approve_catalogue'),
     path('marketplace/', catalogue_marketplace_view, name='catalogue_marketplace'),
     path('marketplace/<int:pk>/', catalogue_detail_view, name='catalogue_detail'),

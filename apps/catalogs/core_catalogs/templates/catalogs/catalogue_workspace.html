@@ -56,6 +56,24 @@
             </div>
             {% endif %}
 
+            <!-- AI Photo & Smart Auto-Fill Bar (World #1 AI + Manual Hybrid) -->
+            <div class="bg-gradient-to-r from-indigo-50 via-amber-50/60 to-emerald-50/50 dark:from-slate-800 dark:via-slate-800/80 dark:to-slate-900 border border-indigo-200 dark:border-slate-700 p-4 rounded-2xl space-y-3">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-xs font-black"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> AI Auto-Fill</span>
+                        <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Upload 1 photo or enter a name - AI fills Name, Category, HSN, GST, Description &amp; Specs (or fill manually below)</span>
+                    </div>
+                    <span id="aiStatusBadge" class="hidden px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800"></span>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <img id="aiPreviewThumb" src="" alt="Preview" class="hidden w-14 h-14 rounded-xl object-cover border border-slate-300 dark:border-slate-600 shadow-sm">
+                    <input type="file" id="aiPhotoInput" accept="image/*" class="text-xs file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-900 file:text-amber-400 hover:file:bg-black cursor-pointer">
+                    <button type="button" id="aiAnalyzeBtn" onclick="runAiCatalogueFill()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold rounded-xl transition cursor-pointer shadow-sm">
+                        <i class="fa-solid fa-sparkles mr-1"></i> AI Auto-Fill from Photo / Name
+                    </button>
+                </div>
+            </div>
+
             {% if can_commission %}
             <div class="bg-amber-50/70 dark:bg-slate-800/70 border border-amber-200 dark:border-slate-700 p-3.5 rounded-xl text-sm">
                 <label class="block font-bold text-slate-800 dark:text-amber-300 mb-1">
@@ -155,6 +173,41 @@
                 <label class="block font-semibold text-slate-700 dark:text-slate-300 text-sm mb-1">Catalogue Description</label>
                 <textarea name="description" rows="2" placeholder="Describe catalogue specifications and highlights"
                           class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm">{{ form.description.value|default:'' }}</textarea>
+            </div>
+
+            <!-- Multi-Photo / 360 Angles + Initial Stock -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm bg-slate-50/70 dark:bg-slate-800/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Upload Photos / 360&deg; Angles (Multi-Select)</label>
+                    <input type="file" name="media_files" multiple accept="image/*" class="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-slate-800 file:text-amber-400 cursor-pointer">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Image / 360&deg; URLs (One per line)</label>
+                    <textarea name="media_urls_text" id="mediaUrlsInput" rows="2" placeholder="https://... (auto-filled when AI photo uploaded)"
+                              class="w-full px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs"></textarea>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Initial Stock Quantity</label>
+                    <input type="number" name="initial_stock" value="100" min="0"
+                           class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800">
+                </div>
+            </div>
+
+            <!-- Dynamic Specifications Builder (AI + Manual) -->
+            <div class="bg-slate-50/70 dark:bg-slate-800/40 p-4 rounded-xl border border-slate-200 dark:border-slate-700 space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-800 dark:text-slate-200"><i class="fa-solid fa-table-list text-amber-500 mr-1"></i> Technical Specifications (AI or Manual)</span>
+                    <button type="button" onclick="addSpecRow()" class="px-3 py-1 bg-slate-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 text-xs font-bold rounded-lg cursor-pointer">
+                        + Add Spec
+                    </button>
+                </div>
+                <div id="specsContainer" class="space-y-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input type="text" name="spec_group[]" placeholder="Group (e.g. General)" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs">
+                        <input type="text" name="spec_key[]" placeholder="Attribute (e.g. Material)" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs">
+                        <input type="text" name="spec_value[]" placeholder="Value (e.g. 100% Cotton)" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs">
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-wrap items-center gap-6 text-sm">
@@ -412,5 +465,102 @@ document.addEventListener("DOMContentLoaded", function() {
         updateScopeUI();
     }
 });
+</script>
+
+<script>
+window.addSpecRow = function(g = "", k = "", v = "") {
+    const c = document.getElementById("specsContainer");
+    if (!c) return;
+    const row = document.createElement("div");
+    row.className = "grid grid-cols-1 sm:grid-cols-3 gap-2";
+    row.innerHTML = `
+        <input type="text" name="spec_group[]" value="${String(g).replace(/"/g, '&quot;')}" placeholder="Group" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs">
+        <input type="text" name="spec_key[]" value="${String(k).replace(/"/g, '&quot;')}" placeholder="Attribute" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs">
+        <input type="text" name="spec_value[]" value="${String(v).replace(/"/g, '&quot;')}" placeholder="Value" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs">
+    `;
+    c.appendChild(row);
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+    const photoInp = document.getElementById("aiPhotoInput");
+    const thumb = document.getElementById("aiPreviewThumb");
+    if (photoInp && thumb) {
+        photoInp.addEventListener("change", function() {
+            if (this.files && this.files[0]) {
+                thumb.src = URL.createObjectURL(this.files[0]);
+                thumb.classList.remove("hidden");
+            }
+        });
+    }
+});
+
+window.runAiCatalogueFill = async function() {
+    const btn = document.getElementById("aiAnalyzeBtn");
+    const badge = document.getElementById("aiStatusBadge");
+    const photoInp = document.getElementById("aiPhotoInput");
+    const nameInp = document.querySelector('input[name="name"]');
+    const fd = new FormData();
+    if (photoInp && photoInp.files && photoInp.files[0]) {
+        fd.append("image", photoInp.files[0]);
+    }
+    if (nameInp && nameInp.value.trim()) {
+        fd.append("hint_name", nameInp.value.trim());
+    }
+    const csrf = document.querySelector('#addCatalogueForm input[name="csrfmiddlewaretoken"]').value;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Analyzing...';
+    try {
+        const res = await fetch("/api/v1/catalogs/core_catalogs/ai-analyze/", {
+            method: "POST",
+            headers: {"X-CSRFToken": csrf},
+            body: fd
+        });
+        const data = await res.json();
+        if (data.name && nameInp && !nameInp.value.trim()) nameInp.value = data.name;
+        else if (data.name && nameInp && data.ai_mode === "gemini_vision") nameInp.value = data.name;
+
+        const brandInp = document.querySelector('input[name="brand_name"]');
+        if (data.brand_name && brandInp) brandInp.value = data.brand_name;
+
+        const hsnInp = document.querySelector('input[name="hsn_sac_code"]');
+        if (data.hsn_sac_code && hsnInp) hsnInp.value = data.hsn_sac_code;
+
+        const gstInp = document.querySelector('input[name="gst_percentage"]');
+        if (data.gst_percentage !== undefined && gstInp) gstInp.value = data.gst_percentage;
+
+        const descInp = document.querySelector('textarea[name="description"]');
+        if (data.description && descInp) descInp.value = data.description;
+
+        const catSel = document.querySelector('select[name="category"]');
+        if (data.category_id && catSel) {
+            if (catSel.tomselect) {
+                catSel.tomselect.addOption({id: data.category_id, name: data.category_name});
+                catSel.tomselect.setValue(data.category_id);
+            } else {
+                catSel.value = data.category_id;
+            }
+        }
+
+        const mediaBox = document.getElementById("mediaUrlsInput");
+        if (data.uploaded_image_url && mediaBox) {
+            const cur = mediaBox.value.trim();
+            mediaBox.value = cur ? (cur + "\n" + data.uploaded_image_url) : data.uploaded_image_url;
+        }
+
+        if (Array.isArray(data.specifications) && data.specifications.length) {
+            const c = document.getElementById("specsContainer");
+            c.innerHTML = "";
+            data.specifications.forEach(s => addSpecRow(s.group || "General", s.key || "", s.value || ""));
+        }
+
+        badge.textContent = data.ai_mode === "gemini_vision" ? "Gemini Vision Auto-Filled" : "Smart Auto-Filled";
+        badge.classList.remove("hidden");
+    } catch (e) {
+        alert("Could not analyze right now. You can fill fields manually.");
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-sparkles mr-1"></i> AI Auto-Fill from Photo / Name';
+    }
+};
 </script>
 {% endblock %}

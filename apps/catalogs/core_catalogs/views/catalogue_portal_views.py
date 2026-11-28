@@ -107,6 +107,71 @@ def catalogue_workspace_view(request):
             else:
                 catalogue.approval_status = "pending"
             catalogue.save()
+
+            # Save inline uploaded/URL media & 360 images
+            try:
+                from django.core.files.storage import default_storage
+                order_idx = 0
+                for idx, fobj in enumerate(request.FILES.getlist("media_files")):
+                    saved_rel = default_storage.save(f"catalogues/media/{uuid.uuid4().hex[:8]}_{fobj.name}", fobj)
+                    f_url = default_storage.url(saved_rel)
+                    CatalogMediaProfile.objects.create(
+                        catalogue=catalogue,
+                        media_type="image",
+                        media_url=f_url,
+                        alt_text=catalogue.name,
+                        is_primary=(order_idx == 0),
+                        display_order=order_idx,
+                    )
+                    order_idx += 1
+                raw_media_urls = request.POST.get("media_urls_text", "")
+                for line in raw_media_urls.replace(",", "\n").splitlines():
+                    u_str = line.strip()
+                    if u_str:
+                        CatalogMediaProfile.objects.create(
+                            catalogue=catalogue,
+                            media_type="image",
+                            media_url=u_str,
+                            alt_text=catalogue.name,
+                            is_primary=(order_idx == 0),
+                            display_order=order_idx,
+                        )
+                        order_idx += 1
+            except Exception:
+                pass
+
+            # Save inline specification rows
+            try:
+                groups = request.POST.getlist("spec_group[]")
+                keys = request.POST.getlist("spec_key[]")
+                vals = request.POST.getlist("spec_value[]")
+                for idx, (g, k, v) in enumerate(zip(groups, keys, vals)):
+                    if k.strip() and v.strip():
+                        SpecificationProfile.objects.create(
+                            catalogue=catalogue,
+                            spec_group=g.strip() or "General",
+                            spec_key=k.strip(),
+                            spec_value=v.strip(),
+                            display_order=idx,
+                        )
+            except Exception:
+                pass
+
+            # Save initial stock
+            try:
+                init_stock = int(request.POST.get("initial_stock") or 0)
+                InventoryProfile.objects.get_or_create(
+                    catalogue=catalogue,
+                    defaults={
+                        "sku": catalogue.sku or f"SKU-{catalogue.pk}",
+                        "owner": catalogue.owner or request.user,
+                        "stock_quantity": max(0, init_stock),
+                        "is_in_stock": init_stock > 0,
+                    },
+                )
+            except Exception:
+                pass
+
             messages.success(request, f"Catalogue '{catalogue.name}' saved successfully.")
             return redirect("catalogs:core_catalogs:catalogue_workspace")
     else:
@@ -519,6 +584,8 @@ def catalogue_marketplace_view(request):
         final_p = float(pricing.get("final_total") or 0)
         discount_pct = int(round(((mrp - final_p) / mrp) * 100)) if mrp > final_p > 0 else 0
 
+        rev_stats = ReviewRatingProfile.objects.filter(catalogue=cat, is_approved=True).aggregate(avg=Avg("rating_score"))
+        rev_count = ReviewRatingProfile.objects.filter(catalogue=cat, is_approved=True).count()
         card = {
             "catalogue": cat,
             "supplier_role": supplier_role,
@@ -527,6 +594,8 @@ def catalogue_marketplace_view(request):
             "is_wishlisted": cat.id in wishlisted_ids,
             "pricing": pricing,
             "discount_pct": discount_pct,
+            "avg_rating": round(float(rev_stats["avg"] or 0), 1),
+            "review_count": rev_count,
         }
         if is_assigned and is_local:
             tier1_assigned.append(card)
@@ -741,3 +810,38 @@ def category_autocomplete_api(request):
         qs = qs.filter(name__icontains=q)
     results = [{"id": str(c["id"]), "name": c["name"]} for c in qs.order_by("name").values("id", "name")[:35]]
     return JsonResponse({"results": results})
+
+
+@login_required
+def ai_analyze_catalogue_api(request):
+    """AI Vision + Smart Local Auto-Fill endpoint for Catalogue Creation."""
+    from django.http import JsonResponse
+    from django.core.files.storage import default_storage
+    from apps.catalogs.core_catalogs.services.ai_catalogue_analyzer import analyze_catalogue_input
+
+    if request.method != "POST":
+        return JsonResponse({"error": "POST required"}, status=405)
+
+    hint_name = request.POST.get("hint_name", "").strip()
+    uploaded = request.FILES.get("image")
+    img_bytes = None
+    mime_type = "image/jpeg"
+    fname = ""
+    uploaded_url = ""
+
+    if uploaded:
+        fname = uploaded.name
+        mime_type = getattr(uploaded, "content_type", "image/jpeg") or "image/jpeg"
+        img_bytes = uploaded.read()
+        uploaded.seek(0)
+        saved_path = default_storage.save(f"catalogues/ai_uploads/{uuid.uuid4().hex[:8]}_{fname}", uploaded)
+        uploaded_url = default_storage.url(saved_path)
+
+    result = analyze_catalogue_input(
+        image_bytes=img_bytes,
+        mime_type=mime_type,
+        filename=fname,
+        hint_name=hint_name,
+    )
+    result["uploaded_image_url"] = uploaded_url
+    return JsonResponse(result)
